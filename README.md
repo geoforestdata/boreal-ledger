@@ -27,11 +27,12 @@ Bounding boxes (~20-25 km) are illustrative placeholders centered on well-known 
 
 1. Define four small AOIs, one per forest type — `src/zones.py`.
 2. Forest mask per zone: unsupervised k-means clustering on AlphaEarth embeddings, cross-referenced with Hansen tree cover (2000) to identify which cluster is forest — `src/embedding_utils.py`. This removes roads, water, clearings, and secondary cover from the bounding box before averaging carbon.
-3. Aboveground carbon density per zone from ESA CCI Biomass (2022), forest-masked — `src/carbon_sources.py`.
-4. Aboveground carbon density per zone from GEDI L4B, forest-masked — `src/carbon_sources.py`.
-5. Cross-source comparison chart (grouped bars, 4 zones x 2 sources).
-6. Mean AlphaEarth embedding per zone, and cosine similarity between zones.
-7. Similarity heatmap: how structurally distinct each zone is from the others.
+3. Coarse-grid correction: for each carbon source, the fine (10 m) forest mask is aggregated to that source's native grid as a true forest FRACTION (not nearest-neighbor resampling), and only cells above a threshold (default 70%) are kept — `get_coarse_forest_mask`. This matters most for GEDI's 1 km grid, where a naive mask combination can include or exclude mixed cells (forest edges, lakes, coastline) almost arbitrarily.
+4. Aboveground carbon density per zone from ESA CCI Biomass (2022), forest-fraction masked — `src/carbon_sources.py`.
+5. Aboveground carbon density per zone from GEDI L4B, forest-fraction masked — `src/carbon_sources.py`.
+6. Cross-source comparison chart (grouped bars, 4 zones x 2 sources).
+7. Mean AlphaEarth embedding per zone, and cosine similarity between zones.
+8. Similarity heatmap: how structurally distinct each zone is from the others.
 
 ## Structure
 
@@ -51,5 +52,5 @@ data/                 (unused in this version — no local downloads required)
 
 ## Methodological note
 
-Zone boundaries are illustrative bounding boxes, not validated forest-type polygons. The AlphaEarth + Hansen forest mask removes the most obvious non-forest contamination (roads, water, large clearings) but is an unsupervised approximation, not a validated land-cover classification — a mixed cluster (e.g. secondary forest resembling old-growth in embedding space) can still slip through. ESA CCI (2022) and GEDI L4B (multi-year aggregate) are not from the same time window, so treat cross-source agreement as directional, not exact. GEDI's 1 km grid means forest-masking only excludes whole cells entirely outside the forest cluster, not partial-cover cells.
+Zone boundaries are illustrative bounding boxes, not validated forest-type polygons. The AlphaEarth + Hansen forest mask removes the most obvious non-forest contamination but is an unsupervised approximation, not a validated land-cover classification. The forest-fraction threshold (default 70%) at each source's native grid corrects the worst coarse-grid mixing (notably GEDI's 1 km cells near lakes, coastlines, or forest edges) but a lower or higher threshold will shift results — treat absolute values as approximate, and cross-source agreement as the more meaningful signal. ESA CCI (2022) and GEDI L4B (multi-year aggregate) are not from the same time window either.
 
