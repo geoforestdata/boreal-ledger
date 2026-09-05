@@ -1,48 +1,56 @@
-# Balance de deforestación y recuperación — bosque manejado de Quebec
+# Deforestation and Recovery Balance — Managed Forest of Quebec
 
-Análisis del balance neto entre pérdida y recuperación de cobertura forestal en el área de bosque público bajo aprovechamiento en Quebec, usando series temporales de Sentinel-2 en Google Earth Engine.
+Analysis of the net balance between forest cover loss and recovery in the publicly managed forest of Quebec, using Sentinel-2 time series in Google Earth Engine, combined with GEDI-derived aboveground carbon density.
 
-## Pregunta de investigación
+## Research question
 
-¿Cuál es el balance neto anual entre superficie perdida (corte, fuego, plagas) y superficie en recuperación dentro del bosque manejado, y cómo varía espacialmente?
+What is the annual net balance between lost forest cover (harvesting, fire, pest outbreaks) and recovering cover within the managed forest, and how much aboveground carbon is stored — and potentially at risk — in those zones?
 
-## Datos
+## What this repo shows
 
-- **Imágenes:** Sentinel-2 SR Harmonized (2017–2025), composites anuales de temporada de crecimiento (junio–septiembre).
-- **Área de estudio:** región administrativa Abitibi-Témiscamingue (08), completa. Límites de la capa "Découpages administratifs" de Données Québec (o unión de las 5 divisions de recensement equivalentes de Statistique Canada 2021).
-- **Unidad espacial de agregación:** [pendiente — grilla de hexágonos o subdivisión de UAF].
+1. **Change dynamics (Sentinel-2, 2017–2025):** annual net balance of cover loss vs recovery per spatial unit.
+2. **Aboveground carbon level (GEDI L4B):** stored carbon density (Mg C/ha) per spatial unit, and estimated carbon in loss vs recovery zones. GEDI is a sparse lidar product, not a dense annual time series — it represents a snapshot of carbon stock, not its annual change. Coverage gap between March 2023 and April 2024 (instrument stored on the ISS).
 
-## Metodología
+## Data
 
-1. Extracción de composites anuales con máscara de nubes (SCL) — `src/gee_utils.py`.
-2. Cálculo de NDVI y NBR por composite.
-3. Detección de cambio año contra año (dNBR) y clasificación en pérdida / recuperación / estable — `src/change_detection.py`.
-4. Agregación espacial: superficie de pérdida y recuperación (ha) por unidad, balance neto = recuperación − pérdida.
-5. Visualización: mapas anuales y gráfico de balance neto acumulado.
+- **Imagery:** Sentinel-2 SR Harmonized (2017–2025), annual growing-season composites (June–September).
+- **Carbon:** GEDI L4B gridded aboveground biomass density (1 km), converted to carbon (IPCC default fraction 0.47).
+- **Study area:** Abitibi-Témiscamingue administrative region, full extent. Boundaries from the "Découpages administratifs" layer (Données Québec / MRNF).
+- **Spatial aggregation unit:** [to be defined — hexagon grid or MRC subdivision].
 
-## Estructura
+## Methodology
+
+1. Annual composite extraction with cloud masking (SCL) — `src/gee_utils.py`.
+2. NDVI and NBR computation per composite.
+3. Year-over-year change detection (dNBR) and classification into loss / recovery / stable — `src/change_detection.py`.
+4. Spatial aggregation: loss and recovery area (ha) per unit, net balance = recovery − loss.
+5. Aboveground carbon density from GEDI L4B (Mg C/ha) per unit — `src/gedi_utils.py`.
+6. Cross carbon density with loss/recovery zones: carbon exposed or removed in affected areas.
+7. Visualization: annual change maps, carbon map, and cumulative net balance chart.
+
+## Structure
 
 ```
-src/                  funciones reusables (GEE, detección de cambio)
-notebooks/            flujo de análisis y resultados
-figures/              mapas y gráficos finales
-data/                 capas públicas o instrucciones de descarga
+src/                  reusable functions (GEE, change detection, GEDI carbon)
+notebooks/            analysis pipeline and results
+figures/              final maps and charts
+data/                 public layers or download instructions
 ```
 
-## Cómo correrlo
+## How to run
 
 1. `pip install -r requirements.txt`
 2. `earthengine authenticate`
-3. Descargar la capa de "Découpages administratifs" (Données Québec) y colocarla en `data/`.
-4. Reemplazar `PROJECT` en el notebook por tu proyecto de GEE.
-5. Definir la capa de unidades espaciales para la agregación.
-6. Correr `notebooks/01_extraccion_y_balance.ipynb` en orden.
+3. Download the "Découpages administratifs" layer (Données Québec) and place it under `data/`.
+4. Replace `PROJECT` in the notebook with your own GEE project.
+5. Define the spatial unit layer for aggregation.
+6. Run `notebooks/01_extraccion_y_balance.ipynb` in order.
 
-## Nota metodológica
+## Methodological note
 
-Los umbrales de dNBR para clasificar pérdida/recuperación son de partida y deben calibrarse contra eventos de perturbación conocidos (ej. perímetros de incendio mapeados por SOPFEU) antes de interpretar resultados como definitivos.
+The dNBR thresholds used to classify loss/recovery are a starting point and should be calibrated against known disturbance events (e.g. fire perimeters mapped by SOPFEU) before treating results as definitive.
 
-## Próximo paso
+## Next step
 
-Este repo es la primera de dos publicaciones. La segunda parte usa el balance neto por unidad como insumo de un modelo de optimización (MILP) para priorizar restauración bajo restricción de presupuesto.
+This repo is the first of two planned publications. The second part uses the net balance per unit as input to an optimization model (MILP) prioritizing restoration under a budget constraint.
 
