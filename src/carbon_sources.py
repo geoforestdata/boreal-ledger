@@ -80,3 +80,49 @@ def forest_weighted_mean_carbon(
     denominator = stats.get("weight", 0) or 0
     return numerator / denominator if denominator else 0
 
+
+# IPCC default root:shoot ratios and deadwood/litter fractions (applied to
+# aboveground carbon) by biome type. Source: IPCC 2006 Guidelines for
+# National Greenhouse Gas Inventories, Vol. 4, Ch. 4, Table 4.4 (root:shoot)
+# and generalized deadwood/litter fractions used in national GHG inventories.
+# These are illustrative defaults, not site-calibrated values.
+ROOT_SHOOT_RATIO = {
+    "boreal": 0.29,
+    "temperate": 0.24,
+    "tropical": 0.24,
+    "plantation": 0.25,
+}
+
+DEADWOOD_LITTER_FRACTION = {
+    "boreal": 0.10,
+    "temperate": 0.10,
+    "tropical": 0.06,
+    "plantation": 0.05,
+}
+
+
+def total_forest_carbon(agb_carbon_mg_ha: float, biome_type: str, soc_mg_ha: float) -> dict:
+    """
+    Combines aboveground carbon with belowground biomass (via IPCC
+    root:shoot ratio), deadwood/litter (via IPCC fraction), and soil
+    organic carbon (0-30 cm) into a total ecosystem carbon estimate.
+
+    Returns a breakdown dict, not just the total — the pools are
+    illustrative-default-based (BGB, deadwood/litter) or single-depth
+    (SOC), not independently validated for each site.
+    """
+    if biome_type not in ROOT_SHOOT_RATIO:
+        raise ValueError(f"Unknown biome_type '{biome_type}'. Choose from {list(ROOT_SHOOT_RATIO)}")
+
+    bgb = agb_carbon_mg_ha * ROOT_SHOOT_RATIO[biome_type]
+    deadwood_litter = agb_carbon_mg_ha * DEADWOOD_LITTER_FRACTION[biome_type]
+    total = agb_carbon_mg_ha + bgb + deadwood_litter + soc_mg_ha
+
+    return {
+        "AGB": agb_carbon_mg_ha,
+        "BGB": bgb,
+        "deadwood_litter": deadwood_litter,
+        "SOC_0_30cm": soc_mg_ha,
+        "total": total,
+    }
+
