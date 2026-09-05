@@ -1,56 +1,54 @@
-# Deforestation and Recovery Balance — Managed Forest of Quebec
+# Aboveground Carbon Across Biomes
 
-Analysis of the net balance between forest cover loss and recovery in the publicly managed forest of Quebec, using Sentinel-2 time series in Google Earth Engine, combined with GEDI-derived aboveground carbon density.
+Compares aboveground carbon density (Mg C/ha) across four contrasting forest types using two independent satellite-derived sources, plus a complementary structural comparison using Google's AlphaEarth satellite embeddings.
 
 ## Research question
 
-What is the annual net balance between lost forest cover (harvesting, fire, pest outbreaks) and recovering cover within the managed forest, and how much aboveground carbon is stored — and potentially at risk — in those zones?
+How does aboveground carbon density differ across a boreal managed forest, an intact tropical rainforest, a native temperate forest, and an even-aged industrial plantation — and do two independent remote-sensing sources agree?
 
-## What this repo shows
+## Zones
 
-1. **Change dynamics (Sentinel-2, 2017–2025):** annual net balance of cover loss vs recovery per spatial unit.
-2. **Aboveground carbon flux (ESA CCI Biomass v6.0):** carbon density change (Mg C/ha) between two years per spatial unit — positive values are carbon sinks (net gain), negative values are carbon sources (net loss). Continuous, gap-free annual maps (2007, 2010, 2015–2022), unlike GEDI's sparse orbital-track sampling.
+| Zone | Type | Location |
+|---|---|---|
+| Abitibi | Boreal managed forest | Quebec, Canada |
+| Tapajos | Intact tropical rainforest | Para, Brazil |
+| Alerce Costero | Native temperate forest | Los Rios, Chile |
+| Radiata Biobio | Even-aged Pinus radiata plantation | Biobio, Chile |
+
+Bounding boxes (~20-25 km) are illustrative placeholders centered on well-known sites for each forest type — see `src/zones.py` to adjust with more precise boundaries.
 
 ## Data
 
-- **Imagery:** Sentinel-2 SR Harmonized (2017–2025), annual growing-season composites (June–September).
-- **Carbon:** ESA CCI Biomass v6.0 (Santoro & Cartus, 2025), annual aboveground biomass maps (2007, 2010, 2015–2022), converted to carbon (IPCC default fraction 0.47). Community-curated GEE asset: `projects/sat-io/open-datasets/ESA/ESA_CCI_AGB`. Citation required in any published output — see module docstring in `src/biomass_utils.py`.
-- **Study area:** Abitibi-Témiscamingue administrative region, full extent. Boundaries from the "Découpages administratifs" layer (Données Québec / MRNF).
-- **Spatial aggregation unit:** [to be defined — hexagon grid or MRC subdivision].
+- **ESA CCI Biomass v6.0** (Santoro & Cartus, 2025): continuous, gap-free annual AGB maps (2007, 2010, 2015–2022), converted to carbon (IPCC default fraction 0.47). Community-curated GEE asset: `projects/sat-io/open-datasets/ESA/ESA_CCI_AGB`.
+- **GEDI L4B** (1 km gridded AGBD): spaceborne lidar, aggregated across the mission period — a cross-check, not a like-for-like year match with ESA CCI. GEE asset: `LARSE/GEDI/GEDI04_B_002` (a single Image, not an ImageCollection).
+- **AlphaEarth Satellite Embedding** (Google DeepMind): 64-band, 10 m, annual since 2017. Used for a complementary structural comparison (embedding similarity between zones), not for carbon estimation. GEE asset: `GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL`.
 
 ## Methodology
 
-1. Annual composite extraction with cloud masking (SCL) — `src/gee_utils.py`.
-2. NDVI and NBR computation per composite.
-3. Year-over-year change detection (dNBR) and classification into loss / recovery / stable — `src/change_detection.py`.
-4. Spatial aggregation: loss and recovery area (ha) per unit, net balance = recovery − loss.
-5. Aboveground carbon flux from ESA CCI Biomass (Mg C/ha, 2017 vs 2022) per unit — `src/biomass_utils.py`.
-6. Classification of carbon flux into source / sink / stable, cross-referenced with loss/recovery zones.
-7. Visualization: annual change maps, carbon map, and cumulative net balance chart.
+1. Define four small AOIs, one per forest type — `src/zones.py`.
+2. Aboveground carbon density per zone from ESA CCI Biomass (2022) — `src/carbon_sources.py`.
+3. Aboveground carbon density per zone from GEDI L4B — `src/carbon_sources.py`.
+4. Cross-source comparison chart (grouped bars, 4 zones x 2 sources).
+5. Mean AlphaEarth embedding per zone, and cosine similarity between zones — `src/embedding_utils.py`.
+6. Similarity heatmap: how structurally distinct each zone is from the others.
 
 ## Structure
 
 ```
-src/                  reusable functions (GEE, change detection, GEDI carbon)
+src/                  zone definitions, carbon sources, embedding utilities
 notebooks/            analysis pipeline and results
-figures/              final maps and charts
-data/                 public layers or download instructions
+figures/              final charts
+data/                 (unused in this version — no local downloads required)
 ```
 
 ## How to run
 
 1. `pip install -r requirements.txt`
 2. `earthengine authenticate`
-3. Download the "Découpages administratifs" layer (Données Québec) and place it under `data/`.
-4. Replace `PROJECT` in the notebook with your own GEE project.
-5. Define the spatial unit layer for aggregation.
-6. Run `notebooks/01_extraccion_y_balance.ipynb` in order.
+3. Replace `PROJECT` in the notebook with your own GEE project.
+4. Run `notebooks/01_carbon_comparison.ipynb` in order.
 
 ## Methodological note
 
-The dNBR thresholds used to classify loss/recovery are a starting point and should be calibrated against known disturbance events (e.g. fire perimeters mapped by SOPFEU) before treating results as definitive.
-
-## Next step
-
-This repo is the first of two planned publications. The second part uses the net balance per unit as input to an optimization model (MILP) prioritizing restoration under a budget constraint.
+Zone boundaries are illustrative bounding boxes, not validated forest-type polygons — a single 20-25 km box may include some non-target land cover (roads, water, mixed stands). ESA CCI (2022) and GEDI L4B (multi-year aggregate) are not from the same time window, so treat cross-source agreement as directional, not exact. The AlphaEarth similarity analysis is descriptive, not a validated classification.
 

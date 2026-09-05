@@ -2,10 +2,6 @@
 __pycache__/
 *.pyc
 .DS_Store
-data/*
-!data/.gitkeep
 figures/*.png
-figures/*.tif
-!figures/.gitkeep
 .env
 
