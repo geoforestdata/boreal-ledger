@@ -46,7 +46,7 @@ GEDI L4A (25 m footprint-level biomass) would avoid both problems and remains a 
 6. Similarity heatmap.
 7. Total ecosystem carbon per forest zone: AGB + belowground biomass (IPCC root:shoot ratio) + deadwood/litter (IPCC fraction) + soil organic carbon (SoilGrids, 0-30 cm) — `src/carbon_sources.py`, `src/soil_carbon.py`.
 8. Stacked bar chart of carbon by pool, per forest zone.
-9. Three wetland zones (Rocuant-Andalien, an Abitibi peatland, Rio Cruces) compared on soil organic carbon alongside the forest zones — wetlands store most of their carbon belowground, so no forest mask or AGB estimate applies.
+9. Three wetland zones (Rocuant-Andalien, a data-located Abitibi peatland, Rio Cruces) compared on soil/peat carbon alongside the forest zones. The Abitibi peatland was found via a PEATGRIDS grid search (`src/peatland_finder.py`) rather than a guessed coordinate, scanning 9 candidate boxes across the region and picking the one with the highest real peat-carbon signal. Where PEATGRIDS detects real peat (full-depth carbon stock), that value is used as the total rather than SoilGrids' 0-30 cm figure — for the Abitibi peatland this was 2,309 Mg C/ha (full depth) vs 63 Mg C/ha (0-30 cm only), i.e. the shallow layer alone misses roughly 97% of the actual stock. For the two Chilean wetlands (marsh/estuarine, not peat-forming), PEATGRIDS shows no peat signal, so the SoilGrids 0-30 cm value is used as a floor estimate instead — see `get_wetland_total_carbon` for the exact logic.
 10. Dominant-pool comparison: what share of each ecosystem's carbon is aboveground vs belowground — the core forest-vs-wetland contrast.
 11. Carbon at risk: total tonnes (not density) per zone, converted to CO2-equivalent — the "what's actually at stake if this is lost" framing.
 12. Stand age of the radiata plantation: years since last Hansen-detected harvest, cross-checked against canopy height (ETH 2020) via an illustrative height-age curve — `src/stand_age_utils.py`.
@@ -56,7 +56,7 @@ GEDI L4A (25 m footprint-level biomass) would avoid both problems and remains a 
 | Zone | Location | Coordinate confidence |
 |---|---|---|
 | Rocuant-Andalien | Biobio, Chile (coastal wetland) | Verified against published site description |
-| Abitibi peatland | Quebec, Canada (boreal peatland) | Located via PEATGRIDS grid search, not guessed |
+| Abitibi peatland | Quebec, Canada (boreal peatland) | Located via PEATGRIDS grid search: highest of 9 candidates, 2,309 Mg C/ha full-depth peat carbon |
 | Rio Cruces | Los Rios, Chile (freshwater wetland) | Verified against published site description |
 
 Bounding boxes for Rocuant-Andalien and Rio Cruces were corrected after an initial version (unverified placeholders) produced implausibly low SOC results (6-14 Mg C/ha — far below typical wetland soils), which turned out to be because the boxes missed the actual wetland extent by several km. The Abitibi peatland zone was located with a data-driven grid search over PEATGRIDS (see `src/peatland_finder.py`) rather than a guessed named site, since no single documented peatland coordinate could be verified with confidence. See `src/zones.py` for exact coordinates and sourcing notes.

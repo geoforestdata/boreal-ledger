@@ -67,3 +67,31 @@ def find_best_peatland_candidate(search_grid: dict = ABITIBI_SEARCH_GRID, scale:
 
     return dict(sorted(results.items(), key=lambda kv: kv[1], reverse=True))
 
+
+def get_wetland_total_carbon(peat_carbon_mg_ha: float, soc_0_30_mg_ha: float) -> dict:
+    """
+    Combines full-depth peat carbon (PEATGRIDS) with shallow SOC (SoilGrids,
+    0-30 cm) into a single best-estimate total for a wetland zone.
+
+    These are NOT summed — PEATGRIDS' full-depth peat column already
+    includes the surface layer that SoilGrids also measures, so adding
+    them would double-count. Where real peat is present (PEATGRIDS > 0),
+    it is a far more complete accounting and is used as the total; where
+    PEATGRIDS shows no peat signal (e.g. a marsh/estuarine wetland that
+    isn't peat-forming), the SoilGrids 0-30 cm value is used instead as a
+    floor estimate, per the existing SoilGrids limitation.
+    """
+    if peat_carbon_mg_ha and peat_carbon_mg_ha > 0:
+        return {
+            "peat_full_depth": peat_carbon_mg_ha,
+            "soc_0_30cm": soc_0_30_mg_ha,
+            "total": peat_carbon_mg_ha,
+            "source_used": "PEATGRIDS (full peat depth)",
+        }
+    return {
+        "peat_full_depth": 0,
+        "soc_0_30cm": soc_0_30_mg_ha,
+        "total": soc_0_30_mg_ha,
+        "source_used": "SoilGrids 0-30cm (floor estimate, no peat detected)",
+    }
+

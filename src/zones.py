@@ -61,13 +61,10 @@ WETLAND_ZONES = {
     },
     "abitibi_peatland": {
         "label": "Boreal peatland (Abitibi, Quebec)",
-        # UNCONFIRMED peat coverage: centered on the Reserve de biodiversite
-        # des Lacs-Vaudray-et-Joannes (48.14N/78.68W, near Rouyn-Noranda),
-        # which is documented to contain peatlands ("tourbieres") alongside
-        # lakes and forest, but the exact peat fraction within this box is
-        # not verified. Treat this zone's result with more caution than
-        # the other two wetlands.
-        "bbox": [-78.75, 48.05, -78.60, 48.20],
+        # Located via a PEATGRIDS grid search (src/peatland_finder.py):
+        # this candidate showed 2,309 Mg C/ha of full-depth peat carbon,
+        # the highest of 9 candidates scanned across the region.
+        "bbox": [-79.50, 47.30, -79.25, 47.50],
     },
     "rio_cruces_wetland": {
         "label": "Rio Cruces wetland (Los Rios, Chile)",
