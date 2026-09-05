@@ -9,12 +9,12 @@ What is the annual net balance between lost forest cover (harvesting, fire, pest
 ## What this repo shows
 
 1. **Change dynamics (Sentinel-2, 2017–2025):** annual net balance of cover loss vs recovery per spatial unit.
-2. **Aboveground carbon level (GEDI L4B):** stored carbon density (Mg C/ha) per spatial unit, and estimated carbon in loss vs recovery zones. GEDI is a sparse lidar product, not a dense annual time series — it represents a snapshot of carbon stock, not its annual change. Coverage gap between March 2023 and April 2024 (instrument stored on the ISS).
+2. **Aboveground carbon flux (ESA CCI Biomass v6.0):** carbon density change (Mg C/ha) between two years per spatial unit — positive values are carbon sinks (net gain), negative values are carbon sources (net loss). Continuous, gap-free annual maps (2007, 2010, 2015–2022), unlike GEDI's sparse orbital-track sampling.
 
 ## Data
 
 - **Imagery:** Sentinel-2 SR Harmonized (2017–2025), annual growing-season composites (June–September).
-- **Carbon:** GEDI L4B gridded aboveground biomass density (1 km), converted to carbon (IPCC default fraction 0.47).
+- **Carbon:** ESA CCI Biomass v6.0 (Santoro & Cartus, 2025), annual aboveground biomass maps (2007, 2010, 2015–2022), converted to carbon (IPCC default fraction 0.47). Community-curated GEE asset: `projects/sat-io/open-datasets/ESA/ESA_CCI_AGB`. Citation required in any published output — see module docstring in `src/biomass_utils.py`.
 - **Study area:** Abitibi-Témiscamingue administrative region, full extent. Boundaries from the "Découpages administratifs" layer (Données Québec / MRNF).
 - **Spatial aggregation unit:** [to be defined — hexagon grid or MRC subdivision].
 
@@ -24,8 +24,8 @@ What is the annual net balance between lost forest cover (harvesting, fire, pest
 2. NDVI and NBR computation per composite.
 3. Year-over-year change detection (dNBR) and classification into loss / recovery / stable — `src/change_detection.py`.
 4. Spatial aggregation: loss and recovery area (ha) per unit, net balance = recovery − loss.
-5. Aboveground carbon density from GEDI L4B (Mg C/ha) per unit — `src/gedi_utils.py`.
-6. Cross carbon density with loss/recovery zones: carbon exposed or removed in affected areas.
+5. Aboveground carbon flux from ESA CCI Biomass (Mg C/ha, 2017 vs 2022) per unit — `src/biomass_utils.py`.
+6. Classification of carbon flux into source / sink / stable, cross-referenced with loss/recovery zones.
 7. Visualization: annual change maps, carbon map, and cumulative net balance chart.
 
 ## Structure
