@@ -40,6 +40,56 @@ def get_mean_embedding(year: int, aoi: ee.Geometry, scale: int = 10) -> np.ndarr
     return np.array([stats.get(b, 0.0) or 0.0 for b in band_names])
 
 
+def cluster_and_identify_forest(
+    year: int,
+    aoi: ee.Geometry,
+    n_clusters: int = 4,
+    treecover_threshold: int = 50,
+    scale: int = 10,
+    training_pixels: int = 3000,
+    seed: int = 0,
+) -> ee.Image:
+    """
+    Unsupervised k-means clustering of the AlphaEarth embedding image over
+    the zone, then labels whichever cluster has the highest mean Hansen
+    tree-cover (2000) as "forest" and returns a binary mask (1 = forest).
+
+    This exists to strip roads, clearings, water, and secondary/non-forest
+    cover out of a raw bounding-box average before computing carbon density
+    — a bare rectangle otherwise mixes land covers and biases the mean.
+    """
+    embedding_img = (
+        ee.ImageCollection(EMBEDDING_COLLECTION)
+        .filterDate(f"{year}-01-01", f"{year + 1}-01-01")
+        .filterBounds(aoi)
+        .mosaic()
+        .clip(aoi)
+    )
+
+    training = embedding_img.sample(
+        region=aoi, scale=scale, numPixels=training_pixels, seed=seed, geometries=False
+    )
+    clusterer = ee.Clusterer.wekaKMeans(n_clusters).train(training)
+    clustered = embedding_img.cluster(clusterer)
+
+    treecover = ee.Image("UMD/hansen/global_forest_change_2025_v1_13").select("treecover2000")
+
+    cluster_ids = list(range(n_clusters))
+    mean_treecover_per_cluster = {}
+    for cid in cluster_ids:
+        cluster_mask = clustered.eq(cid)
+        mean_tc = treecover.updateMask(cluster_mask).reduceRegion(
+            reducer=ee.Reducer.mean(), geometry=aoi, scale=scale,
+            maxPixels=1e13, bestEffort=True,
+        ).get("treecover2000").getInfo()
+        mean_treecover_per_cluster[cid] = mean_tc or 0
+
+    forest_cluster_id = max(mean_treecover_per_cluster, key=mean_treecover_per_cluster.get)
+    forest_mask = clustered.eq(forest_cluster_id).selfMask().rename("forest_mask")
+
+    return forest_mask, mean_treecover_per_cluster, forest_cluster_id
+
+
 def cosine_similarity_matrix(embeddings: dict) -> tuple:
     """
     Given a dict of {zone_key: embedding_vector}, returns (labels, matrix)

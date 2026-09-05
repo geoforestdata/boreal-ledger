@@ -26,11 +26,12 @@ Bounding boxes (~20-25 km) are illustrative placeholders centered on well-known 
 ## Methodology
 
 1. Define four small AOIs, one per forest type — `src/zones.py`.
-2. Aboveground carbon density per zone from ESA CCI Biomass (2022) — `src/carbon_sources.py`.
-3. Aboveground carbon density per zone from GEDI L4B — `src/carbon_sources.py`.
-4. Cross-source comparison chart (grouped bars, 4 zones x 2 sources).
-5. Mean AlphaEarth embedding per zone, and cosine similarity between zones — `src/embedding_utils.py`.
-6. Similarity heatmap: how structurally distinct each zone is from the others.
+2. Forest mask per zone: unsupervised k-means clustering on AlphaEarth embeddings, cross-referenced with Hansen tree cover (2000) to identify which cluster is forest — `src/embedding_utils.py`. This removes roads, water, clearings, and secondary cover from the bounding box before averaging carbon.
+3. Aboveground carbon density per zone from ESA CCI Biomass (2022), forest-masked — `src/carbon_sources.py`.
+4. Aboveground carbon density per zone from GEDI L4B, forest-masked — `src/carbon_sources.py`.
+5. Cross-source comparison chart (grouped bars, 4 zones x 2 sources).
+6. Mean AlphaEarth embedding per zone, and cosine similarity between zones.
+7. Similarity heatmap: how structurally distinct each zone is from the others.
 
 ## Structure
 
@@ -50,5 +51,5 @@ data/                 (unused in this version — no local downloads required)
 
 ## Methodological note
 
-Zone boundaries are illustrative bounding boxes, not validated forest-type polygons — a single 20-25 km box may include some non-target land cover (roads, water, mixed stands). ESA CCI (2022) and GEDI L4B (multi-year aggregate) are not from the same time window, so treat cross-source agreement as directional, not exact. The AlphaEarth similarity analysis is descriptive, not a validated classification.
+Zone boundaries are illustrative bounding boxes, not validated forest-type polygons. The AlphaEarth + Hansen forest mask removes the most obvious non-forest contamination (roads, water, large clearings) but is an unsupervised approximation, not a validated land-cover classification — a mixed cluster (e.g. secondary forest resembling old-growth in embedding space) can still slip through. ESA CCI (2022) and GEDI L4B (multi-year aggregate) are not from the same time window, so treat cross-source agreement as directional, not exact. GEDI's 1 km grid means forest-masking only excludes whole cells entirely outside the forest cluster, not partial-cover cells.
 
