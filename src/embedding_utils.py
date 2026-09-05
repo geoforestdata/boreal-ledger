@@ -2,12 +2,15 @@
 embedding_utils.py
 
 Uses Google's AlphaEarth Foundations Satellite Embedding dataset (64-band,
-10 m, annual since 2017) to compute a mean embedding "signature" per zone
-and compare zones by cosine similarity. This does not estimate carbon —
-it is a complementary check on how spectrally/structurally distinct the
-four sites are (e.g. an even-aged plantation should look more uniform and
-more different from a structurally complex native forest than two native
-forests of the same type would look from each other).
+10 m, annual since 2017) for two things:
+
+  1. Unsupervised forest-mask identification per zone (k-means clustering,
+     cross-referenced with Hansen tree cover to label the forest cluster).
+  2. A structural "signature" comparison between zones via cosine
+     similarity of their mean embeddings — computed only over forest
+     pixels (see the notebook), since the raw bounding-box mean is
+     dominated by regional climate/geography signal rather than forest
+     structure.
 
 GEE asset: GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL
 """
@@ -16,28 +19,6 @@ import numpy as np
 import ee
 
 EMBEDDING_COLLECTION = "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL"
-
-
-def get_mean_embedding(year: int, aoi: ee.Geometry, scale: int = 10) -> np.ndarray:
-    """
-    Returns the mean 64-band embedding vector over the zone for the given
-    year, as a numpy array of length 64.
-    """
-    image = (
-        ee.ImageCollection(EMBEDDING_COLLECTION)
-        .filterDate(f"{year}-01-01", f"{year + 1}-01-01")
-        .filterBounds(aoi)
-        .mosaic()
-    )
-    band_names = image.bandNames().getInfo()
-    stats = image.reduceRegion(
-        reducer=ee.Reducer.mean(),
-        geometry=aoi,
-        scale=scale,
-        maxPixels=1e13,
-        bestEffort=True,
-    ).getInfo()
-    return np.array([stats.get(b, 0.0) or 0.0 for b in band_names])
 
 
 def cluster_and_identify_forest(
