@@ -20,7 +20,8 @@ citation) — a modeled product, not field-verified for any specific pixel.
 
 import ee
 
-PEAT_CARBON_STOCK_ASSET = "projects/sat-io/open-datasets/PEATGRIDS/CSTOCK_MGC"
+PEAT_CARBON_STOCK_ASSET = "projects/sat-io/open-datasets/PEATGRIDS/C_STOCK_MGC_PER_M2"
+PEAT_CARBON_BAND = "C_STOCK_MgC_per_m2_MEAN"
 
 # Search grid spanning the Abitibi-Temiscamingue administrative region
 # (roughly 47.0-49.5N, -80.0 to -77.0W). Each candidate is a ~20 km box.
@@ -37,8 +38,15 @@ def list_peatgrids_bands() -> list:
 
 
 def get_peat_carbon_stock(aoi: ee.Geometry) -> ee.Image:
-    """Peat carbon stock (Mg C/ha) from PEATGRIDS, clipped to aoi."""
-    return ee.Image(PEAT_CARBON_STOCK_ASSET).select(0).rename("peat_C_Mg_ha").clip(aoi)
+    """
+    Peat carbon stock (Mg C/ha) from PEATGRIDS, clipped to aoi. The source
+    band is Mg C/m2 (full peat depth), converted to Mg C/ha (x 10,000);
+    negative values are no-data and are masked out per the dataset's own
+    usage notes.
+    """
+    band = ee.Image(PEAT_CARBON_STOCK_ASSET).select(PEAT_CARBON_BAND)
+    band = band.updateMask(band.gte(0))
+    return band.multiply(10000).rename("peat_C_Mg_ha").clip(aoi)
 
 
 def find_best_peatland_candidate(search_grid: dict = ABITIBI_SEARCH_GRID, scale: int = 1000) -> dict:

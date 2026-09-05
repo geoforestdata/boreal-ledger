@@ -24,7 +24,7 @@ Bounding boxes (~20-25 km) are illustrative placeholders centered on well-known 
 - **Hansen Global Forest Change v1.13**: used to label which AlphaEarth cluster is "forest" (highest mean 2000 tree cover) and, via the `lossyear` band, to estimate years since last harvest for the radiata plantation. GEE asset: `UMD/hansen/global_forest_change_2025_v1_13`.
 - **ETH Global Canopy Height** (Lang et al., 2022): 10 m canopy top height, 2020 snapshot, cross-referenced against an illustrative Pinus radiata height-age curve to estimate stand age. GEE asset: `users/nlang/ETH_GlobalCanopyHeight_2020_10m_v1`.
 - **SoilGrids 250m v2.0** (ISRIC): soil organic carbon stock, 0-30 cm depth. Official GEE asset: `projects/soilgrids-isric/ocs_mean`.
-- **PEATGRIDS**: global peat thickness and carbon-stock model, used to locate a real peatland within Abitibi-Temiscamingue via a grid search rather than a guessed coordinate. GEE asset: `projects/sat-io/open-datasets/PEATGRIDS/CSTOCK_MGC`.
+- **PEATGRIDS** (Widyastuti et al., 2025): global peat thickness and carbon-stock model, used to locate a real peatland within Abitibi-Temiscamingue via a grid search rather than a guessed coordinate. GEE asset: `projects/sat-io/open-datasets/PEATGRIDS/C_STOCK_MGC_PER_M2` (band `C_STOCK_MgC_per_m2_MEAN`, converted from Mg C/m2 to Mg C/ha).
 - **IPCC default factors**: root:shoot ratios (belowground biomass) and deadwood/litter fractions by biome type, applied to AGB — see `src/carbon_sources.py` for the exact values and source table.
 
 ## Why GEDI L4B was dropped
