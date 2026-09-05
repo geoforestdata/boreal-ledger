@@ -113,6 +113,12 @@ def get_coarse_forest_mask(
     lakes, coastline) rather than letting them in with a distorted value.
     """
     forest_binary = forest_mask_10m.unmask(0)
+    # unmask() drops the default-projection metadata set upstream in
+    # cluster_and_identify_forest, so it must be reasserted here, right
+    # before reduceResolution needs it.
+    source_proj = forest_mask_10m.projection()
+    forest_binary = forest_binary.setDefaultProjection(source_proj)
+
     target_proj = target_image.projection()
 
     forest_fraction = (
