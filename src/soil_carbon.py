@@ -27,7 +27,16 @@ uncertainty. SOIL, 7, 217-240.
 import ee
 
 SOILGRIDS_OCS_ASSET = "projects/soilgrids-isric/ocs_mean"
-OCS_SCALE_FACTOR = 10  # raw stored value / 10 = true Mg C/ha (t/ha)
+# NOTE: earlier versions of this module divided the raw value by 10,
+# based on a generic SoilGrids scaling table that applies to concentration
+# properties (e.g. 'soc' in dg/kg). ISRIC's own OCS product description
+# states the stored value is ALREADY in t/ha for the 0-30cm layer with no
+# further scaling needed — the /10 division was likely wrong and produced
+# SOC estimates roughly 10x too low across all four forest zones compared
+# to published ranges (boreal ~60-120, tropical ~40-100, southern Chile
+# andisols ~100-300+ Mg C/ha). Verify against a location with known SOC
+# before trusting either version.
+OCS_SCALE_FACTOR = 1  # raw stored value IS true Mg C/ha per ISRIC's own docs
 
 
 def list_ocs_bands() -> list:

@@ -48,18 +48,35 @@ BIOME_TYPE = {
 
 # Wetland zones: illustrative bounding boxes, no forest mask applies (these
 # are not forest ecosystems) — used for soil-carbon-dominated comparisons.
+# Coordinates below were checked against published site descriptions after
+# the first version of this file used unverified placeholders that produced
+# implausibly low SOC results (6-14 Mg C/ha, far below real wetland soils).
 WETLAND_ZONES = {
     "rocuant_andalien": {
         "label": "Rocuant-Andalien wetland (Biobio, Chile)",
-        "bbox": [-73.15, -36.87, -73.00, -36.77],
+        # Verified: mouth of the Rio Andalien at the Bahia de Concepcion,
+        # ~36.74S/73.02W (Wikipedia, "Isla Rocuant"). Original placeholder
+        # was offset ~9 km south/west, likely missing the wetland itself.
+        "bbox": [-73.08, -36.78, -72.98, -36.70],
     },
     "abitibi_peatland": {
         "label": "Boreal peatland (Abitibi, Quebec)",
-        "bbox": [-79.30, 48.70, -79.10, 48.85],
+        # UNCONFIRMED peat coverage: centered on the Reserve de biodiversite
+        # des Lacs-Vaudray-et-Joannes (48.14N/78.68W, near Rouyn-Noranda),
+        # which is documented to contain peatlands ("tourbieres") alongside
+        # lakes and forest, but the exact peat fraction within this box is
+        # not verified. Treat this zone's result with more caution than
+        # the other two wetlands.
+        "bbox": [-78.75, 48.05, -78.60, 48.20],
     },
     "rio_cruces_wetland": {
         "label": "Rio Cruces wetland (Los Rios, Chile)",
-        "bbox": [-73.30, -39.82, -73.15, -39.68],
+        # Verified: Santuario Carlos Anwandter / Rio Cruces Ramsar site,
+        # a ~25 km long, ~2 km wide wetland strip roughly between 39.68S
+        # and 39.72S, centered near 73.15-73.19W (Wikipedia, Ramsar Sites
+        # Information Service #222). Original placeholder was offset west
+        # (-73.15 to -73.30), likely missing the river wetland.
+        "bbox": [-73.22, -39.75, -73.10, -39.62],
     },
 }
 
