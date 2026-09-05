@@ -86,47 +86,8 @@ def cluster_and_identify_forest(
 
     forest_cluster_id = max(mean_treecover_per_cluster, key=mean_treecover_per_cluster.get)
     forest_mask = clustered.eq(forest_cluster_id).selfMask().rename("forest_mask")
-    # cluster() output does not inherit a default projection; reduceResolution
-    # (used downstream in get_coarse_forest_mask) requires one explicitly.
-    forest_mask = forest_mask.setDefaultProjection(embedding_img.projection())
 
     return forest_mask, mean_treecover_per_cluster, forest_cluster_id
-
-
-def get_coarse_forest_mask(
-    forest_mask_10m: ee.Image,
-    target_image: ee.Image,
-    min_fraction: float = 0.7,
-) -> ee.Image:
-    """
-    Aggregates a fine-resolution (10 m) binary forest mask up to the native
-    grid of a coarser-resolution target image (e.g. GEDI L4B at 1 km) by
-    computing the FRACTION of forest pixels within each coarse cell, then
-    thresholding.
-
-    This matters because naively combining a 10 m mask with a 1 km image in
-    reduceRegion uses nearest-neighbor resampling for the mask, not an area
-    -weighted fraction — a coarse cell that is 40% lake / 60% forest can be
-    included or excluded almost arbitrarily depending on which single 10 m
-    pixel happens to land at the resampling point. Thresholding on the true
-    forest fraction instead fully excludes mixed cells (e.g. forest edges,
-    lakes, coastline) rather than letting them in with a distorted value.
-    """
-    forest_binary = forest_mask_10m.unmask(0)
-    # unmask() drops the default-projection metadata set upstream in
-    # cluster_and_identify_forest, so it must be reasserted here, right
-    # before reduceResolution needs it.
-    source_proj = forest_mask_10m.projection()
-    forest_binary = forest_binary.setDefaultProjection(source_proj)
-
-    target_proj = target_image.projection()
-
-    forest_fraction = (
-        forest_binary
-        .reduceResolution(reducer=ee.Reducer.mean(), maxPixels=65536)
-        .reproject(crs=target_proj)
-    )
-    return forest_fraction.gte(min_fraction)
 
 
 def cosine_similarity_matrix(embeddings: dict) -> tuple:

@@ -60,3 +60,38 @@ def mean_carbon_over_zone(
     ).getInfo()
     return stats.get("carbon_Mg_ha", 0) or 0
 
+
+def forest_weighted_mean_carbon(
+    carbon_image: ee.Image,
+    forest_mask_10m: ee.Image,
+    aoi: ee.Geometry,
+    scale: int = 10,
+) -> float:
+    """
+    Forest-area-weighted mean carbon density (Mg C/ha), combining a coarse
+    carbon source (e.g. GEDI L4B at 1 km, or ESA CCI at 100 m) with a fine
+    (10 m) binary forest mask, WITHOUT reduceResolution.
+
+    Each 10 m forest pixel contributes the carbon value of whichever coarse
+    cell it falls within (reduceRegion resamples both inputs to `scale`
+    automatically); dividing the summed weighted carbon by the summed
+    weight yields a mean restricted to forest pixels and naturally
+    area-weighted by how much of each coarse cell is actually forest —
+    a partially-forested coarse cell contributes proportionally, rather
+    than being all-or-nothing as a hard fraction threshold would.
+    """
+    forest_binary = forest_mask_10m.unmask(0).rename("weight")
+    weighted_carbon = carbon_image.multiply(forest_binary).rename("weighted_carbon")
+
+    stats = weighted_carbon.addBands(forest_binary).reduceRegion(
+        reducer=ee.Reducer.sum(),
+        geometry=aoi,
+        scale=scale,
+        maxPixels=1e13,
+        bestEffort=True,
+    ).getInfo()
+
+    numerator = stats.get("weighted_carbon", 0) or 0
+    denominator = stats.get("weight", 0) or 0
+    return numerator / denominator if denominator else 0
+
