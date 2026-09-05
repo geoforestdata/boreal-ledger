@@ -86,6 +86,9 @@ def cluster_and_identify_forest(
 
     forest_cluster_id = max(mean_treecover_per_cluster, key=mean_treecover_per_cluster.get)
     forest_mask = clustered.eq(forest_cluster_id).selfMask().rename("forest_mask")
+    # cluster() output does not inherit a default projection; reduceResolution
+    # (used downstream in get_coarse_forest_mask) requires one explicitly.
+    forest_mask = forest_mask.setDefaultProjection(embedding_img.projection())
 
     return forest_mask, mean_treecover_per_cluster, forest_cluster_id
 
