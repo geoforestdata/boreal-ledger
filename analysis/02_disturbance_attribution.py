@@ -12,13 +12,16 @@ Run: python 02_disturbance_attribution.py
 """
 
 import sys
-sys.path.append("../src")
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
 import ee
 from zones import get_abitibi_analysis_zone
 from disturbance_utils import get_disturbance_cause_map, NBAC_COLLECTION
 
-PROJECT = "your-gee-project-id"  # replace with your own GEE project
+PROJECT = "ibfra2026"  # replace with your own GEE project
 
 
 def main():
@@ -37,7 +40,7 @@ def main():
     n_fires_any_year = fires_nearby.size().getInfo()
 
     print("=== Disturbance attribution, Abitibi analysis zone (~10,000 ha) ===\n")
-    print(f"Harvest (non-fire): {non_fire_ha:,.1f} ha")
+    print(f"Non-fire residual loss (probable harvest in this managed forest context): {non_fire_ha:,.1f} ha")
     print(f"Fire: {fire_ha:,.1f} ha")
     print(f"\nDiagnostic -- NBAC fire perimeters touching this zone, any year "
           f"1972-2023 (regardless of matching the loss year): {n_fires_any_year}")
@@ -52,4 +55,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

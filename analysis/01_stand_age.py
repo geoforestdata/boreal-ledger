@@ -17,15 +17,17 @@ Stand age structure for the Abitibi analysis zone (~10,000 ha, verified
 
 Run: python 01_stand_age.py
 """
-
 import sys
-sys.path.append("../src")
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
 import ee
 from zones import get_abitibi_analysis_zone
 from stand_age_utils import get_years_since_loss, get_canopy_height
 
-PROJECT = "your-gee-project-id"  # replace with your own GEE project
+PROJECT = "ibfra2026"  # replace with your own GEE project
 
 
 def main():
@@ -55,11 +57,11 @@ def main():
           f"{height_stats['canopy_height_m_mean']:.1f} m "
           f"(n={height_stats['canopy_height_m_count']:,} pixels)")
     print("\nInterpretation: the zone is a mix of a smaller actively-managed "
-          "segment (dated, younger) and a larger undated segment whose canopy "
-          "height suggests mature forest -- see README for the Pothier-Savard "
-          "caveat on converting height to a calibrated age.")
+          "segment (dated, younger) and a larger undated segment with a "
+          "well-developed canopy. Canopy height is structural information "
+          "only; it does not provide calibrated stand age without species- "
+          "and site-specific growth relationships.")
 
 
 if __name__ == "__main__":
     main()
-

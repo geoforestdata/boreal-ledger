@@ -38,7 +38,7 @@ ZONES = {
 }
 
 # Biome type per forest zone, used to select IPCC root:shoot and
-# deadwood/litter default factors in carbon_sources.total_forest_carbon.
+# deadwood/litter default factors in carbon_sources combined-pool helpers.
 BIOME_TYPE = {
     "abitibi": "boreal",
     "tapajos": "tropical",
@@ -143,4 +143,3 @@ def get_abitibi_analysis_zone() -> ee.Geometry:
         lon - ABITIBI_10K_HALF_WIDTH_LON, lat - ABITIBI_10K_HALF_WIDTH_LAT,
         lon + ABITIBI_10K_HALF_WIDTH_LON, lat + ABITIBI_10K_HALF_WIDTH_LAT,
     ])
-

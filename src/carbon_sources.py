@@ -20,6 +20,7 @@ direct measurement. See the repo README for the diagnostic numbers.
 import ee
 
 ESA_CCI_AGB_COLLECTION = "projects/sat-io/open-datasets/ESA/ESA_CCI_AGB"
+ESA_CCI_AGB_BAND = "AGB"
 DEFAULT_CARBON_FRACTION = 0.47
 
 
@@ -32,7 +33,7 @@ def get_esa_cci_carbon(
     collection = ee.ImageCollection(ESA_CCI_AGB_COLLECTION).filter(
         ee.Filter.calendarRange(year, year, "year")
     )
-    agb = collection.select(0).mosaic().rename("AGB")
+    agb = collection.select(ESA_CCI_AGB_BAND).mosaic()
     return agb.multiply(carbon_fraction).rename("carbon_Mg_ha").clip(aoi)
 
 
@@ -101,15 +102,16 @@ DEADWOOD_LITTER_FRACTION = {
 }
 
 
-def total_forest_carbon(agb_carbon_mg_ha: float, biome_type: str, soc_mg_ha: float) -> dict:
+def combined_mapped_forest_carbon_pools(agb_carbon_mg_ha: float, biome_type: str, soc_mg_ha: float) -> dict:
     """
     Combines aboveground carbon with belowground biomass (via IPCC
     root:shoot ratio), deadwood/litter (via IPCC fraction), and soil
-    organic carbon (0-30 cm) into a total ecosystem carbon estimate.
+    organic carbon (0-30 cm) into a mapped-pool summary.
 
-    Returns a breakdown dict, not just the total - the pools are
+    Returns a breakdown dict, not just the sum - the pools are
     illustrative-default-based (BGB, deadwood/litter) or single-depth
-    (SOC), not independently validated for each site.
+    (SOC), not independently validated for each site. Do not treat the
+    summed value as total ecosystem carbon or total forest carbon.
     """
     if biome_type not in ROOT_SHOOT_RATIO:
         raise ValueError(f"Unknown biome_type '{biome_type}'. Choose from {list(ROOT_SHOOT_RATIO)}")
@@ -123,6 +125,5 @@ def total_forest_carbon(agb_carbon_mg_ha: float, biome_type: str, soc_mg_ha: flo
         "BGB": bgb,
         "deadwood_litter": deadwood_litter,
         "SOC_0_30cm": soc_mg_ha,
-        "total": total,
+        "combined_mapped_pools": total,
     }
-
