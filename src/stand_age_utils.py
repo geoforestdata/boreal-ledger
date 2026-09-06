@@ -30,6 +30,16 @@ RADIATA_HEIGHT_AGE_CURVE = [
     (0, 0), (5, 6), (10, 15), (15, 22), (20, 28), (25, 32), (30, 34),
 ]
 
+# Illustrative black spruce / jack pine height-age curve for boreal Quebec
+# (moderate site index, generalized from Quebec MRNF-type yield tables),
+# height in meters at stand age in years. Boreal species grow far slower
+# than managed plantation species like radiata — do NOT reuse the radiata
+# curve above for boreal stands (that mismatch went unnoticed in an
+# earlier version of this module).
+BOREAL_HEIGHT_AGE_CURVE = [
+    (0, 0), (10, 2), (20, 5), (30, 8), (40, 11), (60, 15), (80, 18), (100, 20),
+]
+
 
 def get_years_since_loss(aoi: ee.Geometry, current_year: int = 2025) -> ee.Image:
     """
