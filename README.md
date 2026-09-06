@@ -75,7 +75,7 @@ data/                 (unused in this version — no local downloads required)
 1. `pip install -r requirements.txt`
 2. `earthengine authenticate`
 3. Replace `PROJECT` in the notebook with your own GEE project.
-4. Run `notebooks/01_carbon_comparison.ipynb` in order.
+4. This repo is mid-pivot toward a boreal-silviculture focus (stand age, disturbance attribution, recovery, carbon dynamics for Abitibi) — the notebooks referenced above from the biome-comparison phase are no longer part of the plan. A full README rewrite is pending once the four new modules are complete.
 
 ## Methodological note
 
