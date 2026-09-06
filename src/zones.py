@@ -3,13 +3,13 @@ zones.py
 
 Defines four small representative AOIs (roughly 20-25 km across) for a
 cross-biome aboveground carbon comparison. Bounding boxes are illustrative
-placeholders centered on well-known locations for each forest type — adjust
+placeholders centered on well-known locations for each forest type - adjust
 if you have more precise site boundaries.
 
 Zones:
   - abitibi: boreal managed forest, Quebec, Canada (near La Sarre/Amos)
   - tapajos: intact tropical rainforest, Para, Brazil (Floresta Nacional
-    do Tapajos area — a widely studied carbon-research site)
+    do Tapajos area - a widely studied carbon-research site)
   - alerce_costero: native temperate forest, Los Rios, Chile (near
     Parque Nacional Alerce Costero)
   - radiata_biobio: even-aged Pinus radiata plantation, Biobio, Chile
@@ -47,7 +47,7 @@ BIOME_TYPE = {
 }
 
 # Wetland zones: illustrative bounding boxes, no forest mask applies (these
-# are not forest ecosystems) — used for soil-carbon-dominated comparisons.
+# are not forest ecosystems) - used for soil-carbon-dominated comparisons.
 # Coordinates below were checked against published site descriptions after
 # the first version of this file used unverified placeholders that produced
 # implausibly low SOC results (6-14 Mg C/ha, far below real wetland soils).
@@ -124,4 +124,23 @@ def get_point_buffer_zone(lon: float, lat: float, radius_m: float = 500) -> ee.G
     end up mostly water/non-forest depending on where it lands).
     """
     return ee.Geometry.Point([lon, lat]).buffer(radius_m)
+
+
+# Abitibi analysis zone: a ~10,000 ha (10 km x 10 km) box centered on a
+# point manually verified (Hansen tree cover >50% over ~90% of the box) as
+# real managed boreal forest, not an arbitrary administrative boundary
+# that turned out to be mostly lakes (see the original 25 km region box,
+# which had only ~15% real forest cover).
+ABITIBI_10K_CENTER_WEBMERCATOR = (-8855108, 6168550)
+ABITIBI_10K_HALF_WIDTH_LON = 0.0677  # ~5 km at this latitude
+ABITIBI_10K_HALF_WIDTH_LAT = 0.0450  # ~5 km
+
+
+def get_abitibi_analysis_zone() -> ee.Geometry:
+    """Returns the verified ~10,000 ha Abitibi analysis zone (see module docstring)."""
+    lon, lat = point_from_webmercator(*ABITIBI_10K_CENTER_WEBMERCATOR)
+    return ee.Geometry.Rectangle([
+        lon - ABITIBI_10K_HALF_WIDTH_LON, lat - ABITIBI_10K_HALF_WIDTH_LAT,
+        lon + ABITIBI_10K_HALF_WIDTH_LON, lat + ABITIBI_10K_HALF_WIDTH_LAT,
+    ])
 

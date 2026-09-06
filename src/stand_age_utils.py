@@ -6,7 +6,7 @@ Estimates stand age for a plantation zone from two independent signals:
   1. Years since the last Hansen-detected stand-replacement disturbance
      (lossyear band). A pixel with no recorded loss since 2000 is
      age-censored: it could be an older stand (pre-dating or exceeding the
-     Hansen record) or non-plantation cover (e.g. a native remnant) — it
+     Hansen record) or non-plantation cover (e.g. a native remnant) - it
      is NOT necessarily "very old", just "undated by this method".
   2. Canopy height (ETH Global Canopy Height, 2020 snapshot), cross
      -referenced against an illustrative Pinus radiata height-age growth
@@ -25,7 +25,7 @@ CANOPY_HEIGHT_ASSET = "users/nlang/ETH_GlobalCanopyHeight_2020_10m_v1"
 # Illustrative Pinus radiata height-age curve for Chile (moderate site
 # index, INFOR/CONAF-type yield tables), height in meters at stand age in
 # years. Piecewise-linear breakpoints, NOT a calibrated site-specific model
-# — real growth depends on site index, thinning regime, and genetics.
+# - real growth depends on site index, thinning regime, and genetics.
 RADIATA_HEIGHT_AGE_CURVE = [
     (0, 0), (5, 6), (10, 15), (15, 22), (20, 28), (25, 32), (30, 34),
 ]
@@ -33,7 +33,7 @@ RADIATA_HEIGHT_AGE_CURVE = [
 # Illustrative black spruce / jack pine height-age curve for boreal Quebec
 # (moderate site index, generalized from Quebec MRNF-type yield tables),
 # height in meters at stand age in years. Boreal species grow far slower
-# than managed plantation species like radiata — do NOT reuse the radiata
+# than managed plantation species like radiata - do NOT reuse the radiata
 # curve above for boreal stands (that mismatch went unnoticed in an
 # earlier version of this module).
 BOREAL_HEIGHT_AGE_CURVE = [
@@ -44,7 +44,7 @@ BOREAL_HEIGHT_AGE_CURVE = [
 def get_years_since_loss(aoi: ee.Geometry, current_year: int = 2025) -> ee.Image:
     """
     Years since the last Hansen-detected stand-replacement disturbance.
-    Masked (no value) where lossyear == 0 — age-censored, not necessarily old.
+    Masked (no value) where lossyear == 0 - age-censored, not necessarily old.
     """
     lossyear = ee.Image(HANSEN_ASSET).select("lossyear")
     calendar_year = lossyear.add(2000).updateMask(lossyear.gt(0))

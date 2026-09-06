@@ -1,83 +1,71 @@
-# Aboveground Carbon Across Biomes
+# Applied Remote Sensing for Boreal Silviculture
 
-Compares aboveground carbon density (Mg C/ha) across four contrasting forest types using ESA CCI Biomass, plus a complementary structural comparison of the same zones using Google's AlphaEarth satellite embeddings.
+Four Google Earth Engine analyses of a managed boreal forest zone in Abitibi-Temiscamingue, Quebec, addressing questions relevant to boreal forest management: stand age structure, disturbance regime, post-harvest recovery, and carbon dynamics.
 
-## Research question
+## Study zone
 
-Where is carbon actually stored — in forest biomass, in forest soil, or in wetland soil? Which forest type stores the most? And, in concrete terms, how much carbon is at risk if a wetland is lost?
+A ~10,000 ha (10 km x 10 km) area in Abitibi-Temiscamingue, chosen because it was verified (not assumed) to be genuine managed forest: Hansen tree cover >50% over ~90% of the box, at 10 m resolution. An earlier attempt using the full administrative region boundary (25 km, drawn from the region's official shapefile) turned out to be only ~15% real forest -- Abitibi is lake country, and an unverified polygon silently averaged in enormous amounts of water. See `src/zones.py`, `get_abitibi_analysis_zone()`.
 
-## Zones
+## The four analyses
 
-| Zone | Type | Location |
-|---|---|---|
-| Abitibi | Boreal managed forest | Quebec, Canada |
-| Tapajos | Intact tropical rainforest | Para, Brazil |
-| Alerce Costero | Native temperate forest | Los Rios, Chile |
-| Radiata Biobio | Even-aged Pinus radiata plantation | Biobio, Chile |
+### 1. Stand age structure (`analysis/01_stand_age.py`)
 
-Bounding boxes (~20-25 km) are illustrative placeholders centered on well-known sites for each forest type — see `src/zones.py` to adjust with more precise boundaries.
+~10% of the zone has a dated harvest since 2001 (Hansen `lossyear`), with a mean age of 14.6 years within that dated segment. The other ~90% is undated by this method -- not necessarily old, just outside Hansen's detection window. Mean canopy height there (17.7 m, ETH 2020, n=1.3M pixels) suggests that undated majority is substantially mature forest, consistent with a landscape structure of "mostly resting, a smaller fraction in active rotation" typical of sustainably managed public boreal forest.
 
-## Data
+**Limitation:** converting canopy height to a calibrated stand age would require Pothier & Savard (1998) -- the standard Quebec MRNF growth and yield equations -- which need a field-estimated site quality index (IQS) as input. This remote-sensing-only pipeline does not have that input, so no age number is derived from height; height is reported as a descriptive statistic only.
 
-- **ESA CCI Biomass v6.0** (Santoro & Cartus, 2025): continuous, gap-free annual AGB maps (2007, 2010, 2015–2022), converted to carbon (IPCC default fraction 0.47). Community-curated GEE asset: `projects/sat-io/open-datasets/ESA/ESA_CCI_AGB`.
-- **AlphaEarth Satellite Embedding** (Google DeepMind): 64-band, 10 m, annual since 2017. Used for unsupervised forest-mask identification and a complementary structural comparison between zones — not for carbon estimation. GEE asset: `GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL`.
-- **Hansen Global Forest Change v1.13**: used to label which AlphaEarth cluster is "forest" (highest mean 2000 tree cover) and, via the `lossyear` band, to estimate years since last harvest for the radiata plantation. GEE asset: `UMD/hansen/global_forest_change_2025_v1_13`.
-- **ETH Global Canopy Height** (Lang et al., 2022): 10 m canopy top height, 2020 snapshot, cross-referenced against an illustrative Pinus radiata height-age curve to estimate stand age. GEE asset: `users/nlang/ETH_GlobalCanopyHeight_2020_10m_v1`.
-- **SoilGrids 250m v2.0** (ISRIC): soil organic carbon stock, 0-30 cm depth. Official GEE asset: `projects/soilgrids-isric/ocs_mean`.
-- **PEATGRIDS** (Widyastuti et al., 2025): global peat thickness and carbon-stock model, used to locate a real peatland within Abitibi-Temiscamingue via a grid search rather than a guessed coordinate. GEE asset: `projects/sat-io/open-datasets/PEATGRIDS/C_STOCK_MGC_PER_M2` (band `C_STOCK_MgC_per_m2_MEAN`, converted from Mg C/m2 to Mg C/ha).
-- **IPCC default factors**: root:shoot ratios (belowground biomass) and deadwood/litter fractions by biome type, applied to AGB — see `src/carbon_sources.py` for the exact values and source table.
+### 2. Disturbance attribution: harvest vs fire (`analysis/02_disturbance_attribution.py`)
 
-## Why GEDI L4B was dropped
+Splits Hansen-detected loss into fire-caused (matches an NBAC fire perimeter for its own loss year) vs non-fire (residual, mostly harvest). Result: 1,015.5 ha harvest, 0 ha fire over 2001-2023. Verified as a real absence, not a data-matching bug, by an independent check: zero NBAC fire perimeters touch this specific zone at all across the full 1972-2023 record.
 
-An earlier version cross-checked ESA CCI against GEDI L4B (1 km gridded biomass, `LARSE/GEDI/GEDI04_B_002`). Two diagnostics ruled it out for this use case:
+### 3. Post-harvest spectral recovery (`analysis/03_recovery_curve.py`)
 
-1. **Definitional mismatch.** GEDI L4B's `MU` band is explicitly defined as the mean biomass "including forest and non-forest" within each 1 km cell — it is not a forest-only value, so a coarse cell that is partly water, road, or clearing can't be corrected after the fact by masking; the dilution is already baked into the source pixel.
-2. **Uneven real coverage.** Checking the `QF` (quality flag) and `NC`/`NS` (ground-track/footprint count) bands showed real sampling density varies sharply by zone — Tapajos averaged under 1 GEDI ground track per 1 km cell, meaning most of its "data" there was a statistical model fill-in (per GEDI's own documentation) rather than a direct measurement, while Abitibi and Alerce Costero had much denser real coverage (~5 tracks/cell). This is exactly the zone where GEDI diverged most from ESA CCI (37 vs 107 Mg C/ha) — not a coincidence.
+Chronosequence method (space-for-time substitution): a single recent NBR composite (2024) grouped by years-since-harvest, using stands of different ages that coexist in the landscape today rather than tracking one stand over decades. Covers ages 0-24 (Hansen's detection window). Shows rapid establishment (years 2-9) and a spectral saturation plateau (years 17+), consistent with the literature. Real cohort-to-cohort variability appears in years 4-13 (not noise -- those classes have 500-2,800 pixels each), suggesting site/treatment differences between harvest cohorts, not just age, drive early recovery.
 
-GEDI L4A (25 m footprint-level biomass) would avoid both problems and remains a possible future addition, but was out of scope here.
+**Rigor applied:** an unfiltered version of this curve showed spurious zigzagging; age classes with fewer than 100 pixels (some had as few as 5) were dropped before drawing conclusions. This matters -- with 24 age classes and only ~10% of the landscape dated, several classes are severely undersampled even in a 10,000 ha zone.
 
-## Methodology
+### 4. Carbon (`analysis/04_carbon.py`)
 
-1. Define four small AOIs, one per forest type — `src/zones.py`.
-2. Forest mask per zone: unsupervised k-means clustering on AlphaEarth embeddings, cross-referenced with Hansen tree cover (2000) to identify which cluster is forest — `src/embedding_utils.py`.
-3. Forest-weighted carbon: combine ESA CCI with the fine (10 m) forest mask in a single `reduceRegion`, so each 10 m forest pixel contributes the value of the (coarser, 100 m) cell it falls in, weighted proportionally rather than by a hard threshold — `forest_weighted_mean_carbon`.
-4. Comparison chart across the four zones.
-5. Forest-only AlphaEarth embedding signature per zone (same mask as carbon) and cosine similarity between zones — computed over forest pixels only, since the raw bounding-box mean is dominated by regional climate/geography signal rather than forest structure (an earlier version using the unmasked mean showed two structurally different Chilean zones as 96% similar).
-6. Similarity heatmap.
-7. Total ecosystem carbon per forest zone: AGB + belowground biomass (IPCC root:shoot ratio) + deadwood/litter (IPCC fraction) + soil organic carbon (SoilGrids, 0-30 cm) — `src/carbon_sources.py`, `src/soil_carbon.py`.
-8. Stacked bar chart of carbon by pool, per forest zone.
-9. Three wetland zones (Rocuant-Andalien, a data-located Abitibi peatland, Rio Cruces) compared on soil/peat carbon alongside the forest zones. The Abitibi peatland was found via a PEATGRIDS grid search (`src/peatland_finder.py`) rather than a guessed coordinate, scanning 9 candidate boxes across the region and picking the one with the highest real peat-carbon signal. Where PEATGRIDS detects real peat (full-depth carbon stock), that value is used as the total rather than SoilGrids' 0-30 cm figure — for the Abitibi peatland this was 2,309 Mg C/ha (full depth) vs 63 Mg C/ha (0-30 cm only), i.e. the shallow layer alone misses roughly 97% of the actual stock. For the two Chilean wetlands (marsh/estuarine, not peat-forming), PEATGRIDS shows no peat signal, so the SoilGrids 0-30 cm value is used as a floor estimate instead — see `get_wetland_total_carbon` for the exact logic.
-10. Dominant-pool comparison: what share of each ecosystem's carbon is aboveground vs belowground — the core forest-vs-wetland contrast.
-11. Carbon at risk: total tonnes (not density) per zone, converted to CO2-equivalent — the "what's actually at stake if this is lost" framing.
-12. Stand age of the radiata plantation: years since last Hansen-detected harvest, cross-checked against canopy height (ETH 2020) via an illustrative height-age curve — `src/stand_age_utils.py`.
+AGB (ESA CCI Biomass, forest-masked): 80.6 Mg C/ha. SOC 0-30 cm (SoilGrids): 59.8 Mg C/ha. Cross-checked against an independent 500 m point sample at the same location, computed with an entirely different method (individual point + replicate offsets rather than a 10,000 ha aggregate): 82.8 and 58.2 Mg C/ha respectively -- close agreement across very different sampling scales, which is real evidence of measurement stability, not something engineered to match.
 
-## Wetland zones
+## Data sources
 
-| Zone | Location | Coordinate confidence |
-|---|---|---|
-| Rocuant-Andalien | Biobio, Chile (coastal wetland) | Verified against published site description |
-| Abitibi peatland | Quebec, Canada (boreal peatland) | Located via PEATGRIDS grid search: highest of 9 candidates, 2,309 Mg C/ha full-depth peat carbon |
-| Rio Cruces | Los Rios, Chile (freshwater wetland) | Verified against published site description |
-
-Bounding boxes for Rocuant-Andalien and Rio Cruces were corrected after an initial version (unverified placeholders) produced implausibly low SOC results (6-14 Mg C/ha — far below typical wetland soils), which turned out to be because the boxes missed the actual wetland extent by several km. The Abitibi peatland zone was located with a data-driven grid search over PEATGRIDS (see `src/peatland_finder.py`) rather than a guessed named site, since no single documented peatland coordinate could be verified with confidence. See `src/zones.py` for exact coordinates and sourcing notes.
-
-## Structure
-
-```
-src/                  zone definitions, carbon sources, embedding utilities
-notebooks/            analysis pipeline and results
-figures/              final charts
-data/                 (unused in this version — no local downloads required)
-```
+- **Hansen Global Forest Change v1.13** (`UMD/hansen/global_forest_change_2025_v1_13`): tree cover, loss year -- the backbone for the forest mask, stand age, and disturbance/recovery chronosequence.
+- **Canadian National Burned Area Composite (NBAC)** (`projects/sat-io/open-datasets/CA_FOREST/NBAC/nbac_1972_2023_20240530`): fire perimeters, 1972-2023, for disturbance attribution.
+- **Sentinel-2 SR Harmonized**: growing-season NBR composites for the recovery curve.
+- **ESA CCI Biomass v6.0** (Santoro & Cartus, 2025): aboveground carbon, converted from AGB (IPCC fraction 0.47).
+- **SoilGrids 250m v2.0** (ISRIC): soil organic carbon, 0-30 cm.
+- **ETH Global Canopy Height** (Lang et al., 2022): canopy height, descriptive only (see stand-age limitation above).
 
 ## How to run
 
-1. `pip install -r requirements.txt`
-2. `earthengine authenticate`
-3. Replace `PROJECT` in the notebook with your own GEE project.
-4. This repo is mid-pivot toward a boreal-silviculture focus (stand age, disturbance attribution, recovery, carbon dynamics for Abitibi) — the notebooks referenced above from the biome-comparison phase are no longer part of the plan. A full README rewrite is pending once the four new modules are complete.
+```
+pip install -r requirements.txt
+earthengine authenticate
+```
 
-## Methodological note
+Edit `PROJECT` at the top of each script in `analysis/` to your own GEE project, then run each independently:
 
-Zone boundaries are illustrative bounding boxes, not validated forest-type or wetland-boundary polygons. The AlphaEarth + Hansen forest mask removes the most obvious non-forest contamination but is an unsupervised approximation, not a validated land-cover classification. ESA CCI Biomass is a single-year (2022) snapshot; no independent second source was available at this AOI scale (see above), so treat absolute carbon values as estimates from one methodology, not as cross-validated measurements. BGB and deadwood/litter use IPCC default factors by biome type, not site-calibrated values. SoilGrids' 0-30 cm depth substantially underestimates true carbon in peat-forming wetlands, where organic layers extend far deeper — wetland SOC numbers here are a floor, not a full accounting; a peatland-specific product (e.g. PEATGRIDS) would be needed for that. The "carbon at risk" framing (total CO2e per zone) represents the carbon stock, not a claim that all of it would be emitted instantly upon disturbance — actual emission depends on the disturbance type and timescale. The height-age curve for stand-age estimation is illustrative (Chile-typical, moderate site index), not calibrated to this specific stand; a pixel with no recorded Hansen loss is age-censored, not confirmed old.
+```
+cd analysis
+python 01_stand_age.py
+python 02_disturbance_attribution.py
+python 03_recovery_curve.py
+python 04_carbon.py
+```
+
+Each script is self-contained (no shared notebook state, no import caching issues) and prints its result directly; `03_recovery_curve.py` also saves a figure to `figures/`.
+
+## Why this project changed shape along the way
+
+This repo started as a cross-biome carbon comparison (Quebec, Brazil, Chile) before being refocused entirely on Abitibi for a boreal silviculture application. Several methodological corrections happened during development and are worth stating plainly rather than hiding:
+
+- An unsupervised AlphaEarth land-cover clustering approach, used earlier to build forest masks, was found to over-segment small, homogeneous areas into artificial sub-clusters, undercounting real forest. It was replaced with a direct Hansen tree-cover threshold for this repo's zone.
+- A GEDI L4B cross-check was dropped after diagnostics showed its `MU` band blends forest and non-forest by design, and that real GEDI sampling density varied sharply by location -- unreliable at this AOI scale.
+- A soil-carbon scale factor was initially mis-applied (dividing by 10 when the source was already in the correct units), producing values roughly 10x too low; corrected after cross-referencing literature ranges.
+- An early version of the "carbon at risk" total multiplied a masked density by the full bounding-box area instead of the true covered area, inflating results by over 20x for a peatland zone with low real peat coverage; corrected by summing density x pixel-area directly over valid pixels only.
+
+## Next step
+
+This repo is the applied-methods companion to the author's PhD thesis MILP model for forest road restoration -- a separate, dedicated repo -- and is not a substitute for it.
 

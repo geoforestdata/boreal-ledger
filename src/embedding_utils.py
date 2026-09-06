@@ -7,7 +7,7 @@ Uses Google's AlphaEarth Foundations Satellite Embedding dataset (64-band,
   1. Unsupervised forest-mask identification per zone (k-means clustering,
      cross-referenced with Hansen tree cover to label the forest cluster).
   2. A structural "signature" comparison between zones via cosine
-     similarity of their mean embeddings — computed only over forest
+     similarity of their mean embeddings - computed only over forest
      pixels (see the notebook), since the raw bounding-box mean is
      dominated by regional climate/geography signal rather than forest
      structure.
@@ -37,7 +37,7 @@ def cluster_and_identify_forest(
 
     This exists to strip roads, clearings, water, and secondary/non-forest
     cover out of a raw bounding-box average before computing carbon density
-    — a bare rectangle otherwise mixes land covers and biases the mean.
+    - a bare rectangle otherwise mixes land covers and biases the mean.
     """
     embedding_img = (
         ee.ImageCollection(EMBEDDING_COLLECTION)

@@ -4,7 +4,7 @@ peatland_finder.py
 Instead of guessing a named wetland site from memory, this scans a grid of
 candidate sub-boxes across the Abitibi-Temiscamingue region using PEATGRIDS
 (a global peat thickness/carbon-stock model) and reports which candidate
-has the highest mean peat carbon stock — a data-driven way to locate a
+has the highest mean peat carbon stock - a data-driven way to locate a
 real peatland within a "lake country" region instead of picking blind
 coordinates.
 
@@ -15,7 +15,7 @@ list_peatgrids_bands() before trusting them):
   projects/sat-io/open-datasets/PEATGRIDS/CC_MEAN      (carbon content)
 
 Source: global peat thickness/carbon stock model (see repo README for full
-citation) — a modeled product, not field-verified for any specific pixel.
+citation) - a modeled product, not field-verified for any specific pixel.
 """
 
 import ee
@@ -73,7 +73,7 @@ def get_wetland_total_carbon(peat_carbon_mg_ha: float, soc_0_30_mg_ha: float) ->
     Combines full-depth peat carbon (PEATGRIDS) with shallow SOC (SoilGrids,
     0-30 cm) into a single best-estimate total for a wetland zone.
 
-    These are NOT summed — PEATGRIDS' full-depth peat column already
+    These are NOT summed - PEATGRIDS' full-depth peat column already
     includes the surface layer that SoilGrids also measures, so adding
     them would double-count. Where real peat is present (PEATGRIDS > 0),
     it is a far more complete accounting and is used as the total; where

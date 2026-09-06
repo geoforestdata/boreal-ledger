@@ -2,20 +2,20 @@
 soil_carbon.py
 
 Soil organic carbon (SOC) stock, 0-30 cm depth, from SoilGrids 250m v2.0
-(ISRIC) — the standard global gridded soil carbon product, official GEE
+(ISRIC) - the standard global gridded soil carbon product, official GEE
 hosting under the soilgrids-isric project.
 
 GEE asset: projects/soilgrids-isric/ocs_mean (band 'ocs_0-30cm_mean')
 Units: raw pixel values are stored as t/ha x 10 (integer scaling); divide
 by 10 to get true Mg C/ha. Verify the exact band name with
-list_ocs_bands() before trusting the default in get_soil_carbon() — this
+list_ocs_bands() before trusting the default in get_soil_carbon() - this
 is ISRIC's official asset, but band names have changed across versions of
 similar community-hosted datasets elsewhere in this repo.
 
-IMPORTANT LIMITATION: standard SoilGrids depths (0-30 cm) substantially
+Note: standard SoilGrids depths (0-30 cm) substantially
 UNDERESTIMATE total carbon in peatlands and other wetlands, where organic
 soil layers can extend several meters deep. This module is not a
-peatland-specific carbon estimator — for that, a dedicated product (e.g.
+peatland-specific carbon estimator - for that, a dedicated product (e.g.
 the "PEATGRIDS" dataset) would be needed. Treat wetland SOC numbers from
 this module as a floor, not a full accounting.
 
@@ -31,7 +31,7 @@ SOILGRIDS_OCS_ASSET = "projects/soilgrids-isric/ocs_mean"
 # based on a generic SoilGrids scaling table that applies to concentration
 # properties (e.g. 'soc' in dg/kg). ISRIC's own OCS product description
 # states the stored value is ALREADY in t/ha for the 0-30cm layer with no
-# further scaling needed — the /10 division was likely wrong and produced
+# further scaling needed - the /10 division was likely wrong and produced
 # SOC estimates roughly 10x too low across all four forest zones compared
 # to published ranges (boreal ~60-120, tropical ~40-100, southern Chile
 # andisols ~100-300+ Mg C/ha). Verify against a location with known SOC

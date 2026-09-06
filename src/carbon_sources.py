@@ -12,7 +12,7 @@ Note on GEDI: an earlier version of this module also queried GEDI L4B
 diagnostics showed it unreliable for AOIs this small: the L4B `MU` band is
 defined as the mean biomass "including forest and non-forest" per 1 km
 cell (not separable after the fact by masking), and real GEDI ground-track
-density varied sharply across zones — one zone averaged under 1 track per
+density varied sharply across zones - one zone averaged under 1 track per
 cell, meaning most of its value was a statistical fill-in rather than a
 direct measurement. See the repo README for the diagnostic numbers.
 """
@@ -107,7 +107,7 @@ def total_forest_carbon(agb_carbon_mg_ha: float, biome_type: str, soc_mg_ha: flo
     root:shoot ratio), deadwood/litter (via IPCC fraction), and soil
     organic carbon (0-30 cm) into a total ecosystem carbon estimate.
 
-    Returns a breakdown dict, not just the total — the pools are
+    Returns a breakdown dict, not just the total - the pools are
     illustrative-default-based (BGB, deadwood/litter) or single-depth
     (SOC), not independently validated for each site.
     """
