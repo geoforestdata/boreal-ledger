@@ -37,32 +37,31 @@ def get_fire_perimeters(year: int, aoi: ee.Geometry, year_field: str = "YEAR") -
 def get_disturbance_cause_map(
     aoi: ee.Geometry,
     year_field: str = "YEAR",
-    min_year: int = 2001,
-    max_year: int = 2023,
 ) -> ee.Image:
     """
-    Returns a single image over the full year range with two bands:
+    Returns a single image with two bands:
       'fire_loss'      -- Hansen loss pixels that fall inside an NBAC fire
                            perimeter for their own loss year
       'non_fire_loss'  -- Hansen loss pixels that don't (harvest or other)
 
-    Both bands are binary masks (1 = that class, masked elsewhere) so they
-    can be summed with pixelArea() for hectare totals, or combined with a
-    'lossyear' band for a per-year breakdown.
+    Implementation note: this uses ONE reduceToImage() call to rasterize
+    every NBAC fire perimeter's year in a single pass, instead of looping
+    over each year separately and painting+comparing 23 times -- the
+    per-year loop scales very poorly to large AOIs (the same kind of
+    timeout risk seen with big bounding boxes elsewhere in this repo).
     """
     lossyear = ee.Image(HANSEN_ASSET).select("lossyear").clip(aoi)
+    loss_calendar_year = lossyear.add(2000).updateMask(lossyear.gt(0))
 
-    fire_mask = ee.Image(0)
-    for year in range(min_year, max_year + 1):
-        year_offset = year - 2000
-        year_loss = lossyear.eq(year_offset)
-        fire_perimeters = get_fire_perimeters(year, aoi, year_field=year_field)
-        year_fire_mask = ee.Image(0).paint(fire_perimeters, 1)
-        fire_mask = fire_mask.where(year_loss.And(year_fire_mask.eq(1)), 1)
+    fires = ee.FeatureCollection(NBAC_COLLECTION).filterBounds(aoi)
+    fire_year_img = fires.reduceToImage(
+        properties=[year_field], reducer=ee.Reducer.first()
+    ).rename("fire_year")
 
-    all_loss = lossyear.gt(0)
-    fire_loss = all_loss.And(fire_mask.eq(1)).selfMask().rename("fire_loss")
-    non_fire_loss = all_loss.And(fire_mask.eq(0)).selfMask().rename("non_fire_loss")
+    year_matches = loss_calendar_year.eq(fire_year_img).unmask(0)
+
+    fire_loss = year_matches.And(lossyear.gt(0)).selfMask().rename("fire_loss")
+    non_fire_loss = year_matches.Not().And(lossyear.gt(0)).selfMask().rename("non_fire_loss")
 
     return fire_loss.addBands(non_fire_loss)
 
