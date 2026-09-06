@@ -99,3 +99,29 @@ def get_zone_geometry(zone_key: str) -> ee.Geometry:
 def get_zone_label(zone_key: str) -> str:
     return ZONES[zone_key]["label"]
 
+
+def point_from_webmercator(x: float, y: float) -> tuple:
+    """
+    Converts EPSG:3857 (Web Mercator) meters to (lon, lat) in EPSG:4326.
+    Use this when a coordinate was copied from a web map (Google Maps,
+    QGIS in Web Mercator, etc.) that displays meters instead of degrees.
+    """
+    import math
+
+    R = 20037508.34
+    lon = (x / R) * 180
+    lat_deg = (y / R) * 180
+    lat = 180 / math.pi * (2 * math.atan(math.exp(lat_deg * math.pi / 180)) - math.pi / 2)
+    return lon, lat
+
+
+def get_point_buffer_zone(lon: float, lat: float, radius_m: float = 500) -> ee.Geometry:
+    """
+    Returns a circular buffer of radius_m around (lon, lat) in EPSG:4326.
+    Use this for point-based site comparisons where every zone must have
+    IDENTICAL area regardless of terrain shape (a fixed-radius circle
+    guarantees equal area across all zones, unlike a bounding box that can
+    end up mostly water/non-forest depending on where it lands).
+    """
+    return ee.Geometry.Point([lon, lat]).buffer(radius_m)
+
