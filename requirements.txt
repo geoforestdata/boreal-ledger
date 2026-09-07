@@ -1,6 +1,7 @@
 earthengine-api>=0.1.400
-geemap>=0.32
 pandas>=2.0
 numpy>=1.26
 matplotlib>=3.8
-
+requests>=2.31
+pyproj>=3.6
+shapely>=2.0

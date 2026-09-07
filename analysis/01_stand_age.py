@@ -51,8 +51,8 @@ def main():
     ).getInfo()
 
     print("=== Stand age structure, Abitibi analysis zone (~10,000 ha) ===\n")
-    print(f"Share of zone with a dated harvest since 2001 (Hansen): {pct_dated:.1%}")
-    print(f"Mean years since harvest, within that dated share: {mean_age_dated:.1f} years")
+    print(f"Share of zone with dated Hansen canopy loss since 2001: {pct_dated:.1%}")
+    print(f"Mean years since loss, within that dated share: {mean_age_dated:.1f} years")
     print(f"Mean canopy height, forest pixels (ETH 2020): "
           f"{height_stats['canopy_height_m_mean']:.1f} m "
           f"(n={height_stats['canopy_height_m_count']:,} pixels)")

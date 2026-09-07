@@ -193,7 +193,7 @@ def main():
     print(f"  Coverage: {MRNF_COVERAGE_HA:,.1f} ha ({mrnf_coverage_pct:.1f}% of AOI), "
           "431 productive peuplements\n")
 
-    print("Soil carbon")
+    print("Soil organic carbon stock, 0-30 cm")
     print(f"Soil organic carbon stock, 0-30 cm (whole zone, SoilGrids): "
           f"{soc_mg_ha:.1f} Mg C/ha\n")
 

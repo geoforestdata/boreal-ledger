@@ -8,7 +8,7 @@ disturbed in different years and observed in the same recent season. This
 is a spatial chronosequence, not longitudinal tracking of the same stands.
 
 NBR captures spectral vegetation recovery. It does not demonstrate
-biomass recovery, structural forest recovery, or silvicultural maturity.
+biomass recovery, structural forest recovery, or stand age.
 "Probable harvest" depends on the separate NBAC check showing no mapped
 fire overlap in this AOI; this script itself uses all Hansen loss pixels
 within the age window.

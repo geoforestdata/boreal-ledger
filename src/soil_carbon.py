@@ -12,12 +12,9 @@ Because 1 tonne equals 1 Mg, no scale conversion is needed to express the
 table converts t/ha to kg/m2; it should not be applied when reporting
 Mg C/ha.
 
-Note: standard SoilGrids depths (0-30 cm) substantially
-UNDERESTIMATE total carbon in peatlands and other wetlands, where organic
-soil layers can extend several meters deep. This module is not a
-peatland-specific carbon estimator - for that, a dedicated product (e.g.
-the "PEATGRIDS" dataset) would be needed. Treat wetland SOC numbers from
-this module as a floor, not a full accounting.
+The value reported by this project is only SOC stock in the 0-30 cm layer.
+It is kept separate from aboveground biomass products and is not presented
+as total ecosystem carbon or total forest carbon.
 
 Citation: Poggio, L., de Sousa, L.M., Batjes, N.H., et al. (2021). SoilGrids
 2.0: producing soil information for the globe with quantified spatial

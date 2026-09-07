@@ -12,7 +12,7 @@ loss timing only.
 Coverage: years since Hansen canopy loss from 0 to ~24 (Hansen's lossyear
 band only covers loss from 2001 onward). This captures spectral vegetation
 recovery, which can include low vegetation and canopy closure signals --
-NOT full structural recovery, biomass recovery, or silvicultural maturity.
+NOT full structural recovery, biomass recovery, or stand age.
 State that distinction explicitly wherever this curve is shown.
 
 GEE assets:
