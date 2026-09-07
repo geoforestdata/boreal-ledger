@@ -11,265 +11,203 @@
   <body>
     <main>
       <section class="hero">
-        <div class="hero-copy">
+        <div class="hero-shade">
           <p class="eyebrow">Boreal Ledger</p>
-          <p class="subhead">Google Earth Engine + Python · Boreal forest analysis</p>
-          <h1>From forest disturbance to defensible spatial evidence.</h1>
-          <p class="lede">
-            A reproducible analysis of a ~10,000 ha managed boreal landscape in
-            Abitibi-Temiscamingue, Quebec. The project turns open geospatial
-            products into a disciplined forestry argument: what changed, what
-            can be attributed, what recovered spectrally, and where carbon
-            evidence remains uncertain.
-          </p>
+          <p class="subhead">Google Earth Engine + Python for boreal forest analysis</p>
+          <h1>From disturbance history to recovery and carbon uncertainty in a managed forest landscape in Abitibi, Quebec.</h1>
           <a class="button" href="https://github.com/geoforestdata/boreal-ledger">View repository</a>
         </div>
-        <dl class="hero-results" aria-label="Headline results">
-          <div>
-            <dt>10.1%</dt>
-            <dd>dated Hansen canopy loss</dd>
-          </div>
-          <div>
-            <dt>1,015.5 ha</dt>
-            <dd>non-fire residual</dd>
-          </div>
-          <div>
-            <dt>13/24</dt>
-            <dd>recovery classes retained</dd>
-          </div>
-          <div>
-            <dt>32 / 51 / 81</dt>
-            <dd>Mg C/ha AGB carbon estimates</dd>
-          </div>
-        </dl>
       </section>
 
       <section class="question">
         <div class="section-label">Forestry Question</div>
-        <div class="wide-text">
-          <h2>The workflow separates evidence before it interprets it.</h2>
+        <div class="question-text">
+          <h2>Real forest landscape. Reproducible spatial evidence.</h2>
           <p>
-            The analysis deliberately keeps dated canopy loss, disturbance
-            attribution, spectral recovery, forest structure, and carbon product
-            uncertainty as separate claims. That separation matters because the
-            remote-sensing signals are useful, but not interchangeable.
+            The workflow separates dated canopy loss, disturbance attribution,
+            spectral recovery, forest structure, and carbon/product uncertainty
+            before making scientific interpretations.
           </p>
-        </div>
-        <div class="discipline">
-          <p><strong>Canopy height</strong> is not stand age.</p>
-          <p><strong>NBR</strong> is not biomass recovery.</p>
-          <p><strong>Non-fire Hansen loss</strong> is not directly observed harvest.</p>
+          <p class="discipline">
+            Canopy height is not stand age. NBR is not biomass recovery.
+            Non-fire Hansen loss is not directly observed harvest.
+          </p>
         </div>
       </section>
 
-      <section class="evidence-row">
-        <article class="narrative">
-          <p class="section-label">Disturbance</p>
-          <h2>How much of the forest has directly dated canopy loss?</h2>
-          <p>
-            Hansen loss year identifies the portion of the AOI with a dated
-            canopy-loss event since 2001. The undated majority is not assigned a
-            stand age from Hansen alone.
-          </p>
-          <dl class="result-pair">
+      <section class="story visual-first">
+        <figure class="map-figure">
+          <img src="assets/dated_loss_map.png" alt="Sentinel-2 forest background with Hansen dated canopy-loss pixels overlaid inside the Abitibi AOI.">
+          <figcaption>Hansen dated canopy-loss pixels over the actual Abitibi AOI.</figcaption>
+        </figure>
+        <div class="story-copy">
+          <p class="section-label">What happened?</p>
+          <h2>Part of the landscape has directly dated canopy loss.</h2>
+          <dl class="stats">
             <div>
               <dt>10.1%</dt>
               <dd>dated Hansen canopy loss since 2001</dd>
             </div>
             <div>
               <dt>14.6 years</dt>
-              <dd>mean years since loss within the dated fraction</dd>
+              <dd>mean time since loss within the dated fraction</dd>
             </div>
           </dl>
-        </article>
-        <aside class="code-panel">
-          <div class="code-head">
-            <span>REAL CODE</span>
-            <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/src/stand_age_utils.py">src/stand_age_utils.py</a>
-          </div>
-          <pre><code>lossyear = ee.Image(HANSEN_ASSET).select("lossyear")
+          <p>
+            Hansen loss year dates canopy-loss events where the product detects
+            them. The undated remainder is left undated by this method.
+          </p>
+          <aside class="code-panel">
+            <div class="code-head">
+              <span>REAL CODE</span>
+              <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/src/stand_age_utils.py">src/stand_age_utils.py</a>
+            </div>
+            <pre><code>lossyear = ee.Image(HANSEN_ASSET).select("lossyear")
 calendar_year = lossyear.add(2000).updateMask(lossyear.gt(0))
 years_since = ee.Image.constant(current_year).subtract(calendar_year)</code></pre>
-        </aside>
+          </aside>
+        </div>
       </section>
 
-      <section class="evidence-row muted">
-        <article class="narrative">
-          <p class="section-label">Attribution</p>
-          <h2>Does mapped fire explain the dated loss?</h2>
-          <p>
-            The attribution step uses a year-matched overlay against NBAC fire
-            perimeters. In this AOI, the dated canopy loss remains a non-fire
-            residual, interpreted cautiously as probable harvest in a managed
-            forest context.
-          </p>
-          <dl class="result-pair three">
+      <section class="story visual-first alt">
+        <figure class="map-figure">
+          <img src="assets/disturbance_attribution_map.png" alt="Sentinel-2 forest background with non-fire residual Hansen loss overlaid inside the Abitibi AOI.">
+          <figcaption>Non-fire residual Hansen loss. No NBAC fire layer is shown because no NBAC fire perimeters intersect the AOI.</figcaption>
+        </figure>
+        <div class="story-copy">
+          <p class="section-label">What caused it?</p>
+          <h2>No mapped fire signal in the dated disturbance.</h2>
+          <dl class="stats three">
             <div>
               <dt>1,015.5 ha</dt>
               <dd>non-fire residual</dd>
             </div>
             <div>
-              <dt>0 ha</dt>
+              <dt>0.0 ha</dt>
               <dd>fire-associated loss</dd>
             </div>
             <div>
               <dt>0</dt>
-              <dd>NBAC perimeters intersecting AOI</dd>
+              <dd>NBAC fire perimeters intersecting the AOI, 1972-2023</dd>
             </div>
           </dl>
-        </article>
-        <aside class="code-panel">
-          <div class="code-head">
-            <span>REAL CODE</span>
-            <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/src/disturbance_utils.py">src/disturbance_utils.py</a>
-          </div>
-          <pre><code>fire_year_img = fires.reduceToImage(
+          <p>
+            The attribution is a year-matched overlay. In this managed forest
+            context, the non-fire residual is interpreted as probable harvest.
+          </p>
+          <aside class="code-panel">
+            <div class="code-head">
+              <span>REAL CODE</span>
+              <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/src/disturbance_utils.py">src/disturbance_utils.py</a>
+            </div>
+            <pre><code>fire_year_img = fires.reduceToImage(
     properties=[year_field], reducer=ee.Reducer.first()
 ).rename("fire_year")
 
 year_matches = loss_calendar_year.eq(fire_year_img).unmask(0)</code></pre>
-        </aside>
+          </aside>
+        </div>
       </section>
 
       <section class="recovery">
-        <div class="section-label">Recovery</div>
-        <div class="recovery-grid">
-          <div>
-            <h2>A probable post-harvest spectral recovery chronosequence.</h2>
-            <p>
-              Sentinel-2 NBR from 2024 is grouped by years since Hansen canopy
-              loss. The >=100 pixel filter retained 13 of 24 age classes, making
-              the curve a filtered spatial chronosequence rather than a complete
-              time series.
-            </p>
-            <p class="interpretation">
-              NBR is a spectral vegetation recovery signal. It is not biomass
-              recovery, structural recovery, or stand age.
-            </p>
-          </div>
-          <aside class="code-panel compact">
-            <div class="code-head">
-              <span>REAL CODE</span>
-              <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/src/recovery_utils.py">src/recovery_utils.py</a>
+        <div class="section-label">How is the forest recovering?</div>
+        <div class="recovery-layout">
+          <figure class="wide-figure">
+            <img src="assets/recovery_curve.png" alt="Sentinel-2 NBR recovery curve by years since Hansen canopy loss.">
+            <figcaption>NBR is spectral vegetation recovery, not biomass recovery.</figcaption>
+          </figure>
+          <div class="recovery-copy">
+            <div class="recovery-head">
+          <h2>A probable post-harvest spectral recovery chronosequence.</h2>
+          <p>
+            Sentinel-2 NBR from 2024 is grouped by years since Hansen canopy
+            loss. Thirteen of 24 age classes were retained after the >=100 pixel
+            filter.
+          </p>
             </div>
-            <pre><code>composite = collection.median().clip(aoi)
+            <aside class="code-panel small-code">
+          <div class="code-head">
+            <span>REAL CODE</span>
+            <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/src/recovery_utils.py">src/recovery_utils.py</a>
+          </div>
+          <pre><code>composite = collection.median().clip(aoi)
 return composite.normalizedDifference(["B8", "B12"]).rename("NBR")</code></pre>
-          </aside>
+            </aside>
+          </div>
         </div>
-        <figure class="figure">
-          <img src="assets/recovery_curve.png" alt="Sentinel-2 NBR recovery curve by years since Hansen canopy loss.">
-          <figcaption>
-            Existing project figure: Sentinel-2 NBR 2024 grouped by Hansen
-            years since loss, with undersampled classes filtered.
-          </figcaption>
-        </figure>
       </section>
 
       <section class="carbon">
-        <div class="section-label">Carbon</div>
-        <h2>Carbon is the strongest uncertainty signal in the project.</h2>
-        <p class="wide-text">
-          ESA CCI, SCANFI, and MRNF do not converge to a single AGB carbon
-          number. The disagreement is not a footnote; it is the analytical
-          result that determines how defensible the carbon story can be.
+        <p class="section-label">Carbon</p>
+        <h2>One landscape. Three AGB products. Very different answers.</h2>
+        <figure class="wide-figure">
+          <img src="assets/carbon_comparison.png" alt="Horizontal comparison of SCANFI, MRNF Quebec, and ESA CCI aboveground biomass carbon estimates.">
+        </figure>
+        <p class="big-interpretation">
+          The disagreement between products is itself an analytical result.
         </p>
-        <div class="carbon-lines" aria-label="AGB carbon product comparison">
-          <div class="carbon-line scanfi">
-            <span class="source">SCANFI</span>
-            <span class="rule"><i style="width: 39.8%"></i></span>
-            <strong>32.17</strong>
-            <span>Mg C/ha</span>
+        <p class="carbon-note">
+          MRNF is a provincial inventory-derived reference for productive
+          stands, not ground truth. Soil organic carbon stock, 0-30 cm, is
+          reported separately as 59.8 Mg C/ha and is not summed with AGB.
+        </p>
+        <aside class="code-panel small-code">
+          <div class="code-head">
+            <span>REAL CODE</span>
+            <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/analysis/04_carbon.py">analysis/04_carbon.py</a>
           </div>
-          <div class="carbon-line mrnf">
-            <span class="source">MRNF Quebec</span>
-            <span class="rule"><i style="width: 63.2%"></i></span>
-            <strong>51.06</strong>
-            <span>Mg C/ha</span>
-          </div>
-          <div class="carbon-line esa">
-            <span class="source">ESA CCI</span>
-            <span class="rule"><i style="width: 100%"></i></span>
-            <strong>80.81</strong>
-            <span>Mg C/ha</span>
-          </div>
-        </div>
-        <div class="carbon-code">
-          <aside class="code-panel">
-            <div class="code-head">
-              <span>REAL CODE</span>
-              <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/analysis/04_carbon.py">analysis/04_carbon.py</a>
-            </div>
-            <pre><code>forest_fraction = (
+          <pre><code>forest_fraction = (
     forest_mask.unmask(0)
     .reduceResolution(reducer=ee.Reducer.mean(), maxPixels=1024)
     .reproject(crs=esa_projection, scale=100)
     .rename("forest_fraction")
 )</code></pre>
-          </aside>
-          <div class="soc-note">
-            <span>Kept separate</span>
-            <strong>59.8 Mg C/ha</strong>
-            <p>SoilGrids soil organic carbon stock, 0-30 cm. AGB + SOC is not summed here.</p>
-          </div>
-        </div>
+        </aside>
       </section>
 
       <section class="validation">
-        <div class="section-label">Uncertainty / Validation</div>
         <div class="validation-grid">
           <div>
-            <h2>Common footprint, provincial reference, cautious conclusion.</h2>
+            <p class="section-label">Test the disagreement</p>
+            <h2>Same footprint. Different error.</h2>
             <p>
-              The MRNF productive-stand footprint covers 2,489.6 ha and 431
-              stands. On that shared area, SCANFI had lower area-weighted RMSE
-              than ESA CCI relative to MRNF.
+              The common-footprint comparison uses 2,489.6 ha and 431 productive
+              stands. It tests the raster products against the same provincial
+              inventory-derived spatial support.
             </p>
-            <p class="interpretation">
+            <p class="conclusion">
               For this study area, SCANFI showed better agreement with the
               Quebec provincial inventory-derived reference than ESA CCI on a
               common spatial footprint.
             </p>
-            <p class="caution">
-              MRNF is not ground truth. It is a local, inventory-derived
-              reference used to structure product uncertainty.
-            </p>
+            <p class="caution">MRNF is not ground truth.</p>
             <a class="button secondary" href="https://github.com/geoforestdata/boreal-ledger/blob/main/analysis/10_agb_mrnf_common_footprint.py">Open common-footprint script</a>
           </div>
-          <dl class="rmse">
-            <div>
-              <dt>2,489.6 ha</dt>
-              <dd>MRNF common footprint</dd>
-            </div>
-            <div>
-              <dt>431</dt>
-              <dd>productive stands</dd>
-            </div>
-            <div>
-              <dt>41.23</dt>
-              <dd>SCANFI RMSE, Mg biomass/ha</dd>
-            </div>
-            <div>
-              <dt>72.39</dt>
-              <dd>ESA CCI RMSE, Mg biomass/ha</dd>
-            </div>
-          </dl>
+          <figure class="dark-figure">
+            <img src="assets/common_footprint_comparison.png" alt="RMSE comparison showing SCANFI lower than ESA CCI relative to MRNF on the common footprint.">
+          </figure>
         </div>
       </section>
 
       <section class="workflow">
-        <div class="section-label">Reproducible Workflow</div>
-        <h2>Open products, explicit assumptions, inspectable scripts.</h2>
-        <ol class="flow" aria-label="Workflow sequence">
-          <li>Hansen</li>
-          <li>NBAC</li>
-          <li>Sentinel-2</li>
-          <li>ETH canopy height</li>
-          <li>ESA / SCANFI / MRNF</li>
-          <li>interpretation</li>
-        </ol>
+        <p class="section-label">Reproducible Workflow</p>
+        <h2>Open products flow into a transparent interpretation.</h2>
+        <div class="flow" aria-label="Hansen to NBAC to Sentinel-2 to ETH canopy height to ESA, SCANFI, MRNF to forest interpretation">
+          <span>Hansen</span>
+          <span aria-hidden="true">→</span>
+          <span>NBAC</span>
+          <span aria-hidden="true">→</span>
+          <span>Sentinel-2</span>
+          <span aria-hidden="true">→</span>
+          <span>ETH canopy height</span>
+          <span aria-hidden="true">→</span>
+          <span>ESA / SCANFI / MRNF</span>
+          <span aria-hidden="true">→</span>
+          <span>Forest interpretation</span>
+        </div>
         <div class="actions">
-          <a class="button" href="https://github.com/geoforestdata/boreal-ledger">Explore repository</a>
-          <a class="button secondary" href="https://github.com/geoforestdata/boreal-ledger/tree/main/analysis">Browse analysis scripts</a>
+          <a class="button" href="https://github.com/geoforestdata/boreal-ledger">View source code</a>
+          <a class="button secondary" href="https://github.com/geoforestdata/boreal-ledger/tree/main/analysis">View analysis scripts</a>
         </div>
       </section>
     </main>
