@@ -72,7 +72,7 @@ years_since = ee.Image.constant(current_year).subtract(calendar_year)</code></pr
       <section class="story visual-first alt">
         <figure class="map-figure">
           <img src="assets/disturbance_attribution_map.png" alt="Sentinel-2 forest background with non-fire residual Hansen loss overlaid inside the Abitibi AOI.">
-          <figcaption>Non-fire residual Hansen loss. No NBAC fire layer is shown because no NBAC fire perimeters intersect the AOI.</figcaption>
+          <figcaption>Non-fire residual Hansen canopy loss within the Abitibi AOI. No NBAC fire perimeter intersects the study area for 1972–2023; the residual is therefore interpreted as probable harvest in this managed forest context, not as a direct harvest observation.</figcaption>
         </figure>
         <div class="story-copy">
           <p class="section-label">What caused it?</p>
@@ -114,7 +114,7 @@ year_matches = loss_calendar_year.eq(fire_year_img).unmask(0)</code></pre>
         <div class="recovery-layout">
           <figure class="wide-figure">
             <img src="assets/recovery_curve.png" alt="Sentinel-2 NBR recovery curve by years since Hansen canopy loss.">
-            <figcaption>NBR is spectral vegetation recovery, not biomass recovery.</figcaption>
+            <figcaption>NBR is spectral vegetation recovery, not biomass recovery. Age classes with fewer than 100 pixels were excluded from the spectral chronosequence.</figcaption>
           </figure>
           <div class="recovery-copy">
             <div class="recovery-head">
