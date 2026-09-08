@@ -3,221 +3,201 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Boreal Ledger | Disturbance history in satellite embedding space</title>
-    <meta name="description" content="A spatially matched comparison of wildfire and probable harvest near Lebel-sur-Quevillon, Quebec using Hansen, NBAC, Sentinel-2, and AlphaEarth.">
+    <title>Boreal Ledger | Disturbance history 19 years later</title>
+    <meta name="description" content="A visual research story testing whether satellite data can distinguish wildfire from probable harvest 19 years after canopy loss near Lebel-sur-Quevillon, Quebec.">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
     <main>
       <section class="hero">
-        <div class="hero-inner">
-          <p class="kicker">Boreal Ledger</p>
-          <p class="method">Hansen + NBAC + Sentinel-2 + AlphaEarth</p>
-          <h1>Disturbance history in satellite embedding space</h1>
-          <p class="lede">
-            A spatially matched comparison of wildfire and probable post-harvest
-            boreal forest conditions near Lebel-sur-Quevillon, Quebec.
-          </p>
-          <a class="button" href="https://github.com/geoforestdata/boreal-ledger">View repository</a>
-        </div>
-      </section>
-
-      <section class="question">
-        <div class="label">Research question</div>
-        <div>
-          <h2>Can disturbance type remain distinguishable years after canopy loss?</h2>
-          <p>
-            The experiment holds time since disturbance constant and asks whether
-            wildfire and probable harvest are more separable in AlphaEarth annual
-            embeddings than in conventional Sentinel-2 spectral information.
-          </p>
-        </div>
-      </section>
-
-      <section class="design">
-        <div class="section-head">
-          <p class="label">Study design</p>
-          <h2>One landscape, three matched disturbance years, one observation year.</h2>
-        </div>
-        <div class="age-row">
-          <article>
-            <span>2023</span>
-            <strong>1 year</strong>
-            <p>Modest separation; not the central result.</p>
-          </article>
-          <article>
-            <span>2012</span>
-            <strong>12 years</strong>
-            <p>Interesting, but matching is weaker and sample size is smaller.</p>
-          </article>
-          <article class="featured-age">
-            <span>2005</span>
-            <strong>19 years</strong>
-            <p>The cleanest comparison after fire-interior sensitivity.</p>
-          </article>
-        </div>
-        <p class="note">
-          Wildfire is Hansen dated canopy loss spatially and temporally matched
-          to NBAC fire polygons. Probable harvest is the non-fire residual Hansen
-          canopy-loss class, not directly observed harvest.
-        </p>
-      </section>
-
-      <section class="split">
-        <div>
-          <p class="label">Why matching matters</p>
-          <h2>The first result was strong, but geography mattered.</h2>
-          <p>
-            The initial balanced sample showed spatial confounding and sensitivity
-            to fire-perimeter edge proximity. The final validation therefore uses
-            one-to-one geographic matching, pair-level spatial folds, and fire
-            interiors defined before sampling.
-          </p>
-        </div>
-        <figure>
-          <img src="assets/alphaearth_sample_locations.png" alt="Sample locations by matched disturbance age for wildfire and probable harvest.">
-          <figcaption>
-            Sample geography by matched age. The spatial diagnostic makes the
-            confounding visible rather than hiding it.
-          </figcaption>
-        </figure>
-      </section>
-
-      <section class="dark">
-        <div class="dark-grid">
+        <div class="wrap hero-grid">
           <div>
-            <p class="label">Fire-interior sensitivity</p>
-            <h2>Excluding fire-edge pixels weakens the effect, but does not erase it at 19 years.</h2>
+            <p class="kicker">Boreal Ledger</p>
+            <h1>Can disturbance history still be seen 19 years later?</h1>
+          </div>
+          <div class="hero-copy">
             <p>
-              The public result is centered on the stricter 19-year comparison,
-              not the original edge-sensitive AUC. At 150 m from the mapped fire
-              perimeter edge, AlphaEarth remains above both Sentinel-2 baselines.
+              Two nearby boreal forest sites lost canopy in 2005. One was
+              associated with wildfire. The other with probable harvest. In
+              2024, can satellite data still tell them apart?
+            </p>
+            <a class="button" href="https://github.com/geoforestdata/boreal-ledger">View repository</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="experiment">
+        <div class="wrap">
+          <p class="kicker">The experiment</p>
+          <div class="timeline" aria-label="2005 canopy loss splits into fire and probable harvest, then both are observed in 2024.">
+            <div class="year start">
+              <span>2005</span>
+              <strong>Dated canopy loss</strong>
+            </div>
+            <div class="split-line">
+              <div class="branch fire">Fire</div>
+              <div class="branch harvest">Probable harvest</div>
+            </div>
+            <div class="years">19 years</div>
+            <div class="year observe">
+              <span>2024</span>
+              <strong>Can we still tell them apart?</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="central-result">
+        <div class="wrap result-grid">
+          <div>
+            <p class="kicker">Central result</p>
+            <h2>Conventional spectra struggle. AlphaEarth separates more.</h2>
+            <p>
+              The 19-year test uses 222 geographically matched fire-harvest
+              pairs, a median pair distance of 0.160 km, a 90 m fire-interior
+              exclusion, and 5 km spatial-block cross-validation.
             </p>
           </div>
+          <div class="auc-panel" aria-label="AUC comparison from 0.5 chance to 1.0 perfect discrimination">
+            <div class="scale-labels">
+              <span>0.5 chance</span>
+              <span>1.0 perfect discrimination</span>
+            </div>
+            <div class="axis"><span class="chance"></span></div>
+            <div class="bar-row">
+              <span>NBR</span>
+              <div class="bar-shell"><div class="bar nbr" style="--auc: 38%;"></div></div>
+              <strong>0.380</strong>
+            </div>
+            <div class="bar-row">
+              <span>Sentinel-2</span>
+              <div class="bar-shell"><div class="bar s2" style="--auc: 47.3%;"></div></div>
+              <strong>0.473</strong>
+            </div>
+            <div class="bar-row alpha">
+              <span>AlphaEarth</span>
+              <div class="bar-shell"><div class="bar ae" style="--auc: 73.6%;"></div></div>
+              <strong>0.736</strong>
+            </div>
+            <p class="plain">
+              With conventional spectral information, the two histories are hard
+              to separate. AlphaEarth retains much more separability.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="map-story">
+        <div class="wrap map-grid">
           <figure>
-            <img src="assets/fire_interior_sensitivity.png" alt="AUC sensitivity to fire-interior buffer for NBR, Sentinel-2, and AlphaEarth.">
+            <img src="assets/final_2005_matched_pairs_map.png" alt="Diagnostic map of matched wildfire and probable harvest sample pairs for the 2005 disturbance year.">
             <figcaption>
-              AUC by fire-interior buffer. The 12-year case is promising but
-              secondary; Sentinel-2 becomes competitive under stricter buffers.
+              Each fire sample is paired with a nearby probable-harvest sample.
+              Thin lines connect matched pairs.
             </figcaption>
           </figure>
+          <div>
+            <p class="kicker">Why geography matters</p>
+            <h2>Nearby pairs reduce broad geographic confounding.</h2>
+            <p>
+              The comparison does not let a large fire patch simply overwhelm
+              the model. Fire and probable-harvest samples are matched one to
+              one, and each pair is assigned to the same spatial block.
+            </p>
+            <div class="fact-list">
+              <div><strong>222</strong><span>matched pairs</span></div>
+              <div><strong>0.160 km</strong><span>median pair distance</span></div>
+              <div><strong>5 km</strong><span>spatial validation blocks</span></div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="result">
-        <div class="result-copy">
-          <p class="label">Main result</p>
-          <h2>At 19 years, AlphaEarth retains greater separability than spectral baselines.</h2>
-          <p>
-            With a 90 m fire-interior buffer, the matched 2005 comparison uses
-            222 fire-harvest pairs separated by a median of 0.160 km.
-          </p>
-          <table>
-            <thead>
-              <tr>
-                <th>Buffer</th>
-                <th>NBR AUC</th>
-                <th>Sentinel-2 AUC</th>
-                <th>AlphaEarth AUC</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>90 m</td>
-                <td>0.380</td>
-                <td>0.473</td>
-                <td>0.736</td>
-              </tr>
-              <tr>
-                <td>150 m</td>
-                <td>0.366</td>
-                <td>0.472</td>
-                <td>0.666</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <figure>
-          <img src="assets/final_alphaearth_validation.png" alt="Balanced accuracy by matched disturbance age for NBR, Sentinel-2, and AlphaEarth.">
-          <figcaption>
-            Strict geographically matched validation with spatial-block
-            cross-validation.
-          </figcaption>
-        </figure>
-      </section>
-
-      <section class="split map-section">
-        <figure>
-          <img src="assets/final_2005_matched_pairs_map.png" alt="Map of 2005 matched wildfire and probable harvest sample pairs.">
-          <figcaption>
-            Diagnostic map of the 2005 matched pairs. Thin lines connect paired
-            wildfire and probable-harvest samples.
-          </figcaption>
-        </figure>
-        <div>
-          <p class="label">2005 matched pairs</p>
-          <h2>The cleanest case is spatially close and still explicitly caveated.</h2>
-          <p>
-            The 19-year comparison has 222 matched pairs at 90 m and 150 m fire
-            interiors. Median pair distance is 0.160 km at 90 m and 0.133 km at
-            150 m.
-          </p>
-          <p>
-            This supports disturbance-type separability in feature space. It
-            does not prove a causal effect of fire or harvest.
+      <section class="harder-test">
+        <div class="wrap">
+          <p class="kicker">The harder test</p>
+          <h2>Could AlphaEarth simply be recognizing the mapped fire edge?</h2>
+          <div class="edge-grid">
+            <div class="edge-card">
+              <span>90 m fire-interior exclusion</span>
+              <strong>0.736</strong>
+              <p>AlphaEarth AUC</p>
+            </div>
+            <div class="arrow" aria-hidden="true">↓ stricter test</div>
+            <div class="edge-card stricter">
+              <span>150 m fire-interior exclusion</span>
+              <strong>0.666</strong>
+              <p>AlphaEarth AUC</p>
+            </div>
+          </div>
+          <div class="baseline-shift">
+            <p><b>Sentinel-2</b> 0.473 -> 0.472</p>
+            <p><b>NBR</b> 0.380 -> 0.366</p>
+          </div>
+          <p class="claim">
+            The signal weakens, but does not collapse to the spectral baseline.
           </p>
         </div>
       </section>
 
-      <section class="figures">
-        <div class="section-head">
-          <p class="label">Additional checks</p>
-          <h2>The conventional NBR baseline remains useful context, not the final claim.</h2>
-        </div>
-        <div class="figure-grid">
-          <figure>
-            <img src="assets/recovery_by_disturbance.png" alt="Sentinel-2 NBR by disturbance type and years since disturbance.">
-            <figcaption>
-              NBR summarizes spectral vegetation condition in 2024. It is not
-              a biomass metric.
-            </figcaption>
-          </figure>
-          <figure>
-            <img src="assets/alphaearth_pca.png" alt="AlphaEarth PCA plot by disturbance type and matched age.">
-            <figcaption>
-              PCA is exploratory; classification and sensitivity tests carry the
-              validation burden.
-            </figcaption>
-          </figure>
+      <section class="other-ages">
+        <div class="wrap">
+          <p class="kicker">Other ages</p>
+          <h2>The project does not claim universal AlphaEarth superiority.</h2>
+          <div class="age-notes">
+            <article>
+              <span>1 year / 2023</span>
+              <p>AlphaEarth advantage is modest, so this is not emphasized.</p>
+            </article>
+            <article>
+              <span>12 years / 2012</span>
+              <p>Promising, but fewer matched pairs and Sentinel-2 becomes competitive under stricter buffers.</p>
+            </article>
+            <article>
+              <span>19 years / 2005</span>
+              <p>Strongest public case after geographic matching and fire-edge controls.</p>
+            </article>
+          </div>
         </div>
       </section>
 
-      <section class="limitations">
-        <p class="label">Limitations</p>
-        <ul>
-          <li>Probable harvest is inferred from non-fire residual Hansen canopy loss; it is not directly observed.</li>
-          <li>The comparison is observational, not a randomized treatment design.</li>
-          <li>Only three matched fire years are available.</li>
-          <li>Residual site-condition confounding may remain after geographic matching.</li>
-          <li>AlphaEarth embeddings are representation features, not direct ecological variables.</li>
-        </ul>
+      <section class="interpretation">
+        <div class="wrap two-columns">
+          <div class="supported">
+            <p class="kicker">Supported</p>
+            <h2>AlphaEarth embeddings retain greater wildfire-probable-harvest separability than conventional spectral baselines for the older matched class in this study landscape.</h2>
+          </div>
+          <div class="not-supported">
+            <p class="kicker">Not supported</p>
+            <ul>
+              <li>AlphaEarth detects old fires.</li>
+              <li>AlphaEarth measures ecosystem recovery directly.</li>
+              <li>AlphaEarth measures biomass.</li>
+              <li>The comparison proves causal effects.</li>
+              <li>The result generalizes automatically beyond this study landscape.</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section class="workflow">
-        <p class="label">Reproducibility</p>
-        <h2>Transparent workflow, cautious interpretation.</h2>
-        <div class="flow">
-          <span>AOI</span>
-          <span>Disturbance attribution</span>
-          <span>Matched samples</span>
-          <span>2024 observations</span>
-          <span>Spatial CV</span>
-          <span>Fire-interior sensitivity</span>
-        </div>
-        <div class="actions">
-          <a class="button" href="https://github.com/geoforestdata/boreal-ledger">Explore repository</a>
-          <a class="button secondary" href="https://github.com/geoforestdata/boreal-ledger/tree/main/analysis">Browse analysis scripts</a>
+        <div class="wrap">
+          <p class="kicker">Reproducibility</p>
+          <h2>The technical workflow is transparent and intentionally conservative.</h2>
+          <div class="flow">
+            <span>Hansen</span>
+            <span>NBAC</span>
+            <span>probable-harvest residual</span>
+            <span>geographic matching</span>
+            <span>2024 Sentinel-2 / AlphaEarth</span>
+            <span>5 km spatial CV</span>
+            <span>fire-interior sensitivity</span>
+          </div>
+          <div class="links">
+            <a class="button" href="https://github.com/geoforestdata/boreal-ledger/tree/main/analysis">Scripts</a>
+            <a class="button secondary" href="https://github.com/geoforestdata/boreal-ledger/tree/main/outputs">Outputs</a>
+          </div>
         </div>
       </section>
     </main>
