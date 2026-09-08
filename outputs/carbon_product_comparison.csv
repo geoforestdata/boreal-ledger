@@ -1,5 +1,0 @@
-source,spatial_scope,coverage_ha,coverage_pct_aoi,pool,biomass_Mg_ha,carbon_MgC_ha,reference_type,notes
-ESA CCI Biomass,forested AOI / Method C,8971.7,89.6,aboveground biomass,171.93,80.81,global raster product,High AGB estimate; Hansen treecover2000 > 50 aggregated to ESA support as explicit forest fraction.
-SCANFI v1.2,forested AOI,8980.8,89.7,live aboveground tree biomass,68.44,32.17,Canadian raster product,Low AGB estimate; carbon reported only by applying the common 0.47 comparison factor.
-MRNF Quebec,productive stands covered by MRNF,2489.6,24.9,aboveground live-tree biomass/carbon,102.97,51.06,provincial inventory-derived productive-stand reference,Area-weighted over 431 productive MRNF peuplements; not whole-AOI ground truth.
-SoilGrids,AOI,10009.5,100.0,"soil organic carbon stock, 0-30 cm",,59.8,global soil raster product,SOC 0-30 cm only; not whole-profile soil carbon and not summed with AGB here.

@@ -1,0 +1,4 @@
+years_since_disturbance,observed_balanced_accuracy,mean_permuted_balanced_accuracy,p95_permuted_accuracy,empirical_p_value,permutations,spatial_block_km
+1,0.577844,0.496886,0.545359,0.009901,100,5
+12,0.969136,0.492778,0.568210,0.009901,100,5
+19,0.713043,0.501033,0.556739,0.009901,100,5

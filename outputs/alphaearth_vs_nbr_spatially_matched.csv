@@ -1,0 +1,4 @@
+years_since_disturbance,nbr_balanced_accuracy,nbr_auc,alphaearth_balanced_accuracy,alphaearth_auc
+1,0.583832,0.633296,0.577844,0.704651
+12,0.370370,0.420058,0.969136,0.980034
+19,0.404348,0.353875,0.713043,0.788658

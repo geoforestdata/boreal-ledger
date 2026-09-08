@@ -1,0 +1,7 @@
+disturbance_type,disturbance_year,years_since_disturbance,n,mean_distance_to_centroid,median_distance_to_centroid,sd_distance_to_centroid
+probable_harvest,2023,1,366,6.367614,5.970454,1.824602
+wildfire,2023,1,366,6.662968,6.587511,1.492268
+probable_harvest,2012,12,804,7.221147,6.789340,2.155378
+wildfire,2012,12,804,5.167576,4.790381,1.742438
+probable_harvest,2005,19,2000,6.727715,6.160022,2.558567
+wildfire,2005,19,2000,6.751826,6.438773,1.837453

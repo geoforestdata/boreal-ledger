@@ -1,0 +1,4 @@
+balanced_accuracy,roc_auc,precision,recall,years_since_disturbance,fire_year,harvest_year,n_fire,n_harvest,n_used,spatial_folds
+0.595628,0.614441,0.592105,0.614754,1,2023,2023,366,366,732,5
+0.436567,0.419018,0.457500,0.682836,12,2012,2012,804,804,1608,5
+0.433000,0.451888,0.442291,0.513500,19,2005,2005,2000,2000,4000,5

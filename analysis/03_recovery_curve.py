@@ -75,14 +75,20 @@ def main():
     ax1.set_xlabel("Years since Hansen canopy loss")
     ax1.set_ylabel("NBR")
     ax1.set_title(f"Spectral chronosequence (age classes with >= {MIN_PIXELS} px only)")
-    ax1.text(0.02, 0.02, "Spectral recovery, not full structural/biomass recovery",
+    ax1.text(0.02, 0.02, "Spectral vegetation recovery, not biomass recovery",
               transform=ax1.transAxes, fontsize=8, style="italic", color="gray")
 
-    colors = ["lightgray" if c < MIN_PIXELS else "steelblue" for c in curve_df["count"]]
-    ax2.bar(curve_df["age"], curve_df["area_ha"], color=colors)
+    ax2.bar(curve_df["age"], curve_df["area_ha"], color="steelblue")
     ax2.set_xlabel("Years since Hansen canopy loss")
     ax2.set_ylabel("Area (ha)")
-    ax2.set_title("Hansen loss area by age (gray = insufficient sample)")
+    ax2.set_title("Hansen loss area by age class")
+    for _, row in curve_df[curve_df["count"] < MIN_PIXELS].iterrows():
+        ax2.text(row["age"], row["area_ha"], "x", ha="center", va="bottom",
+                 fontsize=8, color="black")
+    ax2.text(0.02, 0.94, "x = n<100", transform=ax2.transAxes, fontsize=8)
+    fig.text(0.02, 0.01,
+             "Age classes with fewer than 100 pixels were excluded from the spectral chronosequence.",
+             fontsize=8, color="gray")
 
     plt.tight_layout()
     figures_dir = ROOT / "figures"
