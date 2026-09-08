@@ -1,115 +1,131 @@
 # Boreal Ledger
 
-Reconstructing forest disturbance and post-disturbance spectral recovery in Abitibi, Quebec.
+A reproducible Earth Engine/Python experiment testing whether AlphaEarth satellite embeddings retain information about disturbance history in a managed boreal landscape near Lebel-sur-Quevillon, Quebec.
 
-## Study Question
+## Research Question
 
-How can Hansen canopy-loss dates, Canadian fire records, and Sentinel-2 observations be combined to reconstruct recent forest disturbance and examine post-disturbance spectral vegetation recovery in a managed boreal landscape in Abitibi, Quebec?
+Can satellite embeddings distinguish wildfire from probable harvest at matched time since canopy loss, and do they retain greater disturbance-type separability than conventional Sentinel-2 spectral information?
 
-This repository is intentionally focused on one workflow:
+## Study Design
 
-1. Dated canopy loss
-2. Disturbance attribution
-3. Time since disturbance
-4. Sentinel-2 NBR chronosequence
-5. Scientific interpretation and limitations
+The experiment uses a 30,277.84 ha study landscape near Lebel-sur-Quevillon, Quebec. Disturbance timing comes from Hansen dated canopy loss. Wildfire attribution is defined as Hansen loss spatially and temporally matched to NBAC fire polygons. Probable harvest is defined as the non-fire residual Hansen canopy-loss class; it is not directly observed.
 
-The derived analytical contribution is the chronosequence linking current Sentinel-2 NBR to years since Hansen canopy loss.
+Matched disturbance years are observed in a common 2024 feature space:
 
-## Study Area
+- Sentinel-2 NBR;
+- Sentinel-2 spectral baseline using B2, B3, B4, B8, B11, B12, and NBR;
+- AlphaEarth 64-dimensional annual satellite embeddings.
 
-The analysis uses a single managed boreal landscape of about 10,000 ha in Abitibi-Temiscamingue, Quebec.
+The validation uses one-to-one geographic matching, spatial-block cross-validation, and fire-interior sensitivity tests that exclude fire-perimeter edge pixels before sampling.
 
-Source: [`src/zones.py`](src/zones.py)
+## Matched Ages
 
-## Results
-
-| Result | Value |
-| --- | ---: |
-| Dated Hansen canopy loss since 2001 | 10.1% of AOI |
-| Mean years since dated loss | 14.6 years |
-| Non-fire residual Hansen loss | 1,015.5 ha |
-| Fire-associated loss | 0.0 ha |
-| NBAC fire perimeters touching AOI, 1972-2023 | 0 |
-| Retained NBR chronosequence classes | 13 of 24 |
-
-## Dated Canopy Loss
-
-Hansen lossyear provides dates for pixels where canopy loss is detected. Pixels without Hansen loss are not assumed to be old or undisturbed; they are simply undated by this method.
-
-Source: [`analysis/01_stand_age.py`](analysis/01_stand_age.py) and [`src/stand_age_utils.py`](src/stand_age_utils.py)
-
-## Disturbance Attribution
-
-The disturbance attribution step intersects dated Hansen canopy loss with the National Burned Area Composite. In this AOI, no NBAC fire perimeters intersect the study area for 1972-2023.
-
-The non-fire residual is therefore interpreted as probable harvest in this managed forest context, not as a direct harvest observation.
-
-Source: [`analysis/02_disturbance_attribution.py`](analysis/02_disturbance_attribution.py) and [`src/disturbance_utils.py`](src/disturbance_utils.py)
-
-## Spectral Recovery Chronosequence
-
-The recovery analysis builds a 2024 Sentinel-2 NBR composite and groups NBR by years since Hansen canopy loss. This is a spatial chronosequence: different pixels disturbed in different years are observed in the same recent season.
-
-Retained age classes after the support filter:
-
-| Years since Hansen canopy loss | NBR |
+| Disturbance year | Years since disturbance in 2024 |
 | ---: | ---: |
-| 2 | 0.341531 |
-| 4 | 0.461307 |
-| 5 | 0.496002 |
-| 6 | 0.460316 |
-| 8 | 0.446402 |
-| 11 | 0.508271 |
-| 12 | 0.440326 |
-| 13 | 0.517899 |
-| 17 | 0.556948 |
-| 18 | 0.562314 |
-| 21 | 0.585918 |
-| 22 | 0.588190 |
-| 23 | 0.553168 |
+| 2023 | 1 |
+| 2012 | 12 |
+| 2005 | 19 |
 
-Thirteen of 24 age classes are retained. The `>=100` pixel threshold is a pragmatic support threshold, not a formal statistical significance test.
+## Main Result
 
-NBR is spectral vegetation recovery. It is not biomass recovery, stand maturity, or productivity.
+The most defensible result is the 19-year matched comparison. Fire and probable-harvest samples remain geographically close after explicit fire-interior filtering, while AlphaEarth retains higher disturbance-type separability than the conventional spectral baselines.
 
-Source: [`analysis/03_recovery_curve.py`](analysis/03_recovery_curve.py) and [`src/recovery_utils.py`](src/recovery_utils.py)
+| Fire-interior buffer | Matched pairs | Median pair distance | NBR AUC | Sentinel-2 AUC | AlphaEarth AUC |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 90 m | 222 | 0.160 km | 0.380 | 0.473 | 0.736 |
+| 150 m | 222 | 0.133 km | 0.366 | 0.472 | 0.666 |
 
-## Repository Structure
+The stricter 150 m buffer reduces AlphaEarth performance, but the result does not collapse to the Sentinel-2 spectral baseline.
+
+## Why The Validation Matters
+
+The initial AlphaEarth comparison showed spatial confounding and sensitivity to fire-perimeter edge proximity. The final design therefore uses:
+
+- one-to-one geographic matching between wildfire and probable-harvest samples;
+- spatial-block cross-validation instead of random pixel splits;
+- fire-interior masks before sampling;
+- a stronger Sentinel-2 multiband baseline in addition to NBR.
+
+This sequence is part of the result: the claim is not that a single high AUC proves disturbance history, but that separability persists under stricter spatial controls for the 19-year comparison.
+
+## Interpretation
+
+AlphaEarth embeddings retained greater disturbance-type separability than conventional spectral baselines for the 19-year matched comparison in this study landscape.
+
+This does not mean that AlphaEarth measures field ecological variables, live biomass, or causal disturbance effects. It also does not mean that probable harvest is directly observed or that AlphaEarth universally outperforms Sentinel-2.
+
+The 12-year comparison is interesting but secondary: it has fewer matched pairs and weaker geographic matching, and Sentinel-2 becomes comparable to or stronger than AlphaEarth under the stricter fire-interior buffers. The 1-year comparison is modest and is not the central result.
+
+## Workflow
+
+AOI selection -> disturbance attribution -> matched samples -> 2024 observations -> geographic matching -> spatial-block cross-validation -> fire-interior sensitivity.
+
+## Key Scripts
 
 | Path | Purpose |
 | --- | --- |
-| `analysis/01_stand_age.py` | Dated Hansen canopy loss and time-since-loss summary. |
-| `analysis/02_disturbance_attribution.py` | NBAC year-matched fire attribution and non-fire residual loss. |
-| `analysis/03_recovery_curve.py` | Sentinel-2 NBR chronosequence and recovery figure. |
-| `src/zones.py` | Shared Abitibi AOI definition. |
-| `src/stand_age_utils.py` | Hansen lossyear and canopy-height helper functions. |
-| `src/disturbance_utils.py` | Hansen/NBAC disturbance attribution helper functions. |
-| `src/recovery_utils.py` | Sentinel-2 NBR and years-since-disturbance helper functions. |
-| `figures/recovery_curve.png` | Recovery chronosequence figure generated by the analysis workflow. |
-| `docs/` | Static GitHub Pages research story. |
+| `analysis/recovery_by_disturbance.py` | Builds the 2024 Sentinel-2 NBR baseline by disturbance type and matched disturbance year. |
+| `analysis/alphaearth_disturbance_comparison.py` | Extracts AlphaEarth embeddings and compares the first balanced sample against the NBR baseline. |
+| `analysis/validate_alphaearth_disturbance.py` | Adds spatial diagnostics, geographic matching, Sentinel-2 spectral baseline, spatial-block CV, and permutation checks. |
+| `analysis/final_2005_spatial_audit.py` | Audits the 2005 / 19-year matched sample for edge, clustering, and mask-overlap artifacts. |
+| `analysis/fire_interior_sensitivity.py` | Repeats the matched classification using fire-interior masks at 60 m, 90 m, and 150 m. |
+
+## Key Outputs
+
+| Path | Purpose |
+| --- | --- |
+| `outputs/recovery_by_disturbance.csv` | NBR summaries by disturbance type and year. |
+| `outputs/alphaearth_centroid_distances.csv` | Fire-harvest centroid distances in embedding and PCA space. |
+| `outputs/alphaearth_group_dispersion.csv` | Within-group dispersion in embedding space. |
+| `outputs/alphaearth_classification.csv` | Initial AlphaEarth classifier results. |
+| `outputs/nbr_classification_baseline.csv` | Initial NBR-only classifier baseline. |
+| `outputs/alphaearth_vs_nbr.csv` | Initial AlphaEarth vs NBR comparison. |
+| `outputs/spatial_separation_diagnostics.csv` | Geographic separation diagnostics for the first balanced sample. |
+| `outputs/alphaearth_matching_summary.csv` | Geographic matching summary by disturbance age. |
+| `outputs/alphaearth_spatially_matched_classification.csv` | AlphaEarth results after geographic matching and spatial-block CV. |
+| `outputs/nbr_spatially_matched_classification.csv` | NBR baseline after geographic matching and spatial-block CV. |
+| `outputs/sentinel2_spectral_baseline.csv` | Sentinel-2 multiband baseline after geographic matching and spatial-block CV. |
+| `outputs/alphaearth_permutation_test.csv` | Label-permutation sanity check under spatial CV. |
+| `outputs/final_model_comparison.csv` | NBR, Sentinel-2, and AlphaEarth comparison for the matched sample. |
+| `outputs/final_2005_spatial_audit.csv` | Final 2005 spatial audit metrics. |
+| `outputs/fire_interior_sensitivity.csv` | Fire-interior sample availability and geographic matching metrics. |
+| `outputs/fire_interior_model_comparison.csv` | Final fire-interior model comparison. |
+
+## Figures
+
+| Path | Purpose |
+| --- | --- |
+| `figures/recovery_by_disturbance.png` | NBR by disturbance type and years since disturbance. |
+| `figures/alphaearth_pca.png` | PCA view of AlphaEarth embedding samples. |
+| `figures/alphaearth_sample_locations.png` | Sample geography by matched disturbance age. |
+| `figures/final_alphaearth_validation.png` | Strict matched comparison of NBR, Sentinel-2, and AlphaEarth. |
+| `figures/final_2005_matched_pairs_map.png` | Diagnostic map of 2005 matched fire-harvest pairs. |
+| `figures/fire_interior_sensitivity.png` | AUC sensitivity to fire-interior buffer distance. |
 
 ## Reproducibility
 
-Create an environment with the packages in [`requirements.txt`](requirements.txt), authenticate Earth Engine, then run:
+Create an environment with the packages in `requirements.txt`, authenticate Earth Engine, then run:
 
 ```bash
-python analysis/01_stand_age.py
-python analysis/02_disturbance_attribution.py
-python analysis/03_recovery_curve.py
+python analysis/recovery_by_disturbance.py
+python analysis/alphaearth_disturbance_comparison.py
+python analysis/validate_alphaearth_disturbance.py
+python analysis/final_2005_spatial_audit.py
+python analysis/fire_interior_sensitivity.py
 ```
 
 ## Limitations
 
-- Hansen loss is dated canopy loss, not stand age.
-- Pixels without Hansen loss are not assumed to be old or undisturbed.
-- Non-fire residual Hansen loss is probable harvest in this managed forest context, not direct harvest observation.
-- NBR is spectral vegetation recovery, not biomass recovery, stand maturity, or productivity.
-- The `>=100` pixel threshold is a pragmatic support threshold, not a formal statistical significance test.
+- Probable harvest is inferred from non-fire residual Hansen canopy loss; it is not directly observed.
+- This is an observational spatial comparison, not a randomized treatment design.
+- Only three matched fire years are available.
+- Residual site-condition confounding may remain after geographic matching.
+- AlphaEarth embeddings are representation features, not direct ecological variables.
+- Classification success indicates distinguishability, not mechanism.
 
 ## References
 
 - Hansen, M. C., Potapov, P. V., Moore, R., et al. (2013). High-resolution global maps of 21st-century forest cover change. *Science*, 342, 850-853.
 - Natural Resources Canada, Canadian Forest Service. National Burned Area Composite, 1972-2023.
 - Copernicus Sentinel-2 MSI Surface Reflectance Harmonized collection.
-- Key, C. H., & Benson, N. C. (2006). Landscape assessment: ground measure of severity, the Composite Burn Index; and remote sensing of severity, the Normalized Burn Ratio.
+- Google DeepMind. AlphaEarth satellite embedding annual V1 collection.

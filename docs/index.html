@@ -3,183 +3,221 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Boreal Ledger | Disturbance and spectral recovery</title>
-    <meta name="description" content="Google Earth Engine and Python applied to forest disturbance attribution and Sentinel-2 NBR recovery analysis in Abitibi, Quebec.">
+    <title>Boreal Ledger | Disturbance history in satellite embedding space</title>
+    <meta name="description" content="A spatially matched comparison of wildfire and probable harvest near Lebel-sur-Quevillon, Quebec using Hansen, NBAC, Sentinel-2, and AlphaEarth.">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
     <main>
       <section class="hero">
-        <div class="hero-shade">
-          <p class="eyebrow">Boreal Ledger</p>
-          <p class="subhead">Google Earth Engine + Python for boreal forest analysis</p>
-          <h1>From dated canopy loss to a defensible spectral recovery chronosequence.</h1>
+        <div class="hero-inner">
+          <p class="kicker">Boreal Ledger</p>
+          <p class="method">Hansen + NBAC + Sentinel-2 + AlphaEarth</p>
+          <h1>Disturbance history in satellite embedding space</h1>
+          <p class="lede">
+            A spatially matched comparison of wildfire and probable post-harvest
+            boreal forest conditions near Lebel-sur-Quevillon, Quebec.
+          </p>
           <a class="button" href="https://github.com/geoforestdata/boreal-ledger">View repository</a>
         </div>
       </section>
 
       <section class="question">
-        <div class="section-label">Forest Question</div>
-        <div class="question-text">
-          <h2>How can open satellite records reconstruct recent forest disturbance?</h2>
+        <div class="label">Research question</div>
+        <div>
+          <h2>Can disturbance type remain distinguishable years after canopy loss?</h2>
           <p>
-            The workflow combines Hansen canopy-loss dates, Canadian fire
-            records, and Sentinel-2 observations to examine post-disturbance
-            spectral vegetation recovery in a managed boreal landscape in
-            Abitibi, Quebec.
-          </p>
-          <p class="discipline">
-            Hansen loss is dated canopy loss, not stand age. Non-fire residual
-            loss is probable harvest in this managed forest context, not direct
-            harvest observation. NBR is spectral vegetation recovery.
+            The experiment holds time since disturbance constant and asks whether
+            wildfire and probable harvest are more separable in AlphaEarth annual
+            embeddings than in conventional Sentinel-2 spectral information.
           </p>
         </div>
       </section>
 
-      <section class="story visual-first">
-        <figure class="map-figure">
-          <img src="assets/dated_loss_map.png" alt="Sentinel-2 forest background with Hansen dated canopy-loss pixels overlaid inside the Abitibi AOI.">
-          <figcaption>Hansen dated canopy-loss pixels over the actual Abitibi AOI.</figcaption>
+      <section class="design">
+        <div class="section-head">
+          <p class="label">Study design</p>
+          <h2>One landscape, three matched disturbance years, one observation year.</h2>
+        </div>
+        <div class="age-row">
+          <article>
+            <span>2023</span>
+            <strong>1 year</strong>
+            <p>Modest separation; not the central result.</p>
+          </article>
+          <article>
+            <span>2012</span>
+            <strong>12 years</strong>
+            <p>Interesting, but matching is weaker and sample size is smaller.</p>
+          </article>
+          <article class="featured-age">
+            <span>2005</span>
+            <strong>19 years</strong>
+            <p>The cleanest comparison after fire-interior sensitivity.</p>
+          </article>
+        </div>
+        <p class="note">
+          Wildfire is Hansen dated canopy loss spatially and temporally matched
+          to NBAC fire polygons. Probable harvest is the non-fire residual Hansen
+          canopy-loss class, not directly observed harvest.
+        </p>
+      </section>
+
+      <section class="split">
+        <div>
+          <p class="label">Why matching matters</p>
+          <h2>The first result was strong, but geography mattered.</h2>
+          <p>
+            The initial balanced sample showed spatial confounding and sensitivity
+            to fire-perimeter edge proximity. The final validation therefore uses
+            one-to-one geographic matching, pair-level spatial folds, and fire
+            interiors defined before sampling.
+          </p>
+        </div>
+        <figure>
+          <img src="assets/alphaearth_sample_locations.png" alt="Sample locations by matched disturbance age for wildfire and probable harvest.">
+          <figcaption>
+            Sample geography by matched age. The spatial diagnostic makes the
+            confounding visible rather than hiding it.
+          </figcaption>
         </figure>
-        <div class="story-copy">
-          <p class="section-label">Dated Canopy Loss</p>
-          <h2>Part of the landscape has directly dated canopy loss.</h2>
-          <dl class="stats">
-            <div>
-              <dt>10.1%</dt>
-              <dd>dated Hansen canopy loss since 2001</dd>
-            </div>
-            <div>
-              <dt>14.6 years</dt>
-              <dd>mean time since loss within the dated fraction</dd>
-            </div>
-          </dl>
-          <p>
-            Hansen lossyear dates canopy-loss events where the product detects
-            them. Pixels without Hansen loss are left undated by this method.
-          </p>
-          <aside class="code-panel">
-            <div class="code-head">
-              <span>REAL CODE</span>
-              <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/src/stand_age_utils.py">src/stand_age_utils.py</a>
-            </div>
-            <pre><code>lossyear = ee.Image(HANSEN_ASSET).select("lossyear")
-calendar_year = lossyear.add(2000).updateMask(lossyear.gt(0))
-years_since = ee.Image.constant(current_year).subtract(calendar_year)</code></pre>
-          </aside>
-        </div>
       </section>
 
-      <section class="story visual-first alt">
-        <figure class="map-figure">
-          <img src="assets/disturbance_attribution_map.png" alt="Sentinel-2 forest background with non-fire residual Hansen loss overlaid inside the Abitibi AOI.">
-          <figcaption>Non-fire residual Hansen canopy loss within the Abitibi AOI. No NBAC fire perimeter intersects the study area for 1972-2023; the residual is therefore interpreted as probable harvest in this managed forest context, not as a direct harvest observation.</figcaption>
-        </figure>
-        <div class="story-copy">
-          <p class="section-label">Disturbance Attribution</p>
-          <h2>No mapped fire signal in the dated disturbance.</h2>
-          <dl class="stats three">
-            <div>
-              <dt>1,015.5 ha</dt>
-              <dd>non-fire residual Hansen loss</dd>
-            </div>
-            <div>
-              <dt>0.0 ha</dt>
-              <dd>fire-associated loss</dd>
-            </div>
-            <div>
-              <dt>0</dt>
-              <dd>NBAC fire perimeters touching the AOI, 1972-2023</dd>
-            </div>
-          </dl>
-          <p>
-            The attribution is a year-matched overlay. The non-fire residual is
-            interpreted conservatively as probable harvest in this managed
-            forest context.
-          </p>
-          <aside class="code-panel">
-            <div class="code-head">
-              <span>REAL CODE</span>
-              <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/src/disturbance_utils.py">src/disturbance_utils.py</a>
-            </div>
-            <pre><code>fire_year_img = fires.reduceToImage(
-    properties=[year_field], reducer=ee.Reducer.first()
-).rename("fire_year")
-
-year_matches = loss_calendar_year.eq(fire_year_img).unmask(0)</code></pre>
-          </aside>
-        </div>
-      </section>
-
-      <section class="recovery">
-        <div class="section-label">Post-Disturbance Spectral Recovery</div>
-        <div class="recovery-layout">
-          <figure class="wide-figure">
-            <img src="assets/recovery_curve.png" alt="Sentinel-2 NBR recovery curve by years since Hansen canopy loss.">
-            <figcaption>NBR is spectral vegetation recovery, not biomass recovery. Age classes with fewer than 100 pixels were excluded from the spectral chronosequence.</figcaption>
-          </figure>
-          <div class="recovery-copy">
-            <h2>The chronosequence is the central result.</h2>
-            <p>
-              A 2024 Sentinel-2 NBR composite is grouped by years since Hansen
-              canopy loss. Thirteen of 24 age classes are retained after the
-              >=100 pixel support threshold.
-            </p>
-            <aside class="code-panel small-code">
-              <div class="code-head">
-                <span>REAL CODE</span>
-                <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/src/recovery_utils.py">src/recovery_utils.py</a>
-              </div>
-              <pre><code>composite = collection.median().clip(aoi)
-return composite.normalizedDifference(["B8", "B12"]).rename("NBR")</code></pre>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section class="interpretation">
-        <div class="interpretation-grid">
+      <section class="dark">
+        <div class="dark-grid">
           <div>
-            <p class="section-label">Interpretation</p>
-            <h2>What the workflow supports, and what it does not.</h2>
-          </div>
-          <div class="limits">
+            <p class="label">Fire-interior sensitivity</p>
+            <h2>Excluding fire-edge pixels weakens the effect, but does not erase it at 19 years.</h2>
             <p>
-              The analysis supports a conservative disturbance narrative:
-              detected Hansen canopy loss is dated, no NBAC fire overlap is
-              mapped in the AOI, and the residual is treated as probable harvest
-              in this managed forest context.
-            </p>
-            <p>
-              The recovery curve is spectral. It should not be read as stand
-              age, stand maturity, productivity, or direct field validation.
-              The >=100 pixel filter is a pragmatic support threshold, not a
-              formal significance test.
+              The public result is centered on the stricter 19-year comparison,
+              not the original edge-sensitive AUC. At 150 m from the mapped fire
+              perimeter edge, AlphaEarth remains above both Sentinel-2 baselines.
             </p>
           </div>
+          <figure>
+            <img src="assets/fire_interior_sensitivity.png" alt="AUC sensitivity to fire-interior buffer for NBR, Sentinel-2, and AlphaEarth.">
+            <figcaption>
+              AUC by fire-interior buffer. The 12-year case is promising but
+              secondary; Sentinel-2 becomes competitive under stricter buffers.
+            </figcaption>
+          </figure>
         </div>
+      </section>
+
+      <section class="result">
+        <div class="result-copy">
+          <p class="label">Main result</p>
+          <h2>At 19 years, AlphaEarth retains greater separability than spectral baselines.</h2>
+          <p>
+            With a 90 m fire-interior buffer, the matched 2005 comparison uses
+            222 fire-harvest pairs separated by a median of 0.160 km.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Buffer</th>
+                <th>NBR AUC</th>
+                <th>Sentinel-2 AUC</th>
+                <th>AlphaEarth AUC</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>90 m</td>
+                <td>0.380</td>
+                <td>0.473</td>
+                <td>0.736</td>
+              </tr>
+              <tr>
+                <td>150 m</td>
+                <td>0.366</td>
+                <td>0.472</td>
+                <td>0.666</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <figure>
+          <img src="assets/final_alphaearth_validation.png" alt="Balanced accuracy by matched disturbance age for NBR, Sentinel-2, and AlphaEarth.">
+          <figcaption>
+            Strict geographically matched validation with spatial-block
+            cross-validation.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="split map-section">
+        <figure>
+          <img src="assets/final_2005_matched_pairs_map.png" alt="Map of 2005 matched wildfire and probable harvest sample pairs.">
+          <figcaption>
+            Diagnostic map of the 2005 matched pairs. Thin lines connect paired
+            wildfire and probable-harvest samples.
+          </figcaption>
+        </figure>
+        <div>
+          <p class="label">2005 matched pairs</p>
+          <h2>The cleanest case is spatially close and still explicitly caveated.</h2>
+          <p>
+            The 19-year comparison has 222 matched pairs at 90 m and 150 m fire
+            interiors. Median pair distance is 0.160 km at 90 m and 0.133 km at
+            150 m.
+          </p>
+          <p>
+            This supports disturbance-type separability in feature space. It
+            does not prove a causal effect of fire or harvest.
+          </p>
+        </div>
+      </section>
+
+      <section class="figures">
+        <div class="section-head">
+          <p class="label">Additional checks</p>
+          <h2>The conventional NBR baseline remains useful context, not the final claim.</h2>
+        </div>
+        <div class="figure-grid">
+          <figure>
+            <img src="assets/recovery_by_disturbance.png" alt="Sentinel-2 NBR by disturbance type and years since disturbance.">
+            <figcaption>
+              NBR summarizes spectral vegetation condition in 2024. It is not
+              a biomass metric.
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="assets/alphaearth_pca.png" alt="AlphaEarth PCA plot by disturbance type and matched age.">
+            <figcaption>
+              PCA is exploratory; classification and sensitivity tests carry the
+              validation burden.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="limitations">
+        <p class="label">Limitations</p>
+        <ul>
+          <li>Probable harvest is inferred from non-fire residual Hansen canopy loss; it is not directly observed.</li>
+          <li>The comparison is observational, not a randomized treatment design.</li>
+          <li>Only three matched fire years are available.</li>
+          <li>Residual site-condition confounding may remain after geographic matching.</li>
+          <li>AlphaEarth embeddings are representation features, not direct ecological variables.</li>
+        </ul>
       </section>
 
       <section class="workflow">
-        <p class="section-label">Reproducible Workflow</p>
-        <h2>Open products flow into a transparent interpretation.</h2>
-        <div class="flow" aria-label="Hansen to NBAC to Sentinel-2 to time since disturbance to NBR chronosequence to forest interpretation">
-          <span>Hansen</span>
-          <span aria-hidden="true">→</span>
-          <span>NBAC</span>
-          <span aria-hidden="true">→</span>
-          <span>Sentinel-2</span>
-          <span aria-hidden="true">→</span>
-          <span>Time since disturbance</span>
-          <span aria-hidden="true">→</span>
-          <span>NBR chronosequence</span>
-          <span aria-hidden="true">→</span>
-          <span>Forest interpretation</span>
+        <p class="label">Reproducibility</p>
+        <h2>Transparent workflow, cautious interpretation.</h2>
+        <div class="flow">
+          <span>AOI</span>
+          <span>Disturbance attribution</span>
+          <span>Matched samples</span>
+          <span>2024 observations</span>
+          <span>Spatial CV</span>
+          <span>Fire-interior sensitivity</span>
         </div>
         <div class="actions">
-          <a class="button" href="https://github.com/geoforestdata/boreal-ledger">View source code</a>
-          <a class="button secondary" href="https://github.com/geoforestdata/boreal-ledger/tree/main/analysis">View analysis scripts</a>
+          <a class="button" href="https://github.com/geoforestdata/boreal-ledger">Explore repository</a>
+          <a class="button secondary" href="https://github.com/geoforestdata/boreal-ledger/tree/main/analysis">Browse analysis scripts</a>
         </div>
       </section>
     </main>
