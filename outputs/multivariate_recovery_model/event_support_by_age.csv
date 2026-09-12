@@ -1,0 +1,13 @@
+product,years_since_disturbance,fire_events,harvest_events,complete_pairs
+sentinel2,0,20,20,20
+sentinel2,1,21,22,21
+sentinel2,5,17,18,17
+sentinel2,10,37,37,37
+sentinel2,15,38,38,38
+sentinel2,20,12,12,12
+alphaearth,0,20,20,20
+alphaearth,1,23,23,23
+alphaearth,5,19,19,19
+alphaearth,10,39,39,39
+alphaearth,15,39,39,39
+alphaearth,20,12,12,12

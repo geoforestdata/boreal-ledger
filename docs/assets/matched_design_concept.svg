@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-label="Matched disturbance and reference design diagram">
+<rect width="1200" height="520" fill="#f6f1e8"/>
+<text x="56" y="74" font-family="Inter, Arial" font-size="30" font-weight="800" fill="#10201a">Matched disturbance-reference design</text>
+<text x="56" y="112" font-family="Inter, Arial" font-size="17" fill="#5a665f">Wildfire and harvest events are paired by disturbance year; each disturbed site is compared with a nearby screened reference forest.</text>
+<g font-family="Inter, Arial">
+  <rect x="70" y="170" width="235" height="170" rx="18" fill="#fffaf1" stroke="#d8d0c4"/>
+  <circle cx="125" cy="230" r="24" fill="#b85a3d"/><text x="165" y="225" font-size="20" font-weight="800" fill="#10201a">Wildfire event</text><text x="165" y="254" font-size="15" fill="#5a665f">disturbance year t</text>
+  <rect x="482" y="170" width="235" height="170" rx="18" fill="#fffaf1" stroke="#d8d0c4"/>
+  <circle cx="537" cy="230" r="24" fill="#1f6f5b"/><text x="577" y="225" font-size="20" font-weight="800" fill="#10201a">Harvest event</text><text x="577" y="254" font-size="15" fill="#5a665f">same disturbance year t</text>
+  <rect x="895" y="170" width="235" height="170" rx="18" fill="#fffaf1" stroke="#d8d0c4"/>
+  <circle cx="950" cy="230" r="24" fill="#10201a"/><text x="990" y="225" font-size="20" font-weight="800" fill="#10201a">Reference forest</text><text x="990" y="254" font-size="15" fill="#5a665f">nearby, screened, undisturbed</text>
+  <path d="M318 255 C374 210 421 210 470 255" fill="none" stroke="#10201a" stroke-width="3"/><text x="351" y="200" font-size="14" fill="#5a665f">76 exact-year pairs</text>
+  <path d="M718 255 C778 305 838 305 890 255" fill="none" stroke="#10201a" stroke-width="3" stroke-dasharray="8 8"/><text x="762" y="327" font-size="14" fill="#5a665f">reference-relative gap</text>
+  <text x="70" y="420" font-size="22" font-weight="800" fill="#10201a">NBR gap = reference - disturbed</text>
+  <text x="70" y="454" font-size="16" fill="#5a665f">A shrinking gap indicates increasing satellite similarity to matched reference forest, not complete ecological recovery.</text>
+</g></svg>

@@ -5,3 +5,16 @@ __pycache__/
 .DS_Store
 figures/*.png
 .env
+data/raw/
+
+# Local caches and transient render/build artifacts
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+outputs/.matplotlib/
+outputs/**/.matplotlib/
+tmp/
+temp/
+*.tmp
+*.log

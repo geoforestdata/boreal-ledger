@@ -1,0 +1,46 @@
+{
+  "crosswalk_path": "/Users/jano/Documents/LInkedin/boreal-ledger/config/disturbance_code_crosswalk.csv",
+  "fire_total_codes": [
+    "BR"
+  ],
+  "harvest_total_codes": [
+    "CT",
+    "CPR",
+    "CPRS_U",
+    "CBA",
+    "CRR",
+    "CBT",
+    "CPHRS",
+    "CPT",
+    "CPPTM_U",
+    "CPPTM_DIS",
+    "CRS",
+    "CTSP_U",
+    "CPRS_DA",
+    "CS"
+  ],
+  "clean_fire_events": 83,
+  "clean_harvest_events": 23766,
+  "compound_or_ambiguous_rows": 7995,
+  "pathway_counts": {
+    "harvest_then_fire": 6942,
+    "ambiguous_same_year": 972,
+    "fire_then_harvest": 77,
+    "fire_then_salvage": 4
+  },
+  "fire_to_salvage_cases": 4,
+  "matchability": {
+    "fire_events": 83,
+    "pct_with_same_year_harvest": 100.0,
+    "pct_with_pm1_year_harvest": 100.0,
+    "pct_with_pm2_year_harvest": 100.0
+  },
+  "harvest_grouping": "Provisional contiguous/intersecting harvest_total polygons by year; GEOC_IFM is only an interior point coordinate, not an event ID.",
+  "uncertainties": [
+    "WFS subset does not expose NO_SEC_INT from META_INTERV_FORES_PROV.",
+    "Harvest event grouping is provisional and spatial, not an official sector/event ID.",
+    "Subsequent silvicultural treatments after harvest are summarized from repeated GEOC_IFM site coordinates; fire/harvest overlap pathways are retained separately in the compound table.",
+    "Compound same-year and fire-salvage cases are excluded from clean primary cohorts but retained.",
+    "No remote-sensing recovery metric has been computed in this phase."
+  ]
+}

@@ -1,0 +1,730 @@
+# Multivariate recovery extraction
+
+This Phase 10 output preserves the existing disturbed-reference design and
+extracts paired Sentinel-2 SR Harmonized and AlphaEarth annual embedding
+observations for calendar years 2017-2025.
+
+Sentinel-2 uses July 1-August 31 seasonal medians with SCL/QA60 cloud, shadow,
+snow, and cirrus masking. Sentinel-2 distances are Euclidean distances in a
+robustly standardized six-band reference-forest feature space.
+
+AlphaEarth uses `GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL`. Band count was verified
+programmatically as 64 bands. Nominal scale reported by Earth Engine:
+10.0 m.
+
+No recovery model, classifier, PCA, UMAP, or new sampling frame is created here.
+
+```json
+{
+  "sentinel2_site_year_rows": 5413,
+  "sentinel2_site_year_valid_pairs": 5380,
+  "sentinel2_event_year_rows": 1353,
+  "alphaearth_site_year_rows": 5463,
+  "alphaearth_site_year_valid_pairs": 5463,
+  "alphaearth_event_year_rows": 1368,
+  "sentinel2_events_by_type": {
+    "fire_total": 76,
+    "harvest_total": 76
+  },
+  "alphaearth_events_by_type": {
+    "fire_total": 76,
+    "harvest_total": 76
+  },
+  "both_products_events_by_type": {
+    "fire_total": 76,
+    "harvest_total": 76
+  },
+  "exact_pairs_total_design": 76,
+  "age_support_fixed": [
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 0,
+      "n_unique_events": 20,
+      "n_event_years": 20,
+      "n_sites": 112,
+      "n_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 1,
+      "n_unique_events": 21,
+      "n_event_years": 21,
+      "n_sites": 119,
+      "n_complete_fire_harvest_pairs": 21
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 5,
+      "n_unique_events": 17,
+      "n_event_years": 17,
+      "n_sites": 75,
+      "n_complete_fire_harvest_pairs": 17
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 10,
+      "n_unique_events": 37,
+      "n_event_years": 37,
+      "n_sites": 154,
+      "n_complete_fire_harvest_pairs": 37
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 15,
+      "n_unique_events": 38,
+      "n_event_years": 38,
+      "n_sites": 197,
+      "n_complete_fire_harvest_pairs": 38
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 20,
+      "n_unique_events": 12,
+      "n_event_years": 12,
+      "n_sites": 92,
+      "n_complete_fire_harvest_pairs": 12
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 0,
+      "n_unique_events": 20,
+      "n_event_years": 20,
+      "n_sites": 62,
+      "n_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 1,
+      "n_unique_events": 22,
+      "n_event_years": 22,
+      "n_sites": 70,
+      "n_complete_fire_harvest_pairs": 21
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 5,
+      "n_unique_events": 18,
+      "n_event_years": 18,
+      "n_sites": 71,
+      "n_complete_fire_harvest_pairs": 17
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 10,
+      "n_unique_events": 37,
+      "n_event_years": 37,
+      "n_sites": 104,
+      "n_complete_fire_harvest_pairs": 37
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 15,
+      "n_unique_events": 38,
+      "n_event_years": 38,
+      "n_sites": 106,
+      "n_complete_fire_harvest_pairs": 38
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 20,
+      "n_unique_events": 12,
+      "n_event_years": 12,
+      "n_sites": 42,
+      "n_complete_fire_harvest_pairs": 12
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 0,
+      "n_unique_events": 20,
+      "n_event_years": 20,
+      "n_sites": 112,
+      "n_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 1,
+      "n_unique_events": 23,
+      "n_event_years": 23,
+      "n_sites": 121,
+      "n_complete_fire_harvest_pairs": 23
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 5,
+      "n_unique_events": 19,
+      "n_event_years": 19,
+      "n_sites": 79,
+      "n_complete_fire_harvest_pairs": 19
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 10,
+      "n_unique_events": 39,
+      "n_event_years": 39,
+      "n_sites": 162,
+      "n_complete_fire_harvest_pairs": 39
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 15,
+      "n_unique_events": 39,
+      "n_event_years": 39,
+      "n_sites": 204,
+      "n_complete_fire_harvest_pairs": 39
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 20,
+      "n_unique_events": 12,
+      "n_event_years": 12,
+      "n_sites": 92,
+      "n_complete_fire_harvest_pairs": 12
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 0,
+      "n_unique_events": 20,
+      "n_event_years": 20,
+      "n_sites": 62,
+      "n_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 1,
+      "n_unique_events": 23,
+      "n_event_years": 23,
+      "n_sites": 72,
+      "n_complete_fire_harvest_pairs": 23
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 5,
+      "n_unique_events": 19,
+      "n_event_years": 19,
+      "n_sites": 73,
+      "n_complete_fire_harvest_pairs": 19
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 10,
+      "n_unique_events": 39,
+      "n_event_years": 39,
+      "n_sites": 107,
+      "n_complete_fire_harvest_pairs": 39
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 15,
+      "n_unique_events": 39,
+      "n_event_years": 39,
+      "n_sites": 108,
+      "n_complete_fire_harvest_pairs": 39
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 20,
+      "n_unique_events": 12,
+      "n_event_years": 12,
+      "n_sites": 42,
+      "n_complete_fire_harvest_pairs": 12
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 0,
+      "n_unique_events": 20,
+      "n_event_years": 20,
+      "n_sites": 112,
+      "n_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 1,
+      "n_unique_events": 21,
+      "n_event_years": 21,
+      "n_sites": 119,
+      "n_complete_fire_harvest_pairs": 21
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 5,
+      "n_unique_events": 17,
+      "n_event_years": 17,
+      "n_sites": 75,
+      "n_complete_fire_harvest_pairs": 17
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 10,
+      "n_unique_events": 37,
+      "n_event_years": 37,
+      "n_sites": 154,
+      "n_complete_fire_harvest_pairs": 37
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 15,
+      "n_unique_events": 38,
+      "n_event_years": 38,
+      "n_sites": 197,
+      "n_complete_fire_harvest_pairs": 38
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "years_since_disturbance": 20,
+      "n_unique_events": 12,
+      "n_event_years": 12,
+      "n_sites": 92,
+      "n_complete_fire_harvest_pairs": 12
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 0,
+      "n_unique_events": 20,
+      "n_event_years": 20,
+      "n_sites": 62,
+      "n_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 1,
+      "n_unique_events": 22,
+      "n_event_years": 22,
+      "n_sites": 70,
+      "n_complete_fire_harvest_pairs": 21
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 5,
+      "n_unique_events": 18,
+      "n_event_years": 18,
+      "n_sites": 71,
+      "n_complete_fire_harvest_pairs": 17
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 10,
+      "n_unique_events": 37,
+      "n_event_years": 37,
+      "n_sites": 104,
+      "n_complete_fire_harvest_pairs": 37
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 15,
+      "n_unique_events": 38,
+      "n_event_years": 38,
+      "n_sites": 106,
+      "n_complete_fire_harvest_pairs": 38
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "years_since_disturbance": 20,
+      "n_unique_events": 12,
+      "n_event_years": 12,
+      "n_sites": 42,
+      "n_complete_fire_harvest_pairs": 12
+    }
+  ],
+  "age_bin_support": [
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "age_bin": "pre_disturbance",
+      "n_unique_events": 20,
+      "n_event_years": 98,
+      "n_sites": 112,
+      "max_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "age_bin": "0-5",
+      "n_unique_events": 23,
+      "n_event_years": 108,
+      "n_sites": 121,
+      "max_complete_fire_harvest_pairs": 23
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "age_bin": "6-10",
+      "n_unique_events": 39,
+      "n_event_years": 150,
+      "n_sites": 162,
+      "max_complete_fire_harvest_pairs": 39
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "age_bin": "11-15",
+      "n_unique_events": 49,
+      "n_event_years": 217,
+      "n_sites": 238,
+      "max_complete_fire_harvest_pairs": 49
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "age_bin": "16-20",
+      "n_unique_events": 29,
+      "n_event_years": 104,
+      "n_sites": 171,
+      "max_complete_fire_harvest_pairs": 29
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "age_bin": "21+",
+      "n_unique_events": 3,
+      "n_event_years": 7,
+      "n_sites": 21,
+      "max_complete_fire_harvest_pairs": 3
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "age_bin": "pre_disturbance",
+      "n_unique_events": 20,
+      "n_event_years": 98,
+      "n_sites": 62,
+      "max_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "age_bin": "0-5",
+      "n_unique_events": 23,
+      "n_event_years": 108,
+      "n_sites": 73,
+      "max_complete_fire_harvest_pairs": 23
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "age_bin": "6-10",
+      "n_unique_events": 39,
+      "n_event_years": 150,
+      "n_sites": 107,
+      "max_complete_fire_harvest_pairs": 39
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "age_bin": "11-15",
+      "n_unique_events": 49,
+      "n_event_years": 217,
+      "n_sites": 132,
+      "max_complete_fire_harvest_pairs": 49
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "age_bin": "16-20",
+      "n_unique_events": 29,
+      "n_event_years": 104,
+      "n_sites": 85,
+      "max_complete_fire_harvest_pairs": 29
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "age_bin": "21+",
+      "n_unique_events": 3,
+      "n_event_years": 7,
+      "n_sites": 13,
+      "max_complete_fire_harvest_pairs": 3
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "age_bin": "pre_disturbance",
+      "n_unique_events": 20,
+      "n_event_years": 97,
+      "n_sites": 112,
+      "max_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "age_bin": "0-5",
+      "n_unique_events": 23,
+      "n_event_years": 103,
+      "n_sites": 121,
+      "max_complete_fire_harvest_pairs": 23
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "age_bin": "6-10",
+      "n_unique_events": 37,
+      "n_event_years": 146,
+      "n_sites": 154,
+      "max_complete_fire_harvest_pairs": 37
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "age_bin": "11-15",
+      "n_unique_events": 49,
+      "n_event_years": 216,
+      "n_sites": 237,
+      "max_complete_fire_harvest_pairs": 49
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "age_bin": "16-20",
+      "n_unique_events": 29,
+      "n_event_years": 104,
+      "n_sites": 171,
+      "max_complete_fire_harvest_pairs": 29
+    },
+    {
+      "product": "both",
+      "disturbance_type": "fire_total",
+      "age_bin": "21+",
+      "n_unique_events": 3,
+      "n_event_years": 7,
+      "n_sites": 21,
+      "max_complete_fire_harvest_pairs": 3
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "age_bin": "pre_disturbance",
+      "n_unique_events": 20,
+      "n_event_years": 93,
+      "n_sites": 62,
+      "max_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "age_bin": "0-5",
+      "n_unique_events": 23,
+      "n_event_years": 105,
+      "n_sites": 72,
+      "max_complete_fire_harvest_pairs": 23
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "age_bin": "6-10",
+      "n_unique_events": 37,
+      "n_event_years": 146,
+      "n_sites": 104,
+      "max_complete_fire_harvest_pairs": 37
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "age_bin": "11-15",
+      "n_unique_events": 49,
+      "n_event_years": 216,
+      "n_sites": 132,
+      "max_complete_fire_harvest_pairs": 49
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "age_bin": "16-20",
+      "n_unique_events": 29,
+      "n_event_years": 104,
+      "n_sites": 85,
+      "max_complete_fire_harvest_pairs": 29
+    },
+    {
+      "product": "both",
+      "disturbance_type": "harvest_total",
+      "age_bin": "21+",
+      "n_unique_events": 3,
+      "n_event_years": 7,
+      "n_sites": 13,
+      "max_complete_fire_harvest_pairs": 3
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "age_bin": "pre_disturbance",
+      "n_unique_events": 20,
+      "n_event_years": 97,
+      "n_sites": 112,
+      "max_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "age_bin": "0-5",
+      "n_unique_events": 23,
+      "n_event_years": 103,
+      "n_sites": 121,
+      "max_complete_fire_harvest_pairs": 23
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "age_bin": "6-10",
+      "n_unique_events": 37,
+      "n_event_years": 146,
+      "n_sites": 154,
+      "max_complete_fire_harvest_pairs": 37
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "age_bin": "11-15",
+      "n_unique_events": 49,
+      "n_event_years": 216,
+      "n_sites": 237,
+      "max_complete_fire_harvest_pairs": 49
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "age_bin": "16-20",
+      "n_unique_events": 29,
+      "n_event_years": 104,
+      "n_sites": 171,
+      "max_complete_fire_harvest_pairs": 29
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "age_bin": "21+",
+      "n_unique_events": 3,
+      "n_event_years": 7,
+      "n_sites": 21,
+      "max_complete_fire_harvest_pairs": 3
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "age_bin": "pre_disturbance",
+      "n_unique_events": 20,
+      "n_event_years": 93,
+      "n_sites": 62,
+      "max_complete_fire_harvest_pairs": 20
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "age_bin": "0-5",
+      "n_unique_events": 23,
+      "n_event_years": 105,
+      "n_sites": 72,
+      "max_complete_fire_harvest_pairs": 23
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "age_bin": "6-10",
+      "n_unique_events": 37,
+      "n_event_years": 146,
+      "n_sites": 104,
+      "max_complete_fire_harvest_pairs": 37
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "age_bin": "11-15",
+      "n_unique_events": 49,
+      "n_event_years": 216,
+      "n_sites": 132,
+      "max_complete_fire_harvest_pairs": 49
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "age_bin": "16-20",
+      "n_unique_events": 29,
+      "n_event_years": 104,
+      "n_sites": 85,
+      "max_complete_fire_harvest_pairs": 29
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "age_bin": "21+",
+      "n_unique_events": 3,
+      "n_event_years": 7,
+      "n_sites": 13,
+      "max_complete_fire_harvest_pairs": 3
+    }
+  ],
+  "longitudinal_support_summary": [
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "median_valid_years": 9.0,
+      "median_temporal_span": 8.0,
+      "median_age_span": 15.0
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "median_valid_years": 9.0,
+      "median_temporal_span": 8.0,
+      "median_age_span": 15.0
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "median_valid_years": 9.0,
+      "median_temporal_span": 8.0,
+      "median_age_span": 15.0
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "median_valid_years": 9.0,
+      "median_temporal_span": 8.0,
+      "median_age_span": 15.0
+    }
+  ],
+  "s2_standardization": "reference-only robust median and IQR/1.349 scale over selected reference observations; common transform for fire and harvest",
+  "alphaearth_band_count": 64,
+  "alphaearth_nominal_scale_m": 10.0,
+  "alphaearth_euclidean_cosine_spearman": 0.99998913933781,
+  "phase11_s2_supported": true,
+  "phase11_alphaearth_supported": true,
+  "recommended_s2_age_range": "0-15 primary; 16-20 cautious; 21+ descriptive only",
+  "recommended_alphaearth_age_range": "0-15 primary; 16-20 cautious; 21+ descriptive only",
+  "main_limitation": "2017-2025 product window means older recovery ages are mostly cohort substitution, not fully longitudinal within-event trajectories."
+}
+```

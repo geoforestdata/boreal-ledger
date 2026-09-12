@@ -1,0 +1,13 @@
+product,metric,disturbance_type,years_since_disturbance,estimate,ci95_low,ci95_high,n_event_years,n_events
+sentinel2,s2_reference_distance,fire_total,0.00000000,5.64763307,4.70801466,6.86666089,20,20
+sentinel2,s2_reference_distance,fire_total,1.00000000,5.87735755,5.09168076,6.94439084,21,21
+sentinel2,s2_reference_distance,fire_total,5.00000000,6.99266133,5.21764370,9.26506615,17,17
+sentinel2,s2_reference_distance,fire_total,10.00000000,6.30219066,5.47914057,7.65702589,37,37
+sentinel2,s2_reference_distance,fire_total,15.00000000,5.26523683,4.52912700,6.11766749,38,38
+sentinel2,s2_reference_distance,fire_total,20.00000000,4.89365516,3.76911074,6.14543142,12,12
+sentinel2,s2_reference_distance,harvest_total,0.00000000,5.41229123,4.51551767,6.66072308,20,20
+sentinel2,s2_reference_distance,harvest_total,1.00000000,9.35320483,8.25707450,10.59895540,22,22
+sentinel2,s2_reference_distance,harvest_total,5.00000000,8.14769531,7.02546457,9.22471756,18,18
+sentinel2,s2_reference_distance,harvest_total,10.00000000,6.17563169,5.11985722,7.71201886,37,37
+sentinel2,s2_reference_distance,harvest_total,15.00000000,5.83143436,3.85733534,8.68128242,38,38
+sentinel2,s2_reference_distance,harvest_total,20.00000000,4.14749749,2.57037196,6.19325677,12,12

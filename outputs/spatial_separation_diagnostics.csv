@@ -1,4 +1,0 @@
-years_since_disturbance,fire_centroid_lon,fire_centroid_lat,harvest_centroid_lon,harvest_centroid_lat,centroid_distance_km,median_fire_to_harvest_nearest_neighbor_km,n_fire,n_harvest
-1,-76.988744,48.800332,-77.001516,48.807725,1.247411,0.823245,366,366
-12,-76.928313,48.711356,-76.845698,48.843557,15.906031,0.559791,804,804
-19,-77.020908,48.811118,-76.849755,48.747261,14.444857,0.487670,2000,2000

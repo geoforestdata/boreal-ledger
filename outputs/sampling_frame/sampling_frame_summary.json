@@ -1,0 +1,55 @@
+{
+  "recommended_primary_design": {
+    "fire_interior_buffer_m": 60,
+    "harvest_interior_buffer_m": 30,
+    "harvests_per_fire_event": 1,
+    "maximum_sites_per_event": 10,
+    "minimum_spatial_separation_between_sites_m": 150,
+    "temporal_tolerance": "same year first, \u00b11 year if needed, \u00b12 years as fallback/sensitivity",
+    "reference_search_geometry": "500-3000 m annulus around each selected site, with the disturbed event geometry removed; candidate_only=True"
+  },
+  "fire_events_retained_primary_buffer": 76,
+  "fire_events_represented_in_primary_matching": 76,
+  "harvest_events_selected_primary": 76,
+  "candidate_fire_sites": 412,
+  "candidate_harvest_sites": 242,
+  "candidate_reference_search_areas": 654,
+  "matching_strategy_summary": [
+    {
+      "harvests_per_fire": 1,
+      "fire_events_represented": 76,
+      "harvest_events_selected": 76,
+      "exact_year_matches": 76,
+      "pm1_year_matches": 0,
+      "pm2_year_matches": 0,
+      "median_pair_distance_m": 5989.729554010247,
+      "p90_pair_distance_m": 17656.577584813655
+    },
+    {
+      "harvests_per_fire": 3,
+      "fire_events_represented": 76,
+      "harvest_events_selected": 228,
+      "exact_year_matches": 228,
+      "pm1_year_matches": 0,
+      "pm2_year_matches": 0,
+      "median_pair_distance_m": 6499.376990405981,
+      "p90_pair_distance_m": 19705.29301920935
+    },
+    {
+      "harvests_per_fire": 5,
+      "fire_events_represented": 76,
+      "harvest_events_selected": 380,
+      "exact_year_matches": 380,
+      "pm1_year_matches": 0,
+      "pm2_year_matches": 0,
+      "median_pair_distance_m": 6882.772546734786,
+      "p90_pair_distance_m": 20902.351136280624
+    }
+  ],
+  "remaining_uncertainties": [
+    "Fire eligibility is based on official mapped forestry history and does not yet include Hansen or spectral confirmation.",
+    "Harvest events are provisional connected harvest_total components because NO_SEC_INT is not exposed by the WFS subset.",
+    "Reference-search areas are candidate-only until future forest-condition and disturbance-screening layers are applied.",
+    "The inferential unit remains the event; candidate sites are subsamples."
+  ]
+}

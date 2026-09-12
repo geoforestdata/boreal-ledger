@@ -1,0 +1,47 @@
+{
+  "event_grouping_result": {
+    "official_nopert_pee_transfer": true,
+    "join_basis": "GEOC_FMJ + EXERCICE",
+    "diagnostics_path": "/Users/jano/Documents/LInkedin/boreal-ledger/outputs/study_extent_selection/fire_event_grouping_diagnostics.csv"
+  },
+  "recommended_radius_km": 100,
+  "recommended_extent": {
+    "radius_km": 100,
+    "extent_area_ha": 3136548.4905459387,
+    "extent_area_km2": 31365.484905459387,
+    "fire_polygons": 8686,
+    "independent_fire_events": 107,
+    "event_year_units": 107,
+    "total_burned_ha": 530486.6925220011,
+    "distinct_fire_years": 21,
+    "earliest_fire_year": 2002,
+    "latest_fire_year": 2023,
+    "age_min_years": 1.0,
+    "age_max_years": 22.0,
+    "largest_event_area_ha": 343979.09730781586,
+    "largest_event_pct_burned_area": 64.84217269852624,
+    "top3_event_pct_burned_area": 87.39346589030873,
+    "balanced_age_bins_with_3_events": 5,
+    "age_bins_represented": 5,
+    "period_span_years": 21,
+    "meets_screening_target": true,
+    "dominance_flag": "dominated_by_top3"
+  },
+  "epsg_32198_bounds": [
+    -715057.3725723275,
+    497647.2659343183,
+    -515057.3725723275,
+    697647.2659343183
+  ],
+  "wgs84_bounds": [
+    -78.34993673048983,
+    48.14905815536138,
+    -75.60109698407827,
+    49.95594139720699
+  ],
+  "anchor": {
+    "lon": -76.976052,
+    "lat": 49.052083,
+    "source": "Natural Resources Canada Canadian Geographical Names Database, key EGYQT; provider Quebec-Commission de Toponymie."
+  }
+}

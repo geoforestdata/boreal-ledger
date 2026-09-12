@@ -1,0 +1,143 @@
+{
+  "s2_declines_with_age": false,
+  "ae_declines_with_age": false,
+  "alphaearth_euclidean_cosine_note": "Phase 10 and Phase 11 sensitivity show Euclidean and cosine distances are near-redundant; cosine is retained only as a technical check.",
+  "primary_age_domain": "0-15 years since disturbance",
+  "secondary_age_domain": "16-20 years since disturbance",
+  "age_21_plus": "descriptive only; excluded from model fitting",
+  "main_limitation": "2017-2025 observation window creates age-period-cohort confounding; older ages are substantially cohort substitution.",
+  "functional_form_comparison": [
+    {
+      "product": "sentinel2",
+      "metric": "s2_reference_distance",
+      "model": "linear",
+      "n_event_years": 1140,
+      "n_events": 152,
+      "aic_equivalent": 3548.1599329981545,
+      "event_grouped_cv_rmse": 4.364957793620404,
+      "residual_sd": 4.726289879069363
+    },
+    {
+      "product": "sentinel2",
+      "metric": "s2_reference_distance",
+      "model": "flexible",
+      "n_event_years": 1140,
+      "n_events": 152,
+      "aic_equivalent": 3538.127537004822,
+      "event_grouped_cv_rmse": 4.310254351312215,
+      "residual_sd": 4.664442921073309
+    },
+    {
+      "product": "alphaearth",
+      "metric": "ae_euclidean_distance",
+      "model": "linear",
+      "n_event_years": 1158,
+      "n_events": 152,
+      "aic_equivalent": -3782.853785462943,
+      "event_grouped_cv_rmse": 0.19580683237716026,
+      "residual_sd": 0.19468375177090352
+    },
+    {
+      "product": "alphaearth",
+      "metric": "ae_euclidean_distance",
+      "model": "flexible",
+      "n_event_years": 1158,
+      "n_events": 152,
+      "aic_equivalent": -3839.5982578205458,
+      "event_grouped_cv_rmse": 0.19112925761858746,
+      "residual_sd": 0.18833829931211893
+    }
+  ],
+  "within_event_change_audit": [
+    {
+      "product": "sentinel2",
+      "disturbance_type": "fire_total",
+      "n_events": 76,
+      "median_within_event_annual_slope": -0.1829506268928568,
+      "p25_slope": -0.34362738149999994,
+      "p75_slope": 0.02874109270833337,
+      "median_first_to_last_change": -0.9413988349999998,
+      "fraction_negative_slopes": 0.7105263157894737
+    },
+    {
+      "product": "sentinel2",
+      "disturbance_type": "harvest_total",
+      "n_events": 76,
+      "median_within_event_annual_slope": -0.24075447975000014,
+      "p25_slope": -0.4656809817916665,
+      "p75_slope": 0.11260786229166682,
+      "median_first_to_last_change": -1.5755568699999998,
+      "fraction_negative_slopes": 0.6578947368421053
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "fire_total",
+      "n_events": 76,
+      "median_within_event_annual_slope": 0.002570997833333323,
+      "p25_slope": -0.006672633958333146,
+      "p75_slope": 0.013347385291666661,
+      "median_first_to_last_change": -0.006783689999999981,
+      "fraction_negative_slopes": 0.40789473684210525
+    },
+    {
+      "product": "alphaearth",
+      "disturbance_type": "harvest_total",
+      "n_events": 76,
+      "median_within_event_annual_slope": -0.0022093218333333543,
+      "p25_slope": -0.018779268791666658,
+      "p75_slope": 0.025007637750000082,
+      "median_first_to_last_change": -0.03523288499999999,
+      "fraction_negative_slopes": 0.5789473684210527
+    }
+  ],
+  "landsat_comparison": [
+    {
+      "level": "event_year",
+      "metric_a": "nbr_gap_median",
+      "metric_b": "nbr_gap_change",
+      "n": 944,
+      "pearson": 0.9348778358470599,
+      "spearman": 0.8638496674561306
+    },
+    {
+      "level": "event_year",
+      "metric_a": "nbr_gap_median",
+      "metric_b": "s2_reference_distance",
+      "n": 929,
+      "pearson": 0.5228688559008485,
+      "spearman": 0.5260034416829136
+    },
+    {
+      "level": "event_year",
+      "metric_a": "nbr_gap_median",
+      "metric_b": "ae_euclidean_distance",
+      "n": 944,
+      "pearson": 0.2061606279991062,
+      "spearman": 0.23904901927720043
+    },
+    {
+      "level": "event_year",
+      "metric_a": "nbr_gap_change",
+      "metric_b": "s2_reference_distance",
+      "n": 929,
+      "pearson": 0.4406397812122211,
+      "spearman": 0.42582535530548915
+    },
+    {
+      "level": "event_year",
+      "metric_a": "nbr_gap_change",
+      "metric_b": "ae_euclidean_distance",
+      "n": 944,
+      "pearson": 0.11586455369886134,
+      "spearman": 0.11759556417541071
+    },
+    {
+      "level": "event_year",
+      "metric_a": "s2_reference_distance",
+      "metric_b": "ae_euclidean_distance",
+      "n": 1344,
+      "pearson": 0.5018349590590236,
+      "spearman": 0.6974383410133146
+    }
+  ]
+}

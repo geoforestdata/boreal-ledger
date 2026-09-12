@@ -3,200 +3,317 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Boreal Ledger | Disturbance history 19 years later</title>
-    <meta name="description" content="A visual research story testing whether satellite data can distinguish wildfire from probable harvest 19 years after canopy loss near Lebel-sur-Quevillon, Quebec.">
+    <title>Boreal Ledger | Boreal recovery after disturbance</title>
+    <meta name="description" content="A scientific web publication on boreal forest recovery after wildfire and harvest using matched reference forests, Landsat, Sentinel-2, and AlphaEarth.">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
-    <main>
-      <section class="hero">
-        <div class="wrap hero-grid">
+    <header class="site-header">
+      <a class="brand" href="#top">Boreal Ledger</a>
+      <nav aria-label="Primary navigation">
+        <a href="#story">Story</a>
+        <a href="#methods">Methods</a>
+        <a href="#data-code">Data</a>
+        <a href="https://github.com/geoforestdata/boreal-ledger">Code</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" id="story">
+        <div class="wrap hero-layout">
           <div>
-            <p class="kicker">Boreal Ledger</p>
-            <h1>Can disturbance history still be seen 19 years later?</h1>
+            <p class="eyebrow">Quebec, Canada · 2002-2025 · Landsat · Sentinel-2 · AlphaEarth</p>
+            <h1>Boreal recovery after disturbance</h1>
           </div>
           <div class="hero-copy">
             <p>
-              Two nearby boreal forest sites lost canopy in 2005. One was
-              associated with wildfire. The other with probable harvest. In
-              2024, can satellite data still tell them apart?
+              Wildfire and timber harvest alter boreal forests in different ways.
+              Using matched disturbance events and nearby reference forests, this
+              study asks whether their satellite-observed trajectories converge
+              over time.
             </p>
-            <a class="button" href="https://github.com/geoforestdata/boreal-ledger">View repository</a>
+            <a class="text-link" href="https://github.com/geoforestdata/boreal-ledger">View repository</a>
           </div>
         </div>
       </section>
 
-      <section class="experiment">
-        <div class="wrap">
-          <p class="kicker">The experiment</p>
-          <div class="timeline" aria-label="2005 canopy loss splits into fire and probable harvest, then both are observed in 2024.">
-            <div class="year start">
-              <span>2005</span>
-              <strong>Dated canopy loss</strong>
-            </div>
-            <div class="split-line">
-              <div class="branch fire">Fire</div>
-              <div class="branch harvest">Probable harvest</div>
-            </div>
-            <div class="years">19 years</div>
-            <div class="year observe">
-              <span>2024</span>
-              <strong>Can we still tell them apart?</strong>
-            </div>
-          </div>
+      <section class="section">
+        <div class="wrap section-intro">
+          <p class="kicker">Study landscape</p>
+          <h2>One managed boreal landscape, two disturbance pathways.</h2>
+          <p>
+            The final design uses official disturbance records and a 100 km
+            study extent near Lebel-sur-Quevillon. The public map shows only
+            selected analytical events retained in the matched sampling frame,
+            not the full forestry inventory.
+          </p>
         </div>
+        <figure class="figure-wide">
+          <img src="assets/study_area_map.png" alt="Map of the 100 km Quebec study extent with selected wildfire and harvest events.">
+          <figcaption>
+            Selected wildfire and harvest events within the final study extent.
+            The map uses repository-derived geometries only.
+          </figcaption>
+        </figure>
       </section>
 
-      <section class="central-result">
-        <div class="wrap result-grid">
+      <section class="section soft">
+        <div class="wrap two-col">
           <div>
-            <p class="kicker">Central result</p>
-            <h2>Conventional spectra struggle. AlphaEarth separates more.</h2>
+            <p class="kicker">Matched design</p>
+            <h2>Recovery needs a reference.</h2>
             <p>
-              The 19-year test uses 222 geographically matched fire-harvest
-              pairs, a median pair distance of 0.160 km, a 90 m fire-interior
-              exclusion, and 5 km spatial-block cross-validation.
+              Each wildfire event is matched with a harvest event from the same
+              disturbance year. Disturbed forest sites are then compared with
+              nearby screened reference forest, keeping the event as the
+              inferential unit.
+            </p>
+            <p>
+              The core Landsat metric is the reference-relative gap:
+              <strong>NBR gap = reference NBR - disturbed NBR</strong>.
+              A shrinking gap indicates increasing spectral similarity to the
+              matched reference forest, not complete ecological recovery.
+            </p>
+            <p class="inline-note">
+              Final design: 76 wildfire events, 76 harvest events, and 76
+              exact-year fire-harvest event pairs.
             </p>
           </div>
-          <div class="auc-panel" aria-label="AUC comparison from 0.5 chance to 1.0 perfect discrimination">
-            <div class="scale-labels">
-              <span>0.5 chance</span>
-              <span>1.0 perfect discrimination</span>
-            </div>
-            <div class="axis"><span class="chance"></span></div>
-            <div class="bar-row">
-              <span>NBR</span>
-              <div class="bar-shell"><div class="bar nbr" style="--auc: 38%;"></div></div>
-              <strong>0.380</strong>
-            </div>
-            <div class="bar-row">
-              <span>Sentinel-2</span>
-              <div class="bar-shell"><div class="bar s2" style="--auc: 47.3%;"></div></div>
-              <strong>0.473</strong>
-            </div>
-            <div class="bar-row alpha">
-              <span>AlphaEarth</span>
-              <div class="bar-shell"><div class="bar ae" style="--auc: 73.6%;"></div></div>
-              <strong>0.736</strong>
-            </div>
-            <p class="plain">
-              With conventional spectral information, the two histories are hard
-              to separate. AlphaEarth retains much more separability.
-            </p>
-          </div>
+          <figure>
+            <img src="assets/matched_design_concept.svg" alt="Diagram showing wildfire and harvest events matched by disturbance year and compared with reference forest.">
+            <figcaption>
+              Conceptual diagram of the reference-relative design used by the
+              recovery analyses.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      <section class="map-story">
-        <div class="wrap map-grid">
+      <section class="section main-result">
+        <div class="wrap section-intro">
+          <p class="kicker">Main result · Landsat</p>
+          <h2>Most NBR convergence occurs during roughly the first decade.</h2>
+          <p>
+            Wildfire produces a substantially larger early post-disturbance NBR
+            departure from matched reference forest than harvest. Recovery is
+            nonlinear, and both pathways approach reference conditions at later
+            ages, with greater uncertainty as event support declines.
+          </p>
+        </div>
+        <figure class="figure-wide">
+          <img src="assets/landsat_recovery_publication.png" alt="Landsat NBR recovery trajectories for wildfire and harvest showing nonlinear convergence toward reference forest.">
+          <figcaption>
+            Landsat reference-relative NBR gap change from the validated
+            recovery model. The zero
+            line represents no change from the event-specific pre-disturbance
+            gap; it is not a threshold for complete ecological recovery.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="section">
+        <div class="wrap section-intro">
+          <p class="kicker">Different satellite representations</p>
+          <h2>Apparent recovery depends on what aspect of the satellite signal is observed.</h2>
+          <p>
+            Landsat NBR, Sentinel-2 multiband spectral distance, and AlphaEarth
+            representation-space distance do not measure the same thing. Their
+            trajectories are compared as shapes, not as interchangeable units.
+          </p>
+        </div>
+        <figure class="figure-wide">
+          <img src="assets/multivariate_comparison.png" alt="Small multiples comparing normalized trajectory shapes for Landsat NBR, Sentinel-2 multiband distance, and AlphaEarth distance.">
+          <figcaption>
+            Normalized fitted trajectories from the validated Landsat and
+            multivariate recovery models. This
+            comparison is conceptual: each product has its own metric and units.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="section split-figures">
+        <div class="wrap two-col">
+          <div>
+            <p class="kicker">Sentinel-2</p>
+            <h2>Multiband distance shows a related but non-identical pattern.</h2>
+            <p>
+              Sentinel-2 standardized six-band distance is elevated at early
+              ages and later declines, indicating increased multiband similarity
+              to matched reference forest. Fire and harvest are not consistently
+              ordered across age.
+            </p>
+          </div>
           <figure>
-            <img src="assets/final_2005_matched_pairs_map.png" alt="Diagnostic map of matched wildfire and probable harvest sample pairs for the 2005 disturbance year.">
+            <img src="assets/s2_trajectory_publication.png" alt="Sentinel-2 standardized multiband reference-distance trajectories for wildfire and harvest.">
             <figcaption>
-              Each fire sample is paired with a nearby probable-harvest sample.
-              Thin lines connect matched pairs.
+              Sentinel-2 event-year model. The 0-15 year range is the
+              primary domain; 16-20 is shown as secondary.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section soft split-figures">
+        <div class="wrap two-col reverse">
+          <figure>
+            <img src="assets/alphaearth_trajectory_publication.png" alt="AlphaEarth Euclidean reference-distance trajectories for wildfire and harvest.">
+            <figcaption>
+              AlphaEarth Euclidean distance. Euclidean and cosine
+              distances were nearly redundant in this dataset, so cosine is a
+              technical check only.
             </figcaption>
           </figure>
           <div>
-            <p class="kicker">Why geography matters</p>
-            <h2>Nearby pairs reduce broad geographic confounding.</h2>
+            <p class="kicker">AlphaEarth</p>
+            <h2>Representation-space distance does not simply mirror NBR.</h2>
             <p>
-              The comparison does not let a large fire patch simply overwhelm
-              the model. Fire and probable-harvest samples are matched one to
-              one, and each pair is assigned to the same spatial block.
+              AlphaEarth remains elevated at intermediate ages, especially for
+              wildfire, even where NBR has substantially converged. This is a
+              satellite representation-space result.
             </p>
-            <div class="fact-list">
-              <div><strong>222</strong><span>matched pairs</span></div>
-              <div><strong>0.160 km</strong><span>median pair distance</span></div>
-              <div><strong>5 km</strong><span>spatial validation blocks</span></div>
-            </div>
+            <p class="caveat">
+              AlphaEarth distance is not a direct measure of biomass,
+              biodiversity, stand structure, ecosystem function, or complete
+              ecological recovery.
+            </p>
           </div>
         </div>
       </section>
 
-      <section class="harder-test">
-        <div class="wrap">
-          <p class="kicker">The harder test</p>
-          <h2>Could AlphaEarth simply be recognizing the mapped fire edge?</h2>
-          <div class="edge-grid">
-            <div class="edge-card">
-              <span>90 m fire-interior exclusion</span>
-              <strong>0.736</strong>
-              <p>AlphaEarth AUC</p>
-            </div>
-            <div class="arrow" aria-hidden="true">↓ stricter test</div>
-            <div class="edge-card stricter">
-              <span>150 m fire-interior exclusion</span>
-              <strong>0.666</strong>
-              <p>AlphaEarth AUC</p>
-            </div>
+      <section class="section synthesis">
+        <div class="wrap section-intro">
+          <p class="kicker">Synthesis</p>
+          <h2>A forest can become spectrally similar to its reference without becoming indistinguishable in every satellite representation.</h2>
+        </div>
+        <figure class="figure-wide">
+          <img src="assets/synthesis_figure.png" alt="Conceptual synthesis comparing Landsat NBR convergence, Sentinel-2 multiband convergence, and AlphaEarth persistent separation.">
+          <figcaption>
+            Final synthesis from the validated recovery models. The study supports non-identical
+            satellite recovery trajectories, not a claim about complete
+            ecological recovery.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="section claims">
+        <div class="wrap two-col">
+          <div>
+            <p class="kicker">What the study supports</p>
+            <ul>
+              <li>Nonlinear reference-relative NBR convergence.</li>
+              <li>Larger early wildfire NBR departure from reference forest.</li>
+              <li>Later convergence in conventional spectral information.</li>
+              <li>Non-identical multivariate and representation-space trajectories.</li>
+              <li>Persistent AlphaEarth representation-space separation at some later ages.</li>
+            </ul>
           </div>
-          <div class="baseline-shift">
-            <p><b>Sentinel-2</b> 0.473 -> 0.472</p>
-            <p><b>NBR</b> 0.380 -> 0.366</p>
+          <div>
+            <p class="kicker">What it does not infer</p>
+            <ul>
+              <li>Biomass recovery.</li>
+              <li>Biodiversity recovery.</li>
+              <li>Ecosystem function recovery.</li>
+              <li>Complete ecological recovery.</li>
+              <li>Causal superiority of wildfire or harvest.</li>
+              <li>Universal AlphaEarth superiority.</li>
+            </ul>
           </div>
-          <p class="claim">
-            The signal weakens, but does not collapse to the spectral baseline.
+        </div>
+        <div class="wrap limitation">
+          <p>
+            Key limitation: Sentinel-2 and AlphaEarth observations span
+            2017-2025, so older apparent recovery ages combine within-event
+            temporal change with cross-cohort comparisons.
           </p>
         </div>
       </section>
 
-      <section class="other-ages">
-        <div class="wrap">
-          <p class="kicker">Other ages</p>
-          <h2>The project does not claim universal AlphaEarth superiority.</h2>
-          <div class="age-notes">
-            <article>
-              <span>1 year / 2023</span>
-              <p>AlphaEarth advantage is modest, so this is not emphasized.</p>
-            </article>
-            <article>
-              <span>12 years / 2012</span>
-              <p>Promising, but fewer matched pairs and Sentinel-2 becomes competitive under stricter buffers.</p>
-            </article>
-            <article>
-              <span>19 years / 2005</span>
-              <p>Strongest public case after geographic matching and fire-edge controls.</p>
-            </article>
-          </div>
+      <section class="section methods" id="methods">
+        <div class="wrap section-intro">
+          <p class="kicker">Methods</p>
+          <h2>Concise methods, full reproducibility in code.</h2>
+          <p>
+            The public page emphasizes the scientific story. The repository
+            contains the complete reproducible workflow and derived outputs.
+          </p>
+        </div>
+        <div class="wrap method-grid">
+          <details open>
+            <summary>Study area and disturbance data</summary>
+            <p>
+              The study extent was selected near Lebel-sur-Quevillon, Quebec,
+              using official disturbance histories and temporal support.
+              Wildfire comes from mapped fire records; harvest is represented by
+              official forestry intervention records in the retained workflow.
+            </p>
+            <a href="https://github.com/geoforestdata/boreal-ledger/tree/main/analysis">analysis/00-03</a>
+          </details>
+          <details>
+            <summary>Event construction and matching</summary>
+            <p>
+              Fire and harvest events were screened, sampled, and matched by
+              exact disturbance year. The inferential unit is the disturbance
+              event, not the individual site-year.
+            </p>
+            <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/analysis/05_build_recovery_sampling_frame.py">analysis/05_build_recovery_sampling_frame.py</a>
+          </details>
+          <details>
+            <summary>Reference forest selection</summary>
+            <p>
+              Reference forests were selected near disturbed sites after
+              screening for disturbance and environmental similarity. The final
+              reference table is preserved as a GeoPackage output.
+            </p>
+            <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/analysis/08_select_and_extract_reference_timeseries.py">analysis/08_select_and_extract_reference_timeseries.py</a>
+          </details>
+          <details>
+            <summary>Landsat recovery model</summary>
+            <p>
+              Landsat NBR gap change was modelled at event-year level with
+              nonlinear age-associated trajectories and event-aware uncertainty.
+            </p>
+            <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/analysis/09_model_landsat_recovery.py">analysis/09_model_landsat_recovery.py</a>
+          </details>
+          <details>
+            <summary>Sentinel-2 and AlphaEarth</summary>
+            <p>
+              Sentinel-2 uses standardized six-band disturbed-reference
+              distance. AlphaEarth uses annual 64-dimensional representation
+              distance. Both are interpreted as satellite-signal similarity, not
+              direct ecological state.
+            </p>
+            <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/analysis/10_extract_multivariate_recovery_timeseries.py">analysis/10</a>
+            <a href="https://github.com/geoforestdata/boreal-ledger/blob/main/analysis/11_model_multivariate_recovery.py">analysis/11</a>
+          </details>
+          <details>
+            <summary>Limitations</summary>
+            <p>
+              The design is observational. Older Sentinel-2 and AlphaEarth ages
+              mix within-event temporal change with cohort substitution. A
+              shrinking satellite gap is evidence of increasing similarity to a
+              matched reference signal, not full recovery of forest structure or
+              function.
+            </p>
+          </details>
         </div>
       </section>
 
-      <section class="interpretation">
-        <div class="wrap two-columns">
-          <div class="supported">
-            <p class="kicker">Supported</p>
-            <h2>AlphaEarth embeddings retain greater wildfire-probable-harvest separability than conventional spectral baselines for the older matched class in this study landscape.</h2>
+      <section class="section data-code" id="data-code">
+        <div class="wrap data-layout">
+          <div>
+            <p class="kicker">Data and code</p>
+            <h2>GitHub is the reproducibility backend.</h2>
+            <p>
+              Scripts, intermediate outputs, model summaries, and publication
+              figures are retained in the repository for review and rerun.
+            </p>
           </div>
-          <div class="not-supported">
-            <p class="kicker">Not supported</p>
-            <ul>
-              <li>AlphaEarth detects old fires.</li>
-              <li>AlphaEarth measures ecosystem recovery directly.</li>
-              <li>AlphaEarth measures biomass.</li>
-              <li>The comparison proves causal effects.</li>
-              <li>The result generalizes automatically beyond this study landscape.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section class="workflow">
-        <div class="wrap">
-          <p class="kicker">Reproducibility</p>
-          <h2>The technical workflow is transparent and intentionally conservative.</h2>
-          <div class="flow">
-            <span>Hansen</span>
-            <span>NBAC</span>
-            <span>probable-harvest residual</span>
-            <span>geographic matching</span>
-            <span>2024 Sentinel-2 / AlphaEarth</span>
-            <span>5 km spatial CV</span>
-            <span>fire-interior sensitivity</span>
-          </div>
-          <div class="links">
-            <a class="button" href="https://github.com/geoforestdata/boreal-ledger/tree/main/analysis">Scripts</a>
-            <a class="button secondary" href="https://github.com/geoforestdata/boreal-ledger/tree/main/outputs">Outputs</a>
+          <div class="link-list">
+            <a href="https://github.com/geoforestdata/boreal-ledger">Source code</a>
+            <a href="https://github.com/geoforestdata/boreal-ledger/tree/main/analysis">Analysis scripts</a>
+            <a href="https://github.com/geoforestdata/boreal-ledger/tree/main/outputs">Derived outputs</a>
+            <a href="https://github.com/geoforestdata/boreal-ledger/tree/main/figures">Figures</a>
           </div>
         </div>
       </section>

@@ -1,4 +1,0 @@
-years_since_disturbance,maximum_matching_distance_km,n_matched_pairs,mean_pair_distance_km,median_pair_distance_km,threshold_note
-1,2.000000,167,0.685397,0.561422,smallest threshold with >=100 pairs
-12,10.000000,81,4.617760,4.747249,10 km maximum used; <100 pairs available
-19,2.000000,115,0.204757,0.178988,smallest threshold with >=100 pairs

@@ -1,0 +1,16 @@
+level,metric_a,metric_b,n,pearson,spearman
+event_year,nbr_gap_median,nbr_gap_change,944,0.93487784,0.86384967
+event_year,nbr_gap_median,s2_nbr_gap,929,0.95287524,0.91065506
+event_year,nbr_gap_median,s2_reference_distance,929,0.52286886,0.52600344
+event_year,nbr_gap_median,ae_euclidean_distance,944,0.20616063,0.23904902
+event_year,nbr_gap_median,ae_cosine_distance,944,0.20433366,0.23977949
+event_year,nbr_gap_change,s2_nbr_gap,929,0.89758166,0.78994817
+event_year,nbr_gap_change,s2_reference_distance,929,0.44063978,0.42582536
+event_year,nbr_gap_change,ae_euclidean_distance,944,0.11586455,0.11759556
+event_year,nbr_gap_change,ae_cosine_distance,944,0.11406714,0.11782522
+event_year,s2_nbr_gap,s2_reference_distance,1344,0.50456510,0.49020201
+event_year,s2_nbr_gap,ae_euclidean_distance,1344,0.19366258,0.20050217
+event_year,s2_nbr_gap,ae_cosine_distance,1344,0.19272940,0.20027390
+event_year,s2_reference_distance,ae_euclidean_distance,1344,0.50183496,0.69743834
+event_year,s2_reference_distance,ae_cosine_distance,1344,0.51036401,0.69844343
+event_year,ae_euclidean_distance,ae_cosine_distance,1368,0.98847106,0.99971381

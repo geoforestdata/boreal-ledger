@@ -1,0 +1,70 @@
+source,field,code,official_description,project_class,primary_analysis,notes
+fire,origine,BR,Brûlis total / total burn; ORIGINE denotes total disturbance in the official fire layer.,fire_total,True,Official fire-layer total/partial disturbance role documented in the disturbance-data audit.
+fire,perturb,BRP,Brûlis partiel / partial burn; PERTURB denotes partial disturbance in the official fire layer.,fire_partial,False,Official fire-layer total/partial disturbance role documented in the disturbance-data audit.
+forestry_intervention,origine,CT,Coupe totale,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CPR,Coupe avec protection de la régénération,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,P,Plantation,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,origine,CPRS_U,Coupe avec protection de la régénération et des sols uniforme,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,PL,Plantation,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,origine,PLR,Plantation avec semis en récipients,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,origine,ENS,Ensemencement,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,origine,RPS,Récupération en vertu d'un plan spécial d'aménagement,other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,origine,PRR,Regarni de régénération pour constituer l'équivalent d'une plantation,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,origine,RECUP_F-T,Coupe de récupération totale après feu,salvage_after_fire,False,Compound pathway: fire followed by total salvage logging; excluded from pure fire and pure harvest.
+forestry_intervention,origine,CBA,Coupe par bandes,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CRR,Récolte des tiges résiduelles et des rebuts,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CBT,Coupe par bandes finale,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CPHRS,Coupe avec protection de la haute régénération et des sols,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,ETR,Élimination des tiges résiduelles,other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,origine,PLN,Plantation à racines nues,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,origine,ENM,Ensemencement avec mini-serres,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,origine,REA,Régénération d'aire d'ébranchage,other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,origine,RECUP_C-T,Coupe de récupération totale après chablis,other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,origine,CPT,Coupe avec protection des petites tiges marchandes et des sols,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CPPTM_U,Coupe avec protection des petites tiges marchandes uniforme,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CPPTM_DIS,Coupe avec protection des petites tiges marchandes discontinue,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CRS,Coupe avec réserve de semencier,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CTSP_U,Coupe totale sans protection uniforme,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CEF,Coupe d'ensemencement finale,other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,origine,CPRS_DA,Coupe avec protection de la régénération et des sols en damier,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,origine,CPE,Coupe progressive d'ensemencement (coupe finale),other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,origine,CS,Coupe de succession,harvest_total,True,Official description denotes total/regeneration harvest or major canopy-removing harvest.
+forestry_intervention,perturb,EPC,Éclaircie précommerciale,thinning,False,Thinning/precommercial thinning; not a primary canopy-removal event.
+forestry_intervention,perturb,DEG,Dégagement,other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,perturb,EC,Éclaircie commerciale mixte ou systématique,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,EPC_SYS,Éclaircie précommerciale systématique,thinning,False,Thinning/precommercial thinning; not a primary canopy-removal event.
+forestry_intervention,perturb,NET,Nettoiement,other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,perturb,CP,Coupe partielle,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,CPI_RL,Coupe progressive irrégulière à régénération lente,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,PL_REG,Regarni,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,perturb,RR,Regarni de régénération,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,perturb,DRM,Dégagement mécanique de la régénération naturelle,other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,perturb,RRP,Regarni de régénération pour l'équivalent de plantation,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,perturb,RRR,Regarni récipients,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,perturb,CPC,Coupe progressive d'ensemencement (résineux),other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,perturb,CPS,Coupe progressive d'ensemencement,other_silviculture,False,Other treatment or non-primary intervention; requires pathway review if used later.
+forestry_intervention,perturb,CPI_CP,Coupe progressive irrégulière à couvert permanent,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,RPLB,Récolte partielle dans une lisière boisée,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,ECL,Récolte dans les lisières boisées,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,ENP,Ensemencement partiel,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,perturb,CPI_TA,Coupe progressive irrégulière par trouées agrandies,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,CB,Coupe par bandes avec interbandes 7m et plus,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,RRN,Regarni racines nues,reforestation,False,Regeneration/replanting treatment; not an initial harvest disturbance.
+forestry_intervention,perturb,CPR_U,Coupe progressive régulière uniforme,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,CPR_T,Coupe progressive régulière par trouées,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,EC_SEL,Éclaircie commerciale sélective,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,CIP,Coupe progressive irrégulière,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,perturb,EPC_PUITS,Éclaircie précommerciale par puits,thinning,False,Thinning/precommercial thinning; not a primary canopy-removal event.
+forestry_intervention,perturb,RBV,Récolte dans les bandes vertes,harvest_partial,False,Official description denotes partial/commercial thinning/partial cut; kept outside primary comparison.
+forestry_intervention,reb_ess1,RZ,Résineux indistincts plantés,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,EN,Épinette noire,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,PG,Pin gris,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,EB,Épinette blanche,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,ML,Mélèze laricin,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,PH,Peuplier hybride,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,EU,Épinette rouge,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,EV,Épinette de Norvège,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,PR,Pin rouge,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,FZ,Feuillus indistincts plantés,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,PB,Pin blanc,unknown,False,Not assigned to primary analysis without additional review.
+forestry_intervention,reb_ess1,MH,Mélèze hybride,unknown,False,Not assigned to primary analysis without additional review.

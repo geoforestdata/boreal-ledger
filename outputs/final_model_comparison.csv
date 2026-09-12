@@ -1,4 +1,0 @@
-years_since_disturbance,n_matched_per_class,spatial_block_km,nbr_balanced_accuracy,nbr_auc,sentinel2_balanced_accuracy,sentinel2_auc,alphaearth_balanced_accuracy,alphaearth_auc
-1,167,5,0.583832,0.633296,0.610778,0.599591,0.577844,0.704651
-12,81,5,0.370370,0.420058,0.783951,0.878982,0.969136,0.980034
-19,115,5,0.404348,0.353875,0.465217,0.472817,0.713043,0.788658

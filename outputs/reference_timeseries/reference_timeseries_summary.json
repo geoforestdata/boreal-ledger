@@ -1,0 +1,93 @@
+{
+  "final_disturbed_sites_with_selected_references": 607,
+  "rescue_summary": {
+    "zero_reference_event_count_before_rescue": 4,
+    "zero_reference_site_count_before_rescue": 9,
+    "rescue_valid_candidate_count": 28,
+    "rescue_site_count_with_valid_candidate": 9,
+    "rescue_event_count_with_valid_candidate": 4
+  },
+  "events_with_any_reference_support": {
+    "fire_total": 76,
+    "harvest_total": 76
+  },
+  "fire_harvest_event_pair_support": {
+    "both_fire_and_harvest_supported": 76
+  },
+  "complete_fire_harvest_event_pairs_for_primary_reference_relative_analysis": 76,
+  "reference_distance_m": {
+    "count": 607.0,
+    "mean": 1439.5387149917615,
+    "std": 672.7254438763327,
+    "min": 599.9999999999573,
+    "10%": 600.0000000000092,
+    "25%": 999.9999999999836,
+    "50%": 1200.0000000000791,
+    "75%": 1800.0000000000312,
+    "90%": 2400.0000000000073,
+    "max": 4600.0
+  },
+  "absolute_elevation_difference_m": {
+    "count": 607.0,
+    "mean": 11.273600846970886,
+    "std": 9.640270635505416,
+    "min": 0.189239501953125,
+    "25%": 9.092514038085938,
+    "50%": 9.6466064453125,
+    "75%": 10.137969970703125,
+    "max": 118.03536987304688
+  },
+  "absolute_slope_difference_deg": {
+    "count": 607.0,
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "25%": 0.0,
+    "50%": 0.0,
+    "75%": 0.0,
+    "max": 0.0
+  },
+  "reference_reuse": {
+    "unique_reference_coordinates": 607,
+    "max_reuse_count": 1,
+    "coordinates_reused_more_than_once": 0
+  },
+  "landsat_reference_site_years": {
+    "rows": 10213,
+    "available_rows": 7836,
+    "coverage_percent": 76.72574170175267
+  },
+  "disturbed_reference_site_years": {
+    "rows": 10213,
+    "valid_pairs": 6642,
+    "coverage_percent": 65.03475962009205
+  },
+  "pre_disturbance_gap_summary": [
+    {
+      "disturbance_type": "fire_total",
+      "event_year_count": 166,
+      "median_nbr_gap": 0.029058000000000028,
+      "p25_nbr_gap": 0.0005700000000000149,
+      "p75_nbr_gap": 0.06700675,
+      "median_ndvi_gap": 0.025629999999999986,
+      "p25_ndvi_gap": 0.002970750000000022,
+      "p75_ndvi_gap": 0.06491224999999995,
+      "strong_outlier_count_abs_nbr_gap_gt_0_2": 5,
+      "years_since_disturbance": "all_pre"
+    },
+    {
+      "disturbance_type": "harvest_total",
+      "event_year_count": 147,
+      "median_nbr_gap": -0.0008195000000000285,
+      "p25_nbr_gap": -0.031063000000000007,
+      "p75_nbr_gap": 0.03805699999999998,
+      "median_ndvi_gap": -0.007369999999999988,
+      "p25_ndvi_gap": -0.042292499999999955,
+      "p75_ndvi_gap": 0.02183525,
+      "strong_outlier_count_abs_nbr_gap_gt_0_2": 5,
+      "years_since_disturbance": "all_pre"
+    }
+  ],
+  "landsat_2021_2022_common_mode_result": "NBR gap also shifts; flag this transition for later modelling",
+  "adequacy_for_recovery_modelling": "adequate for event-level reference-relative modelling with incomplete-pair flags; do not force unsupported controls."
+}

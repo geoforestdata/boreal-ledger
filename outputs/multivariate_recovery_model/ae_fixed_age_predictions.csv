@@ -1,0 +1,13 @@
+product,metric,disturbance_type,years_since_disturbance,estimate,ci95_low,ci95_high,n_event_years,n_events
+alphaearth,ae_euclidean_distance,fire_total,0.00000000,0.56729436,0.50499577,0.64077974,20,20
+alphaearth,ae_euclidean_distance,fire_total,1.00000000,0.59815521,0.53829068,0.65887885,23,23
+alphaearth,ae_euclidean_distance,fire_total,5.00000000,0.66657352,0.59749085,0.73584339,19,19
+alphaearth,ae_euclidean_distance,fire_total,10.00000000,0.74540144,0.68772582,0.79637843,39,39
+alphaearth,ae_euclidean_distance,fire_total,15.00000000,0.73053692,0.66062637,0.78992403,39,39
+alphaearth,ae_euclidean_distance,fire_total,20.00000000,0.70450806,0.61684876,0.78837799,12,12
+alphaearth,ae_euclidean_distance,harvest_total,0.00000000,0.55904116,0.49858990,0.61584277,20,20
+alphaearth,ae_euclidean_distance,harvest_total,1.00000000,0.76402759,0.71414984,0.80875367,23,23
+alphaearth,ae_euclidean_distance,harvest_total,5.00000000,0.83334870,0.76014057,0.90477262,19,19
+alphaearth,ae_euclidean_distance,harvest_total,10.00000000,0.72482147,0.65458241,0.78269984,39,39
+alphaearth,ae_euclidean_distance,harvest_total,15.00000000,0.62428420,0.55420830,0.67930574,39,39
+alphaearth,ae_euclidean_distance,harvest_total,20.00000000,0.53731865,0.44975797,0.63143816,12,12
